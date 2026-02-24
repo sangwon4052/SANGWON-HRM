@@ -1335,7 +1335,7 @@
         function showAnnualLeaveTab(){
             const user = getCurrentUser();
             if(!user || user.role!=='admin'){ alert('🔒 연차관리는 관리자만 사용할 수 있습니다.'); return; }
-            showTab('annual-leave');
+            showTab('annual-leave', document.getElementById('annualLeaveTab'));
         }
 
         function loadAdminPanel(){
@@ -1455,9 +1455,22 @@
                 try{
                     const bd = JSON.parse(e.target.result);
                     if(!bd.employees||!Array.isArray(bd.employees)) throw new Error('올바른 백업 파일이 아닙니다.');
+
                     await window.fbReplaceAll('employees',    bd.employees);
                     await window.fbReplaceAll('annualLeaves', bd.annualLeaves||[]);
                     await window.fbReplaceAll('educations',   bd.educations||[]);
+
+                    // 메모리 데이터 즉시 반영 (Firebase 리스너 대기 없이 바로 갱신)
+                    window._employees    = bd.employees;
+                    window._annualLeaves = bd.annualLeaves||[];
+                    window._educations   = bd.educations||[];
+
+                    updateDashboard();
+                    loadEmployees();
+                    loadAnnualLeave();
+                    loadEducation();
+                    updateBackupInfo();
+
                     alert(`✅ 백업이 복원되었습니다!\n직원: ${bd.employees.length}명\n백업일시: ${new Date(bd.backupDate).toLocaleString('ko-KR')}`);
                 } catch(err){ alert('❌ 복원 실패: '+err.message); }
                 event.target.value='';
@@ -1478,11 +1491,22 @@
         // ══════════════════════════════════════════════════════════
         // 탭 전환
         // ══════════════════════════════════════════════════════════
-        function showTab(tabName){
+        function showTab(tabName, callerEl){
             document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            // 클릭한 버튼 또는 해당 탭 버튼을 active 처리
+            const target = callerEl || (typeof event !== 'undefined' && event.target) || null;
+            if(target && target.classList.contains('nav-tab')){
+                target.classList.add('active');
+            } else {
+                // tabName으로 해당 nav-tab 버튼 찾아서 active
+                document.querySelectorAll('.nav-tab').forEach(t=>{
+                    if(t.getAttribute('onclick') && t.getAttribute('onclick').includes(`'${tabName}'`)){
+                        t.classList.add('active');
+                    }
+                });
+            }
             if(tabName==='backup') updateBackupInfo();
             if(tabName==='admin')  loadAdminPanel();
         }
