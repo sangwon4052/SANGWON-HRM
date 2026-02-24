@@ -1142,12 +1142,35 @@
             return obj;
         }
 
+        // Firestore 필드값 → JS 값 변환 (단순화)
+        function fromFsValue(fv) {
+            if (!fv) return null;
+            if ('nullValue'    in fv) return null;
+            if ('booleanValue' in fv) return fv.booleanValue;
+            if ('integerValue' in fv) return Number(fv.integerValue);
+            if ('doubleValue'  in fv) return fv.doubleValue;
+            if ('stringValue'  in fv) return fv.stringValue;
+            if ('arrayValue'   in fv) return (fv.arrayValue.values || []).map(fromFsValue);
+            if ('mapValue'     in fv) return fromFsFields(fv.mapValue.fields || {});
+            return null;
+        }
+        function fromFsFields(fields) {
+            const obj = {};
+            for (const [k, v] of Object.entries(fields)) obj[k] = fromFsValue(v);
+            return obj;
+        }
+
         // 컬렉션 전체 읽기
         async function fsGetAll(col) {
-            const res  = await fetch(`${FB_BASE}/${col}?key=${FB_API_KEY}&pageSize=300`);
-            const json = await res.json();
-            if (!json.documents) return [];
-            return json.documents.map(d => fromFsFields(d.fields || {}));
+            try {
+                const res  = await fetch(`${FB_BASE}/${col}?key=${FB_API_KEY}&pageSize=300`);
+                const json = await res.json();
+                if (!json.documents) return [];
+                return json.documents.map(d => fromFsFields(d.fields || {}));
+            } catch(e) {
+                console.error('fsGetAll error:', e);
+                return [];
+            }
         }
 
         // 문서 저장 (upsert) - 공백 등 특수문자 인코딩
@@ -1234,7 +1257,7 @@
                 pollCollection('employees',    d => window._employees    = d),
                 pollCollection('annualLeaves', d => window._annualLeaves = d),
                 pollCollection('educations',   d => window._educations   = d),
-                pollCollection('sysUsers',     d => window._sysUsers     = d),
+                pollCollection('sysUsers',     d => { window._sysUsers = d; console.log('sysUsers 로드:', JSON.stringify(d)); }),
             ]);
 
             // 관리자 계정 초기 생성
