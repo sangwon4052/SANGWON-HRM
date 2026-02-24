@@ -633,67 +633,242 @@
             font-style: italic;
         }
 
-        /* ===== 인증 시스템 ===== */
-        .auth-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#2c3e50,#3498db);z-index:9999;justify-content:center;align-items:center;}
-        .auth-overlay.active{display:flex;}
-        .auth-box{background:white;border-radius:12px;padding:40px;width:90%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
-        .auth-box h2{color:#2c3e50;text-align:center;margin-bottom:8px;font-size:1.6em;}
-        .auth-subtitle{text-align:center;color:#7f8c8d;margin-bottom:30px;font-size:.9em;}
-        .auth-tabs{display:flex;margin-bottom:25px;border:1px solid #ddd;border-radius:6px;overflow:hidden;}
-        .auth-tab-btn{flex:1;padding:10px;border:none;background:#f8f9fa;cursor:pointer;font-weight:600;font-size:.9em;color:#7f8c8d;transition:all .2s;}
-        .auth-tab-btn.active{background:#3498db;color:white;}
-        .auth-form{display:none;} .auth-form.active{display:block;}
-        .auth-submit{width:100%;padding:12px;background:#3498db;color:white;border:none;border-radius:6px;font-size:1em;font-weight:700;cursor:pointer;margin-top:8px;}
-        .auth-submit:hover{background:#2980b9;}
-        .auth-error{background:#f8d7da;color:#721c24;padding:10px 14px;border-radius:5px;font-size:.88em;margin-bottom:15px;display:none;}
-        .auth-error.visible{display:block;}
-        .auth-success{background:#d4edda;color:#155724;padding:10px 14px;border-radius:5px;font-size:.88em;margin-bottom:15px;display:none;}
-        .auth-success.visible{display:block;}
-        .user-info-bar{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);padding:6px 14px;border-radius:20px;font-size:.88em;}
-        .user-badge{background:#f39c12;color:white;padding:2px 8px;border-radius:10px;font-size:.8em;font-weight:700;}
-        .user-badge.admin{background:#e74c3c;}
-        .logout-btn{padding:5px 12px;border:1px solid rgba(255,255,255,.6);background:transparent;color:white;border-radius:4px;cursor:pointer;font-size:.85em;}
-        .logout-btn:hover{background:rgba(255,255,255,.2);}
-        .pending-users-section{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:20px;margin-bottom:25px;}
-        .pending-users-section h3{color:#856404;margin-bottom:15px;}
-        .pending-user-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:white;border-radius:6px;margin-bottom:8px;border:1px solid #f0e8c8;}
-        .admin-settings-section{background:#f8f9fa;border:1px solid #dee2e6;border-radius:8px;padding:20px;margin-bottom:25px;}
-        .firebase-warning{background:#fff3cd;border:2px solid #ffc107;border-radius:8px;padding:15px 20px;margin:15px;display:none;}
-        .firebase-warning a{color:#0056b3;}
+        /* ===== 인증 시스템 스타일 ===== */
+        .auth-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .auth-overlay.active { display: flex; }
+
+        .auth-box {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .auth-box h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1.6em;
+        }
+
+        .auth-box .auth-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            transition: all 0.2s;
+        }
+
+        .auth-tab-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+
+        .auth-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .auth-submit:hover { background: #2980b9; }
+
+        .auth-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px 14px;
+            border-radius: 5px;
+            font-size: 0.88em;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .auth-error.visible { display: block; }
+
+        .auth-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px 14px;
+            border-radius: 5px;
+            font-size: 0.88em;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .auth-success.visible { display: block; }
+
+        /* 헤더 사용자 정보 */
+        .user-info-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88em;
+        }
+
+        .user-badge {
+            background: #f39c12;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+        .user-badge.admin { background: #e74c3c; }
+
+        .logout-btn {
+            padding: 5px 12px;
+            border: 1px solid rgba(255,255,255,0.6);
+            background: transparent;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+        }
+        .logout-btn:hover { background: rgba(255,255,255,0.2); }
+
+        /* 관리자 승인 패널 */
+        .pending-users-section {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .pending-users-section h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .pending-user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid #f0e8c8;
+        }
+
+        .pending-user-item .user-detail {
+            font-size: 0.9em;
+        }
+
+        .pending-user-item .user-detail strong { color: #2c3e50; }
+        .pending-user-item .user-detail span { color: #7f8c8d; margin-left: 8px; }
+
+        /* 연차 탭 잠금 표시 */
+        .tab-locked {
+            opacity: 0.5;
+            cursor: not-allowed !important;
+            position: relative;
+        }
+
+        .admin-settings-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
     </style>
 </head>
 <body>
-    <!-- Firebase 미설정 경고 -->
-    <div id="firebaseWarning" class="firebase-warning">
-        ⚠️ <strong>Firebase 설정이 필요합니다!</strong>
-        index.html 상단의 <code>firebaseConfig</code> 값을 본인 Firebase 프로젝트 값으로 교체하세요.
-        (<a href="https://console.firebase.google.com" target="_blank">Firebase 콘솔</a>)
-    </div>
 
-    <!-- 인증 오버레이 -->
+    <!-- ===== 인증 오버레이 ===== -->
     <div id="authOverlay" class="auth-overlay active">
         <div class="auth-box">
             <h2>🏢 직원관리 시스템</h2>
             <p class="auth-subtitle">Employee Management System</p>
+
             <div class="auth-tabs">
                 <button class="auth-tab-btn active" onclick="switchAuthTab('login')">로그인</button>
                 <button class="auth-tab-btn" onclick="switchAuthTab('register')">회원가입</button>
             </div>
+
+            <!-- 로그인 폼 -->
             <div id="loginForm" class="auth-form active">
                 <div id="loginError" class="auth-error"></div>
-                <div class="form-group"><label>아이디</label><input type="text" id="loginId" placeholder="아이디를 입력하세요"></div>
-                <div class="form-group"><label>비밀번호</label><input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" onkeydown="if(event.key==='Enter') doLogin()"></div>
+                <div class="form-group">
+                    <label>아이디</label>
+                    <input type="text" id="loginId" placeholder="아이디를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label>비밀번호</label>
+                    <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" onkeydown="if(event.key==='Enter') doLogin()">
+                </div>
                 <button class="auth-submit" onclick="doLogin()">로그인</button>
             </div>
+
+            <!-- 회원가입 폼 -->
             <div id="registerForm" class="auth-form">
                 <div id="registerError" class="auth-error"></div>
                 <div id="registerSuccess" class="auth-success"></div>
-                <div class="form-group"><label>이름 *</label><input type="text" id="regName" placeholder="실명을 입력하세요"></div>
-                <div class="form-group"><label>아이디 *</label><input type="text" id="regId" placeholder="영문+숫자, 4자 이상"></div>
-                <div class="form-group"><label>비밀번호 *</label><input type="password" id="regPw" placeholder="6자 이상"></div>
-                <div class="form-group"><label>비밀번호 확인 *</label><input type="password" id="regPw2" placeholder="비밀번호를 다시 입력"></div>
+                <div class="form-group">
+                    <label>이름 *</label>
+                    <input type="text" id="regName" placeholder="실명을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label>아이디 *</label>
+                    <input type="text" id="regId" placeholder="영문+숫자, 4자 이상">
+                </div>
+                <div class="form-group">
+                    <label>비밀번호 *</label>
+                    <input type="password" id="regPw" placeholder="6자 이상">
+                </div>
+                <div class="form-group">
+                    <label>비밀번호 확인 *</label>
+                    <input type="password" id="regPw2" placeholder="비밀번호를 다시 입력">
+                </div>
                 <button class="auth-submit" onclick="doRegister()">회원가입 신청</button>
-                <p style="text-align:center;color:#7f8c8d;font-size:.82em;margin-top:12px;">※ 관리자 승인 후 로그인 가능합니다.</p>
+                <p style="text-align:center; color:#7f8c8d; font-size:0.82em; margin-top:12px;">※ 관리자 승인 후 로그인 가능합니다.</p>
             </div>
         </div>
     </div>
@@ -726,9 +901,9 @@
             <button class="nav-tab active" onclick="showTab('dashboard')">📊 대시보드</button>
             <button class="nav-tab" onclick="showTab('employees')">👥 직원관리</button>
             <button class="nav-tab" id="annualLeaveTab" onclick="showAnnualLeaveTab()">📅 연차관리 🔒</button>
-            <button class="nav-tab" id="adminTab" onclick="showTab('admin')" style="display:none;">🛡️ 관리자</button>
             <button class="nav-tab" onclick="showTab('education')">📚 직무교육</button>
             <button class="nav-tab" onclick="showTab('backup')">⚙️ 백업관리</button>
+            <button class="nav-tab" id="adminTab" onclick="showTab('admin')" style="display:none;">🛡️ 관리자</button>
         </div>
 
         <!-- 대시보드 -->
@@ -889,34 +1064,55 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-        <!-- 관리자 패널 -->
-        <div id="admin" class="tab-content">
-            <h2 style="margin-bottom:20px;color:#2c3e50;">🛡️ 관리자 패널</h2>
-            <div class="pending-users-section">
-                <h3>⏳ 승인 대기 중인 회원</h3>
-                <div id="pendingUsersList"><p style="color:#856404;font-style:italic;">대기 중인 회원이 없습니다.</p></div>
-            </div>
-            <div class="admin-settings-section">
-                <h3 style="color:#2c3e50;margin-bottom:15px;">👥 전체 회원 목록</h3>
-                <div id="allUsersList"></div>
-            </div>
-            <div class="admin-settings-section">
-                <h3 style="color:#2c3e50;margin-bottom:15px;">🔑 관리자 계정 설정</h3>
-                <div class="form-row">
-                    <div class="form-group"><label>새 관리자 아이디</label><input type="text" id="newAdminId" placeholder="변경할 아이디"></div>
-                    <div class="form-group"><label>현재 비밀번호 확인</label><input type="password" id="currentAdminPw" placeholder="현재 비밀번호"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>새 비밀번호</label><input type="password" id="newAdminPw" placeholder="새 비밀번호 (6자 이상)"></div>
-                    <div class="form-group"><label>새 비밀번호 확인</label><input type="password" id="newAdminPw2" placeholder="새 비밀번호 재입력"></div>
-                </div>
-                <button class="btn btn-primary" onclick="updateAdminAccount()">관리자 계정 업데이트</button>
+    <!-- 관리자 패널 -->
+    <div id="admin" class="tab-content">
+        <h2 style="margin-bottom: 20px; color: #2c3e50;">🛡️ 관리자 패널</h2>
+
+        <!-- 대기 중인 회원 승인 -->
+        <div class="pending-users-section">
+            <h3>⏳ 승인 대기 중인 회원</h3>
+            <div id="pendingUsersList">
+                <p style="color: #856404; font-style: italic;">대기 중인 회원이 없습니다.</p>
             </div>
         </div>
-    </div><!-- /container -->
 
-    <!-- 직원 등록/수정 모달 -->
+        <!-- 전체 회원 목록 -->
+        <div class="admin-settings-section">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">👥 전체 회원 목록</h3>
+            <div id="allUsersList"></div>
+        </div>
+
+        <!-- 관리자 계정 설정 -->
+        <div class="admin-settings-section">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">🔑 관리자 계정 설정</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>새 관리자 아이디</label>
+                    <input type="text" id="newAdminId" placeholder="변경할 아이디">
+                </div>
+                <div class="form-group">
+                    <label>현재 비밀번호 확인</label>
+                    <input type="password" id="currentAdminPw" placeholder="현재 비밀번호">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>새 비밀번호</label>
+                    <input type="password" id="newAdminPw" placeholder="새 비밀번호 (6자 이상)">
+                </div>
+                <div class="form-group">
+                    <label>새 비밀번호 확인</label>
+                    <input type="password" id="newAdminPw2" placeholder="새 비밀번호 재입력">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="updateAdminAccount()">관리자 계정 업데이트</button>
+        </div>
+    </div>
+
+    </div> <!-- /container -->
     <div id="employeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1098,541 +1294,330 @@
     </div>
 
     <script>
-        /* =====================================================
-           Firebase Firestore REST API 방식 (SDK 불필요)
-           CDN 차단 문제 완전 해결
-           ===================================================== */
-        const FB_PROJECT = "sangwon-hrm";
-        const FB_API_KEY = "AIzaSyBebDpB0eFP2yDZ4NK6K8IoWS8aTseHkzc";
-        const FB_BASE    = `https://firestore.googleapis.com/v1/projects/${FB_PROJECT}/databases/(default)/documents`;
+        // 데이터 저장소
+        let employees = JSON.parse(localStorage.getItem('employees')) || [];
+        let annualLeaves = JSON.parse(localStorage.getItem('annualLeaves')) || [];
+        let educations = JSON.parse(localStorage.getItem('educations')) || [];
 
-        // ── Firestore REST 헬퍼 ──────────────────────────────────
-
-        // JS 값 → Firestore 필드값 형식 변환
-        function toFsValue(val) {
-            if (val === null || val === undefined) return { nullValue: null };
-            if (typeof val === 'boolean')  return { booleanValue: val };
-            if (typeof val === 'number')   return Number.isInteger(val) ? { integerValue: String(val) } : { doubleValue: val };
-            if (typeof val === 'string')   return { stringValue: val };
-            if (Array.isArray(val))        return { arrayValue: { values: val.map(toFsValue) } };
-            if (typeof val === 'object')   return { mapValue: { fields: toFsFields(val) } };
-            return { stringValue: String(val) };
-        }
-        function toFsFields(obj) {
-            const fields = {};
-            for (const [k, v] of Object.entries(obj)) fields[k] = toFsValue(v);
-            return fields;
-        }
-
-        // Firestore 필드값 → JS 값 변환
-        function fromFsValue(fv) {
-            if (!fv) return null;
-            if ('nullValue'    in fv) return null;
-            if ('booleanValue' in fv) return fv.booleanValue;
-            if ('integerValue' in fv) return Number(fv.integerValue);
-            if ('doubleValue'  in fv) return fv.doubleValue;
-            if ('stringValue'  in fv) return fv.stringValue;
-            if ('arrayValue'   in fv) return (fv.arrayValue.values || []).map(fromFsValue);
-            if ('mapValue'     in fv) return fromFsFields(fv.mapValue.fields || {});
-            return null;
-        }
-        function fromFsFields(fields) {
-            const obj = {};
-            for (const [k, v] of Object.entries(fields)) obj[k] = fromFsValue(v);
-            return obj;
-        }
-
-        // 컬렉션 전체 읽기
-        async function fsGetAll(col) {
-            const res  = await fetch(`${FB_BASE}/${col}?key=${FB_API_KEY}`);
-            const json = await res.json();
-            if (!json.documents) return [];
-            return json.documents.map(d => fromFsFields(d.fields || {}));
-        }
-
-        // 문서 저장 (upsert)
-        async function fsSet(col, id, data) {
-            const fields = toFsFields(JSON.parse(JSON.stringify(data)));
-            await fetch(`${FB_BASE}/${col}/${id}?key=${FB_API_KEY}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fields })
-            });
-        }
-
-        // 문서 삭제
-        async function fsDelete(col, id) {
-            await fetch(`${FB_BASE}/${col}/${id}?key=${FB_API_KEY}`, { method: 'DELETE' });
-        }
-
-        // 컬렉션 전체 교체
-        async function fsReplaceAll(col, arr) {
-            const existing = await fetch(`${FB_BASE}/${col}?key=${FB_API_KEY}`);
-            const exJson   = await existing.json();
-            if (exJson.documents) {
-                await Promise.all(exJson.documents.map(d => {
-                    const docId = d.name.split('/').pop();
-                    return fetch(`${FB_BASE}/${col}/${docId}?key=${FB_API_KEY}`, { method: 'DELETE' });
-                }));
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            // 현재 년도로 회계년도 초기화
+            const currentYear = new Date().getFullYear();
+            const fiscalYearInput = document.getElementById('fiscalYear');
+            if (fiscalYearInput && !fiscalYearInput.value) {
+                fiscalYearInput.value = currentYear;
             }
-            await Promise.all(arr.map(item => {
-                const id = String(item.id || item.employeeId || (Date.now()+Math.random()));
-                return fsSet(col, id, item);
-            }));
-        }
-
-        // 전역 노출
-        window.fbSet       = fsSet;
-        window.fbDelete    = fsDelete;
-        window.fbReplaceAll= fsReplaceAll;
-
-        // ── 폴링 기반 실시간 동기화 (3초마다 갱신) ──────────────
-        async function pollCollection(col, onUpdate) {
-            const data = await fsGetAll(col);
-            onUpdate(data);
-        }
-
-        function startPolling() {
-            const poll = async () => {
-                await pollCollection('employees',    d => { window._employees    = d; if(window._appReady){ updateDashboard(); loadEmployees(); loadAnnualLeave(); updateBackupInfo(); }});
-                await pollCollection('annualLeaves', d => { window._annualLeaves = d; if(window._appReady){ loadAnnualLeave(); updateBackupInfo(); }});
-                await pollCollection('educations',   d => { window._educations   = d; if(window._appReady){ loadEducation(); }});
-                await pollCollection('sysUsers',     d => {
-                    window._sysUsers = d;
-                    if(window._appReady){
-                        const cu = sessionStorage.getItem('currentUser');
-                        if(cu && JSON.parse(cu).role === 'admin') loadAdminPanel();
-                    }
-                });
-            };
-            poll(); // 즉시 1회 실행
-            setInterval(poll, 5000); // 5초마다 갱신
-        }
-
-        // ── 초기화 ───────────────────────────────────────────────
-        window._employees    = [];
-        window._annualLeaves = [];
-        window._educations   = [];
-        window._sysUsers     = [];
-        window._appReady     = false;
-
-        const _prop = (key) => ({ get(){ return window[key]; }, set(v){ window[key]=v; }, configurable:true });
-        Object.defineProperty(window,'employees',    _prop('_employees'));
-        Object.defineProperty(window,'annualLeaves', _prop('_annualLeaves'));
-        Object.defineProperty(window,'educations',   _prop('_educations'));
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            const fyInput = document.getElementById('fiscalYear');
-            if(fyInput && !fyInput.value) fyInput.value = new Date().getFullYear();
-
-            // 초기 데이터 로드
-            await Promise.all([
-                pollCollection('employees',    d => window._employees    = d),
-                pollCollection('annualLeaves', d => window._annualLeaves = d),
-                pollCollection('educations',   d => window._educations   = d),
-                pollCollection('sysUsers',     d => window._sysUsers     = d),
-            ]);
-
-            // 관리자 계정 초기 생성
-            if(!window._sysUsers.find(u => u.role === 'admin')){
-                await fsSet('sysUsers', 'admin', {
-                    id:'admin', pw:'admin1234', name:'관리자',
-                    role:'admin', status:'approved', createdAt: new Date().toISOString()
-                });
-                window._sysUsers.push({ id:'admin', pw:'admin1234', name:'관리자', role:'admin', status:'approved' });
-            }
-
-            window._appReady = true;
-            updateDashboard(); loadEmployees(); loadAnnualLeave(); loadEducation(); updateBackupInfo();
-
-            const cu = sessionStorage.getItem('currentUser');
-            if(cu){
-                document.getElementById('authOverlay').classList.remove('active');
-                onLoginSuccess(JSON.parse(cu));
-            }
-
-            // 폴링 시작 (5초마다 다른 기기 변경사항 반영)
-            startPolling();
+            
+            updateDashboard();
+            loadEmployees();
+            loadAnnualLeave();
+            loadEducation();
+            updateBackupInfo();
         });
-    </script>
 
-    <script>
-        // ── 인증 시스템 ──────────────────────────────────────────
-        function getUsers(){ return window._sysUsers || []; }
-        async function saveUser(user){
-            await window.fbSet('sysUsers', user.id, user);
-            // Firebase 리스너 대기 없이 즉시 메모리 반영
-            const idx = window._sysUsers.findIndex(u => u.id === user.id);
-            if(idx >= 0) window._sysUsers[idx] = user;
-            else window._sysUsers.push(user);
-            // 관리자로 로그인된 경우 패널 즉시 갱신
-            const cu = sessionStorage.getItem('currentUser');
-            if(cu && JSON.parse(cu).role === 'admin') loadAdminPanel();
-        }
-        function getCurrentUser(){
-            const s = sessionStorage.getItem('currentUser');
-            return s ? JSON.parse(s) : null;
-        }
-
-        function switchAuthTab(tab){
-            document.querySelectorAll('.auth-tab-btn').forEach((b,i)=>{
-                b.classList.toggle('active',(i===0&&tab==='login')||(i===1&&tab==='register'));
-            });
-            document.getElementById('loginForm').classList.toggle('active',tab==='login');
-            document.getElementById('registerForm').classList.toggle('active',tab==='register');
-        }
-
-        async function doLogin(){
-            const id = document.getElementById('loginId').value.trim();
-            const pw = document.getElementById('loginPw').value;
-            const errEl = document.getElementById('loginError');
-            if(!id||!pw){ errEl.textContent='아이디와 비밀번호를 입력하세요.'; errEl.classList.add('visible'); return; }
-
-            const users = getUsers();
-            const user  = users.find(u=>u.id===id && u.pw===pw);
-            if(!user){ errEl.textContent='아이디 또는 비밀번호가 일치하지 않습니다.'; errEl.classList.add('visible'); return; }
-            if(user.status==='pending'){ errEl.textContent='관리자 승인 대기 중입니다.'; errEl.classList.add('visible'); return; }
-            if(user.status==='rejected'){ errEl.textContent='가입이 거절되었습니다. 관리자에게 문의하세요.'; errEl.classList.add('visible'); return; }
-
-            sessionStorage.setItem('currentUser', JSON.stringify(user));
-            document.getElementById('authOverlay').classList.remove('active');
-            onLoginSuccess(user);
-        }
-
-        async function doRegister(){
-            const name=document.getElementById('regName').value.trim();
-            const id=document.getElementById('regId').value.trim();
-            const pw=document.getElementById('regPw').value;
-            const pw2=document.getElementById('regPw2').value;
-            const errEl=document.getElementById('registerError');
-            const sucEl=document.getElementById('registerSuccess');
-            errEl.classList.remove('visible'); sucEl.classList.remove('visible');
-
-            if(!name||!id||!pw||!pw2){ errEl.textContent='모든 항목을 입력하세요.'; errEl.classList.add('visible'); return; }
-            if(id.length<4){ errEl.textContent='아이디는 4자 이상이어야 합니다.'; errEl.classList.add('visible'); return; }
-            if(pw.length<6){ errEl.textContent='비밀번호는 6자 이상이어야 합니다.'; errEl.classList.add('visible'); return; }
-            if(pw!==pw2){ errEl.textContent='비밀번호가 일치하지 않습니다.'; errEl.classList.add('visible'); return; }
-
-            const users = getUsers();
-            if(users.find(u=>u.id===id)){ errEl.textContent='이미 사용 중인 아이디입니다.'; errEl.classList.add('visible'); return; }
-
-            const newUser = { id, pw, name, role:'user', status:'pending', createdAt:new Date().toISOString() };
-            await saveUser(newUser);
-            sucEl.textContent='✅ 회원가입 신청 완료! 관리자 승인 후 로그인하세요.';
-            sucEl.classList.add('visible');
-            ['regName','regId','regPw','regPw2'].forEach(x=>document.getElementById(x).value='');
-        }
-
-        function doLogout(){
-            if(confirm('로그아웃 하시겠습니까?')){ sessionStorage.removeItem('currentUser'); location.reload(); }
-        }
-
-        function onLoginSuccess(user){
-            document.getElementById('headerUserName').textContent = user.name;
-            const badge = document.getElementById('headerUserBadge');
-            badge.textContent = user.role==='admin'?'관리자':'일반';
-            badge.className = 'user-badge'+(user.role==='admin'?' admin':'');
-            if(user.role==='admin'){
-                document.getElementById('adminTab').style.display='';
-                document.getElementById('annualLeaveTab').textContent='📅 연차관리';
-                loadAdminPanel();
-            }
-        }
-
-        function showAnnualLeaveTab(){
-            const user = getCurrentUser();
-            if(!user || user.role!=='admin'){ alert('🔒 연차관리는 관리자만 사용할 수 있습니다.'); return; }
-            showTab('annual-leave', document.getElementById('annualLeaveTab'));
-        }
-
-        function loadAdminPanel(){
-            const users   = getUsers();
-            const pending = users.filter(u=>u.status==='pending');
-            const pendingEl = document.getElementById('pendingUsersList');
-            pendingEl.innerHTML = pending.length===0
-                ? '<p style="color:#856404;font-style:italic;">대기 중인 회원이 없습니다.</p>'
-                : pending.map(u=>`
-                    <div class="pending-user-item">
-                        <div><strong>${u.name}</strong> <span style="color:#7f8c8d;">(${u.id})</span>
-                            <span style="font-size:.8em;color:#aaa;margin-left:8px;">${new Date(u.createdAt).toLocaleDateString('ko-KR')} 신청</span>
-                        </div>
-                        <div style="display:flex;gap:8px;">
-                            <button class="btn btn-success btn-small" onclick="approveUser('${u.id}')">승인</button>
-                            <button class="btn btn-danger btn-small" onclick="rejectUser('${u.id}')">거절</button>
-                        </div>
-                    </div>`).join('');
-
-            const allEl = document.getElementById('allUsersList');
-            const all   = users.filter(u=>u.role!=='admin');
-            allEl.innerHTML = all.length===0
-                ? '<p style="color:#7f8c8d;font-style:italic;">등록된 회원이 없습니다.</p>'
-                : `<table style="width:100%;border-collapse:collapse;font-size:.9em;">
-                    <thead style="background:#34495e;color:white;">
-                        <tr><th style="padding:10px 12px;text-align:left;">이름</th><th style="padding:10px 12px;text-align:left;">아이디</th>
-                            <th style="padding:10px 12px;text-align:left;">상태</th><th style="padding:10px 12px;text-align:left;">가입일</th>
-                            <th style="padding:10px 12px;text-align:left;">관리</th></tr>
-                    </thead>
-                    <tbody>${all.map(u=>`
-                        <tr style="border-bottom:1px solid #ecf0f1;">
-                            <td style="padding:10px 12px;">${u.name}</td>
-                            <td style="padding:10px 12px;">${u.id}</td>
-                            <td style="padding:10px 12px;">
-                                <span class="badge ${u.status==='approved'?'badge-success':u.status==='pending'?'badge-warning':'badge-danger'}">
-                                    ${u.status==='approved'?'승인됨':u.status==='pending'?'대기중':'거절됨'}
-                                </span>
-                            </td>
-                            <td style="padding:10px 12px;color:#7f8c8d;">${new Date(u.createdAt).toLocaleDateString('ko-KR')}</td>
-                            <td style="padding:10px 12px;">
-                                ${u.status!=='approved'?`<button class="btn btn-success btn-small" onclick="approveUser('${u.id}')">승인</button>`:''}
-                                <button class="btn btn-danger btn-small" style="margin-left:4px;" onclick="deleteUser('${u.id}')">삭제</button>
-                            </td>
-                        </tr>`).join('')}
-                    </tbody></table>`;
-        }
-
-        async function approveUser(userId){
-            const users = getUsers();
-            const u = users.find(u=>u.id===userId);
-            if(u){ u.status='approved'; await saveUser(u); alert(`✅ ${u.name}(${u.id}) 회원이 승인되었습니다.`); }
-        }
-        async function rejectUser(userId){
-            const users = getUsers();
-            const u = users.find(u=>u.id===userId);
-            if(u && confirm(`${u.name}(${u.id}) 회원 가입을 거절하시겠습니까?`)){ u.status='rejected'; await saveUser(u); }
-        }
-        async function deleteUser(userId){
-            const users = getUsers();
-            const u = users.find(u=>u.id===userId);
-            if(u && confirm(`${u.name}(${u.id}) 회원을 삭제하시겠습니까?`)){ await window.fbDelete('sysUsers', userId); }
-        }
-
-        async function updateAdminAccount(){
-            const newId  = document.getElementById('newAdminId').value.trim();
-            const curPw  = document.getElementById('currentAdminPw').value;
-            const newPw  = document.getElementById('newAdminPw').value;
-            const newPw2 = document.getElementById('newAdminPw2').value;
-            const cu     = getCurrentUser();
-            const users  = getUsers();
-            const admin  = users.find(u=>u.id===cu.id && u.role==='admin');
-            if(!admin){ alert('관리자 계정을 찾을 수 없습니다.'); return; }
-            if(!curPw||admin.pw!==curPw){ alert('현재 비밀번호가 일치하지 않습니다.'); return; }
-            if(newId&&newId.length<4){ alert('아이디는 4자 이상이어야 합니다.'); return; }
-            if(newPw&&newPw.length<6){ alert('새 비밀번호는 6자 이상이어야 합니다.'); return; }
-            if(newPw&&newPw!==newPw2){ alert('새 비밀번호가 일치하지 않습니다.'); return; }
-            if(newId&&newId!==admin.id&&users.find(u=>u.id===newId)){ alert('이미 사용 중인 아이디입니다.'); return; }
-
-            const oldId = admin.id;
-            if(newId) admin.id = newId;
-            if(newPw) admin.pw = newPw;
-
-            if(oldId !== admin.id){
-                await window.fbDelete('sysUsers', oldId);
-            }
-            await saveUser(admin);
-            sessionStorage.setItem('currentUser', JSON.stringify(admin));
-            document.getElementById('headerUserName').textContent = admin.name;
-            ['newAdminId','currentAdminPw','newAdminPw','newAdminPw2'].forEach(x=>document.getElementById(x).value='');
-            alert(`✅ 관리자 계정이 업데이트되었습니다.\n아이디: ${admin.id}`);
-        }
-
-        // ══════════════════════════════════════════════════════════
-        // 백업 (다운로드/복원)
-        // ══════════════════════════════════════════════════════════
-        function downloadBackup(){
+        // 백업 관련 함수
+        function downloadBackup() {
             const today = new Date();
-            const ds = today.getFullYear()+String(today.getMonth()+1).padStart(2,'0')+String(today.getDate()).padStart(2,'0')
-                +'_'+String(today.getHours()).padStart(2,'0')+String(today.getMinutes()).padStart(2,'0');
-            const data = { version:'2.0', backupDate:today.toISOString(), employees, annualLeaves, educations };
-            const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `직원관리시스템_백업_${ds}.json`;
-            document.body.appendChild(a); a.click(); document.body.removeChild(a);
-            alert('✅ 백업 파일이 다운로드되었습니다.');
+            const dateString = today.getFullYear() + 
+                String(today.getMonth() + 1).padStart(2, '0') + 
+                String(today.getDate()).padStart(2, '0') + '_' +
+                String(today.getHours()).padStart(2, '0') + 
+                String(today.getMinutes()).padStart(2, '0');
+            
+            const backupData = {
+                version: '1.0',
+                backupDate: today.toISOString(),
+                employees: employees,
+                annualLeaves: annualLeaves,
+                educations: educations
+            };
+
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `직원관리시스템_백업_${dateString}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            alert('✅ 백업 파일이 다운로드되었습니다.\n파일명: 직원관리시스템_백업_' + dateString + '.json');
         }
 
-        function restoreBackup(event){
+        function restoreBackup(event) {
             const file = event.target.files[0];
-            if(!file) return;
-            const nameSpan = document.getElementById('fileInputName');
-            if(nameSpan) nameSpan.textContent = file.name;
-            if(!confirm('⚠️ 백업을 복원하면 현재 데이터가 모두 삭제됩니다.\n계속하시겠습니까?')){ event.target.value=''; return; }
+            
+            if (!file) return;
+
+            // 파일명 표시
+            const fileNameSpan = document.getElementById('fileInputName');
+            if (fileNameSpan) {
+                fileNameSpan.textContent = file.name;
+            }
+
+            if (!confirm('⚠️ 백업을 복원하면 현재 데이터가 모두 삭제됩니다.\n계속하시겠습니까?')) {
+                event.target.value = '';
+                if (fileNameSpan) fileNameSpan.textContent = '';
+                return;
+            }
+
             const reader = new FileReader();
-            reader.onload = async function(e){
-                try{
-                    const bd = JSON.parse(e.target.result);
-                    if(!bd.employees||!Array.isArray(bd.employees)) throw new Error('올바른 백업 파일이 아닙니다.');
+            
+            reader.onload = function(e) {
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    // 데이터 유효성 검사
+                    if (!backupData.employees || !Array.isArray(backupData.employees)) {
+                        throw new Error('올바른 백업 파일이 아닙니다.');
+                    }
 
-                    await window.fbReplaceAll('employees',    bd.employees);
-                    await window.fbReplaceAll('annualLeaves', bd.annualLeaves||[]);
-                    await window.fbReplaceAll('educations',   bd.educations||[]);
+                    // 데이터 복원
+                    employees = backupData.employees;
+                    annualLeaves = backupData.annualLeaves || [];
+                    educations = backupData.educations || [];
 
-                    // 메모리 데이터 즉시 반영 (Firebase 리스너 대기 없이 바로 갱신)
-                    window._employees    = bd.employees;
-                    window._annualLeaves = bd.annualLeaves||[];
-                    window._educations   = bd.educations||[];
+                    // 로컬 스토리지에 저장
+                    localStorage.setItem('employees', JSON.stringify(employees));
+                    localStorage.setItem('annualLeaves', JSON.stringify(annualLeaves));
+                    localStorage.setItem('educations', JSON.stringify(educations));
 
+                    // 화면 갱신
                     updateDashboard();
                     loadEmployees();
                     loadAnnualLeave();
                     loadEducation();
                     updateBackupInfo();
 
-                    alert(`✅ 백업이 복원되었습니다!\n직원: ${bd.employees.length}명\n백업일시: ${new Date(bd.backupDate).toLocaleString('ko-KR')}`);
-                } catch(err){ alert('❌ 복원 실패: '+err.message); }
-                event.target.value='';
-                if(nameSpan) nameSpan.textContent='';
+                    alert(`✅ 백업이 성공적으로 복원되었습니다!\n\n복원된 데이터:\n- 직원: ${employees.length}명\n- 연차: ${annualLeaves.length}건\n- 교육: ${educations.length}건\n\n백업 일시: ${new Date(backupData.backupDate).toLocaleString('ko-KR')}`);
+                    
+                } catch (error) {
+                    alert('❌ 백업 파일을 불러오는 데 실패했습니다.\n' + error.message);
+                }
+                
+                // 파일 입력 초기화
+                event.target.value = '';
+                if (fileNameSpan) fileNameSpan.textContent = '';
             };
+            
             reader.readAsText(file);
         }
 
-        function updateBackupInfo(){
-            document.getElementById('backupEmployeeCount').textContent = employees.length+'명';
-            document.getElementById('backupLeaveCount').textContent    = annualLeaves.length+'건';
-            document.getElementById('backupEducationCount').textContent= educations.length+'건';
-            const lu = document.getElementById('lastUpdate');
-            lu.textContent = (employees.length||annualLeaves.length||educations.length)
-                ? new Date().toLocaleString('ko-KR') : '데이터 없음';
-        }
-
-        // ══════════════════════════════════════════════════════════
-        // 탭 전환
-        // ══════════════════════════════════════════════════════════
-        function showTab(tabName, callerEl){
-            document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            // 클릭한 버튼 또는 해당 탭 버튼을 active 처리
-            const target = callerEl || (typeof event !== 'undefined' && event.target) || null;
-            if(target && target.classList.contains('nav-tab')){
-                target.classList.add('active');
+        function updateBackupInfo() {
+            document.getElementById('backupEmployeeCount').textContent = employees.length + '명';
+            document.getElementById('backupLeaveCount').textContent = annualLeaves.length + '건';
+            document.getElementById('backupEducationCount').textContent = educations.length + '건';
+            
+            const lastUpdateElem = document.getElementById('lastUpdate');
+            if (employees.length > 0 || annualLeaves.length > 0 || educations.length > 0) {
+                lastUpdateElem.textContent = new Date().toLocaleString('ko-KR');
             } else {
-                // tabName으로 해당 nav-tab 버튼 찾아서 active
-                document.querySelectorAll('.nav-tab').forEach(t=>{
-                    if(t.getAttribute('onclick') && t.getAttribute('onclick').includes(`'${tabName}'`)){
-                        t.classList.add('active');
-                    }
-                });
+                lastUpdateElem.textContent = '데이터 없음';
             }
-            if(tabName==='backup') updateBackupInfo();
-            if(tabName==='admin')  loadAdminPanel();
         }
 
-        // ══════════════════════════════════════════════════════════
-        // 대시보드
-        // ══════════════════════════════════════════════════════════
-        function updateDashboard(){
-            const total  = employees.length;
-            const active = employees.filter(e=>!e.resignDate||new Date(e.resignDate)>new Date()).length;
-            const sixLater = new Date(); sixLater.setMonth(sixLater.getMonth()+6);
-            const upcoming = educations.filter(e=>{ const d=new Date(e.educationDate); return d<=sixLater&&d>=new Date(); }).length;
-            document.getElementById('totalEmployees').textContent   = total;
-            document.getElementById('activeEmployees').textContent  = active;
-            document.getElementById('inactiveEmployees').textContent= total-active;
-            document.getElementById('upcomingEducation').textContent= upcoming;
+        // 탭 전환
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'backup') {
+                updateBackupInfo();
+            }
         }
 
-        function showAllEmployees(){ document.querySelector('[onclick="showTab(\'employees\')"]').click(); loadEmployees(); }
-        function showActiveEmployees(){ document.querySelector('[onclick="showTab(\'employees\')"]').click(); renderEmployeeTable(employees.filter(e=>!e.resignDate||new Date(e.resignDate)>new Date())); }
-        function showInactiveEmployees(){ document.querySelector('[onclick="showTab(\'employees\')"]').click(); renderEmployeeTable(employees.filter(e=>e.resignDate&&new Date(e.resignDate)<=new Date())); }
-        function showUpcomingEducation(){ document.querySelector('[onclick="showTab(\'education\')"]').click(); }
+        // 대시보드 업데이트
+        function updateDashboard() {
+            const total = employees.length;
+            const active = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date()).length;
+            const inactive = total - active;
+            
+            const sixMonthsLater = new Date();
+            sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
+            const upcoming = educations.filter(e => {
+                const eduDate = new Date(e.educationDate);
+                return eduDate <= sixMonthsLater && eduDate >= new Date();
+            }).length;
 
-        // ══════════════════════════════════════════════════════════
+            document.getElementById('totalEmployees').textContent = total;
+            document.getElementById('activeEmployees').textContent = active;
+            document.getElementById('inactiveEmployees').textContent = inactive;
+            document.getElementById('upcomingEducation').textContent = upcoming;
+        }
+
+        // 대시보드 카드 클릭 이벤트
+        function showAllEmployees() {
+            showTab('employees');
+            document.querySelector('[onclick="showTab(\'employees\')"]').classList.add('active');
+            document.getElementById('employeeSearch').value = '';
+            loadEmployees();
+        }
+
+        function showActiveEmployees() {
+            showTab('employees');
+            document.querySelector('[onclick="showTab(\'employees\')"]').classList.add('active');
+            const activeEmps = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+            renderEmployeeTable(activeEmps);
+        }
+
+        function showInactiveEmployees() {
+            showTab('employees');
+            document.querySelector('[onclick="showTab(\'employees\')"]').classList.add('active');
+            const inactiveEmps = employees.filter(e => e.resignDate && new Date(e.resignDate) <= new Date());
+            renderEmployeeTable(inactiveEmps);
+        }
+
+        function showUpcomingEducation() {
+            showTab('education');
+            document.querySelector('[onclick="showTab(\'education\')"]').classList.add('active');
+        }
+
         // 직원 관리
-        // ══════════════════════════════════════════════════════════
         let certificateCount = 0;
 
-        function addCertificateField(certData=null){
+        function addCertificateField(certData = null) {
             certificateCount++;
             const container = document.getElementById('certificatesContainer');
-            const certId    = certData ? certData.id : Date.now()+certificateCount;
-            const certDiv   = document.createElement('div');
+            const certId = certData ? certData.id : Date.now() + certificateCount;
+            
+            const certDiv = document.createElement('div');
             certDiv.className = 'certificate-item';
             certDiv.id = `cert-${certId}`;
             certDiv.innerHTML = `
                 <button type="button" class="remove-certificate-btn" onclick="removeCertificateField('${certId}')">삭제</button>
                 <h4>자격증 #${certificateCount}</h4>
-                <div class="form-group"><label>자격증명</label><input type="text" class="cert-name" value="${certData?certData.name:''}"></div>
-                <div class="form-group"><label>취득일</label><input type="date" class="cert-date" value="${certData?certData.date:''}"></div>
+                <div class="form-group">
+                    <label>자격증명</label>
+                    <input type="text" class="cert-name" value="${certData ? certData.name : ''}">
+                </div>
+                <div class="form-group">
+                    <label>취득일</label>
+                    <input type="date" class="cert-date" value="${certData ? certData.date : ''}">
+                </div>
                 <div class="education-dates">
-                    <div class="education-date-item"><label>초급교육</label><input type="date" class="cert-edu-basic" value="${certData?.educationDates?.basic||''}"></div>
-                    <div class="education-date-item"><label>중급교육</label><input type="date" class="cert-edu-intermediate" value="${certData?.educationDates?.intermediate||''}"></div>
-                    <div class="education-date-item"><label>고급교육</label><input type="date" class="cert-edu-advanced" value="${certData?.educationDates?.advanced||''}"></div>
-                    <div class="education-date-item"><label>특급교육</label><input type="date" class="cert-edu-expert" value="${certData?.educationDates?.expert||''}"></div>
-                    <div class="education-date-item"><label>평가사교육</label><input type="date" class="cert-edu-evaluator" value="${certData?.educationDates?.evaluator||''}"></div>
-                </div>`;
+                    <div class="education-date-item">
+                        <label>초급교육</label>
+                        <input type="date" class="cert-edu-basic" value="${certData && certData.educationDates ? certData.educationDates.basic || '' : ''}">
+                    </div>
+                    <div class="education-date-item">
+                        <label>중급교육</label>
+                        <input type="date" class="cert-edu-intermediate" value="${certData && certData.educationDates ? certData.educationDates.intermediate || '' : ''}">
+                    </div>
+                    <div class="education-date-item">
+                        <label>고급교육</label>
+                        <input type="date" class="cert-edu-advanced" value="${certData && certData.educationDates ? certData.educationDates.advanced || '' : ''}">
+                    </div>
+                    <div class="education-date-item">
+                        <label>특급교육</label>
+                        <input type="date" class="cert-edu-expert" value="${certData && certData.educationDates ? certData.educationDates.expert || '' : ''}">
+                    </div>
+                    <div class="education-date-item">
+                        <label>평가사교육</label>
+                        <input type="date" class="cert-edu-evaluator" value="${certData && certData.educationDates ? certData.educationDates.evaluator || '' : ''}">
+                    </div>
+                </div>
+            `;
             container.appendChild(certDiv);
         }
 
-        function removeCertificateField(certId){
-            document.getElementById(`cert-${certId}`)?.remove();
+        function removeCertificateField(certId) {
+            const certDiv = document.getElementById(`cert-${certId}`);
+            if (certDiv) {
+                certDiv.remove();
+            }
         }
 
-        function openEmployeeModal(employeeId=null){
+        function openEmployeeModal(employeeId = null) {
             const modal = document.getElementById('employeeModal');
-            document.getElementById('certificatesContainer').innerHTML='';
-            certificateCount=0;
-            if(employeeId){
-                const emp = employees.find(e=>e.id===employeeId);
-                document.getElementById('employeeModalTitle').textContent='직원 정보 수정';
-                document.getElementById('employeeId').value      = emp.id;
-                document.getElementById('employeeName').value    = emp.name;
-                document.getElementById('employeeGender').value  = emp.gender;
-                document.getElementById('employeeAddress').value = emp.address||'';
-                document.getElementById('employeePhone').value   = emp.phone;
-                document.getElementById('employeeEmail').value   = emp.email;
-                document.getElementById('employeeHireDate').value   = emp.hireDate;
-                document.getElementById('employeeResignDate').value = emp.resignDate||'';
-                (emp.certificates&&emp.certificates.length ? emp.certificates : [null]).forEach(c=>addCertificateField(c));
+            const title = document.getElementById('employeeModalTitle');
+            const container = document.getElementById('certificatesContainer');
+            container.innerHTML = '';
+            certificateCount = 0;
+            
+            if (employeeId) {
+                const employee = employees.find(e => e.id === employeeId);
+                title.textContent = '직원 정보 수정';
+                
+                document.getElementById('employeeId').value = employee.id;
+                document.getElementById('employeeName').value = employee.name;
+                document.getElementById('employeeGender').value = employee.gender;
+                document.getElementById('employeeAddress').value = employee.address || '';
+                document.getElementById('employeePhone').value = employee.phone;
+                document.getElementById('employeeEmail').value = employee.email;
+                document.getElementById('employeeHireDate').value = employee.hireDate;
+                document.getElementById('employeeResignDate').value = employee.resignDate || '';
+                
+                if (employee.certificates && employee.certificates.length > 0) {
+                    employee.certificates.forEach(cert => addCertificateField(cert));
+                } else {
+                    addCertificateField();
+                }
             } else {
-                document.getElementById('employeeModalTitle').textContent='직원 등록';
-                document.getElementById('employeeId').value='';
+                title.textContent = '직원 등록';
+                document.getElementById('employeeId').value = '';
                 document.querySelector('#employeeModal form').reset();
                 addCertificateField();
             }
+            
             modal.classList.add('active');
         }
 
-        function closeEmployeeModal(){ document.getElementById('employeeModal').classList.remove('active'); }
+        function closeEmployeeModal() {
+            document.getElementById('employeeModal').classList.remove('active');
+        }
 
-        async function saveEmployee(event){
+        function saveEmployee(event) {
             event.preventDefault();
+            
             const id = document.getElementById('employeeId').value;
-            const certificates=[];
-            document.querySelectorAll('.certificate-item').forEach(cd=>{
-                const name=cd.querySelector('.cert-name').value;
-                const date=cd.querySelector('.cert-date').value;
-                if(name&&date) certificates.push({
-                    id: cd.id.replace('cert-',''), name, date,
-                    educationDates:{
-                        basic:       cd.querySelector('.cert-edu-basic').value,
-                        intermediate:cd.querySelector('.cert-edu-intermediate').value,
-                        advanced:    cd.querySelector('.cert-edu-advanced').value,
-                        expert:      cd.querySelector('.cert-edu-expert').value,
-                        evaluator:   cd.querySelector('.cert-edu-evaluator').value
-                    }
-                });
+            
+            // 자격증 정보 수집
+            const certificates = [];
+            document.querySelectorAll('.certificate-item').forEach(certDiv => {
+                const name = certDiv.querySelector('.cert-name').value;
+                const date = certDiv.querySelector('.cert-date').value;
+                const basic = certDiv.querySelector('.cert-edu-basic').value;
+                const intermediate = certDiv.querySelector('.cert-edu-intermediate').value;
+                const advanced = certDiv.querySelector('.cert-edu-advanced').value;
+                const expert = certDiv.querySelector('.cert-edu-expert').value;
+                const evaluator = certDiv.querySelector('.cert-edu-evaluator').value;
+                
+                if (name && date) {
+                    certificates.push({
+                        id: certDiv.id.replace('cert-', ''),
+                        name: name,
+                        date: date,
+                        educationDates: {
+                            basic: basic,
+                            intermediate: intermediate,
+                            advanced: advanced,
+                            expert: expert,
+                            evaluator: evaluator
+                        }
+                    });
+                }
             });
 
             const employee = {
-                id:         id ? parseInt(id) : Date.now(),
-                name:       document.getElementById('employeeName').value,
-                gender:     document.getElementById('employeeGender').value,
-                address:    document.getElementById('employeeAddress').value,
-                phone:      document.getElementById('employeePhone').value,
-                email:      document.getElementById('employeeEmail').value,
-                hireDate:   document.getElementById('employeeHireDate').value,
+                id: id ? parseInt(id) : Date.now(),
+                name: document.getElementById('employeeName').value,
+                gender: document.getElementById('employeeGender').value,
+                address: document.getElementById('employeeAddress').value,
+                phone: document.getElementById('employeePhone').value,
+                email: document.getElementById('employeeEmail').value,
+                hireDate: document.getElementById('employeeHireDate').value,
                 resignDate: document.getElementById('employeeResignDate').value,
-                certificates
+                certificates: certificates
             };
 
-            // 기존 교육 삭제 후 재생성
-            const oldEdus = educations.filter(e=>e.employeeId===employee.id);
-            for(const edu of oldEdus) await window.fbDelete('educations', edu.id);
-
-            if(id){
-                const idx = employees.findIndex(e=>e.id===parseInt(id));
-                employees[idx]=employee;
+            if (id) {
+                const index = employees.findIndex(e => e.id === parseInt(id));
+                employees[index] = employee;
+                educations = educations.filter(edu => edu.employeeId !== employee.id);
             } else {
                 employees.push(employee);
                 calculateAnnualLeaveForEmployee(employee);
@@ -1640,335 +1625,1069 @@
 
             generateEducationSchedule(employee);
 
-            // Firebase 저장
-            await window.fbSet('employees', employee.id, employee);
-            for(const edu of educations.filter(e=>e.employeeId===employee.id)){
-                await window.fbSet('educations', edu.id, edu);
-            }
-            const leaveData = annualLeaves.find(a=>a.employeeId===employee.id);
-            if(leaveData) await window.fbSet('annualLeaves', leaveData.employeeId, leaveData);
-
+            localStorage.setItem('employees', JSON.stringify(employees));
+            localStorage.setItem('educations', JSON.stringify(educations));
+            
             closeEmployeeModal();
+            loadEmployees();
+            loadAnnualLeave();
+            loadEducation();
+            updateDashboard();
+            updateBackupInfo();
             alert('직원 정보가 저장되었습니다.');
         }
 
-        function generateEducationSchedule(employee){
-            if(!employee.certificates) return;
-            const eduTypes=[{key:'basic',name:'초급교육'},{key:'intermediate',name:'중급교육'},
-                {key:'advanced',name:'고급교육'},{key:'expert',name:'특급교육'},{key:'evaluator',name:'평가사교육'}];
-            employee.certificates.forEach(cert=>{
-                eduTypes.forEach(type=>{
+        function generateEducationSchedule(employee) {
+            if (!employee.certificates) return;
+
+            employee.certificates.forEach(cert => {
+                const eduTypes = [
+                    { key: 'basic', name: '초급교육' },
+                    { key: 'intermediate', name: '중급교육' },
+                    { key: 'advanced', name: '고급교육' },
+                    { key: 'expert', name: '특급교육' },
+                    { key: 'evaluator', name: '평가사교육' }
+                ];
+
+                eduTypes.forEach(type => {
                     const eduDate = cert.educationDates[type.key];
-                    if(eduDate) educations.push({
-                        id: Date.now()+Math.random(),
-                        employeeId:employee.id, employeeName:employee.name,
-                        certificate:cert.name, certificateDate:cert.date,
-                        type:type.name, educationDate:eduDate
-                    });
+                    if (eduDate) {
+                        educations.push({
+                            id: Date.now() + Math.random(),
+                            employeeId: employee.id,
+                            employeeName: employee.name,
+                            certificate: cert.name,
+                            certificateDate: cert.date,
+                            type: type.name,
+                            educationDate: eduDate
+                        });
+                    }
                 });
             });
         }
 
-        function renderEmployeeTable(list){
+        function renderEmployeeTable(employeeList) {
             const tbody = document.getElementById('employeesTableBody');
-            if(!list.length){ tbody.innerHTML='<tr><td colspan="8" class="no-data">표시할 직원 정보가 없습니다.</td></tr>'; return; }
-            tbody.innerHTML = list.map(emp=>{
-                const isActive = !emp.resignDate||new Date(emp.resignDate)>new Date();
-                const certCount= emp.certificates?emp.certificates.length:0;
-                return `<tr>
-                    <td>${emp.name}</td><td>${emp.gender}</td><td>${emp.phone}</td><td>${emp.email}</td>
-                    <td><span class="badge badge-info">${certCount}개</span></td>
-                    <td>${new Date(emp.hireDate).toLocaleDateString('ko-KR')}</td>
-                    <td><span class="badge ${isActive?'badge-success':'badge-danger'}">${isActive?'재직':'퇴사'}</span></td>
-                    <td><div class="action-buttons">
-                        <button class="btn btn-info btn-small" onclick="showEmployeeDetail(${emp.id})">상세</button>
-                        <button class="btn btn-primary btn-small" onclick="openEmployeeModal(${emp.id})">수정</button>
-                        <button class="btn btn-danger btn-small" onclick="deleteEmployee(${emp.id})">삭제</button>
-                    </div></td></tr>`;
-            }).join('');
-        }
-
-        function loadEmployees(){ renderEmployeeTable(employees); }
-
-        function searchEmployees(){
-            const s = document.getElementById('employeeSearch').value.toLowerCase();
-            renderEmployeeTable(employees.filter(e=>
-                e.name.toLowerCase().includes(s)||e.email.toLowerCase().includes(s)||e.phone.includes(s)
-            ));
-        }
-
-        function showEmployeeDetail(empId){
-            const emp = employees.find(e=>e.id===empId);
-            const isActive = !emp.resignDate||new Date(emp.resignDate)>new Date();
-            const eduTypes=[{key:'basic',name:'초급교육'},{key:'intermediate',name:'중급교육'},
-                {key:'advanced',name:'고급교육'},{key:'expert',name:'특급교육'},{key:'evaluator',name:'평가사교육'}];
-            let certsHtml = '<p class="no-data">등록된 자격증이 없습니다.</p>';
-            if(emp.certificates&&emp.certificates.length){
-                certsHtml = emp.certificates.map(cert=>{
-                    let eduHtml='';
-                    eduTypes.forEach(type=>{ if(cert.educationDates[type.key]) eduHtml+=`
-                        <div class="info-item"><label>${type.name}</label>
-                            <div class="value">${new Date(cert.educationDates[type.key]).toLocaleDateString('ko-KR')}</div></div>`; });
-                    return `<div class="certificate-item"><h4>📜 ${cert.name}</h4>
-                        <p style="color:#7f8c8d;margin-bottom:10px;">취득일: ${new Date(cert.date).toLocaleDateString('ko-KR')}</p>
-                        ${eduHtml?`<div class="education-grid">${eduHtml}</div>`:'<p style="color:#7f8c8d;font-size:.9em;">교육일정 없음</p>'}
-                    </div>`;
+            
+            if (employeeList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="no-data">표시할 직원 정보가 없습니다.</td></tr>';
+            } else {
+                tbody.innerHTML = employeeList.map(employee => {
+                    const isActive = !employee.resignDate || new Date(employee.resignDate) > new Date();
+                    const certCount = employee.certificates ? employee.certificates.length : 0;
+                    
+                    return `
+                        <tr>
+                            <td>${employee.name}</td>
+                            <td>${employee.gender}</td>
+                            <td>${employee.phone}</td>
+                            <td>${employee.email}</td>
+                            <td><span class="badge badge-info">${certCount}개</span></td>
+                            <td>${new Date(employee.hireDate).toLocaleDateString('ko-KR')}</td>
+                            <td>
+                                <span class="badge ${isActive ? 'badge-success' : 'badge-danger'}">
+                                    ${isActive ? '재직' : '퇴사'}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-info btn-small" onclick="showEmployeeDetail(${employee.id})">상세</button>
+                                    <button class="btn btn-primary btn-small" onclick="openEmployeeModal(${employee.id})">수정</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteEmployee(${employee.id})">삭제</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
                 }).join('');
             }
-            document.getElementById('employeeDetailContent').innerHTML=`
-                <div class="info-section"><h3>기본 정보</h3><div class="info-grid">
-                    <div class="info-item"><label>성명</label><div class="value">${emp.name}</div></div>
-                    <div class="info-item"><label>성별</label><div class="value">${emp.gender}</div></div>
-                    <div class="info-item"><label>전화번호</label><div class="value">${emp.phone}</div></div>
-                    <div class="info-item"><label>이메일</label><div class="value">${emp.email}</div></div>
-                    <div class="info-item"><label>입사일</label><div class="value">${new Date(emp.hireDate).toLocaleDateString('ko-KR')}</div></div>
-                    <div class="info-item"><label>상태</label><div class="value">
-                        <span class="badge ${isActive?'badge-success':'badge-danger'}">${isActive?'재직':'퇴사'}</span>
-                    </div></div>
-                </div>${emp.address?`<div class="info-item" style="margin-top:15px;"><label>주소</label><div class="value">${emp.address}</div></div>`:''}</div>
-                <div class="info-section"><h3>자격증 정보</h3>${certsHtml}</div>`;
+        }
+
+        function loadEmployees() {
+            renderEmployeeTable(employees);
+        }
+
+        function searchEmployees() {
+            const searchTerm = document.getElementById('employeeSearch').value.toLowerCase();
+            const filtered = employees.filter(e => 
+                e.name.toLowerCase().includes(searchTerm) ||
+                e.email.toLowerCase().includes(searchTerm) ||
+                e.phone.includes(searchTerm)
+            );
+            renderEmployeeTable(filtered);
+        }
+
+        function showEmployeeDetail(employeeId) {
+            const employee = employees.find(e => e.id === employeeId);
+            const isActive = !employee.resignDate || new Date(employee.resignDate) > new Date();
+            
+            let certificatesHtml = '<p class="no-data">등록된 자격증이 없습니다.</p>';
+            if (employee.certificates && employee.certificates.length > 0) {
+                certificatesHtml = employee.certificates.map(cert => {
+                    let eduHtml = '';
+                    const eduTypes = [
+                        { key: 'basic', name: '초급교육' },
+                        { key: 'intermediate', name: '중급교육' },
+                        { key: 'advanced', name: '고급교육' },
+                        { key: 'expert', name: '특급교육' },
+                        { key: 'evaluator', name: '평가사교육' }
+                    ];
+                    
+                    eduTypes.forEach(type => {
+                        if (cert.educationDates[type.key]) {
+                            eduHtml += `<div class="info-item">
+                                <label>${type.name}</label>
+                                <div class="value">${new Date(cert.educationDates[type.key]).toLocaleDateString('ko-KR')}</div>
+                            </div>`;
+                        }
+                    });
+
+                    return `
+                        <div class="certificate-item">
+                            <h4>📜 ${cert.name}</h4>
+                            <p style="color: #7f8c8d; margin-bottom: 10px;">취득일: ${new Date(cert.date).toLocaleDateString('ko-KR')}</p>
+                            ${eduHtml ? `<div class="education-grid">${eduHtml}</div>` : '<p style="color: #7f8c8d; font-size: 0.9em;">등록된 교육일정이 없습니다.</p>'}
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const content = `
+                <div class="info-section">
+                    <h3>기본 정보</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>성명</label>
+                            <div class="value">${employee.name}</div>
+                        </div>
+                        <div class="info-item">
+                            <label>성별</label>
+                            <div class="value">${employee.gender}</div>
+                        </div>
+                        <div class="info-item">
+                            <label>전화번호</label>
+                            <div class="value">${employee.phone}</div>
+                        </div>
+                        <div class="info-item">
+                            <label>이메일</label>
+                            <div class="value">${employee.email}</div>
+                        </div>
+                        <div class="info-item">
+                            <label>입사일</label>
+                            <div class="value">${new Date(employee.hireDate).toLocaleDateString('ko-KR')}</div>
+                        </div>
+                        <div class="info-item">
+                            <label>상태</label>
+                            <div class="value">
+                                <span class="badge ${isActive ? 'badge-success' : 'badge-danger'}">
+                                    ${isActive ? '재직' : '퇴사'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    ${employee.address ? `<div class="info-item" style="margin-top: 15px;">
+                        <label>주소</label>
+                        <div class="value">${employee.address}</div>
+                    </div>` : ''}
+                </div>
+
+                <div class="info-section">
+                    <h3>자격증 정보</h3>
+                    ${certificatesHtml}
+                </div>
+            `;
+
+            document.getElementById('employeeDetailContent').innerHTML = content;
             document.getElementById('employeeDetailModal').classList.add('active');
         }
 
-        function closeEmployeeDetailModal(){ document.getElementById('employeeDetailModal').classList.remove('active'); }
-
-        async function deleteEmployee(id){
-            if(!confirm('이 직원 정보를 삭제하시겠습니까?\n(연차 및 교육 데이터도 함께 삭제됩니다)')) return;
-            const eduToDelete = educations.filter(e=>e.employeeId===id);
-            await window.fbDelete('employees',    id);
-            await window.fbDelete('annualLeaves', id);
-            for(const edu of eduToDelete) await window.fbDelete('educations', edu.id);
+        function closeEmployeeDetailModal() {
+            document.getElementById('employeeDetailModal').classList.remove('active');
         }
 
-        // ══════════════════════════════════════════════════════════
-        // 연차 관리
-        // ══════════════════════════════════════════════════════════
-        function calculateAnnualLeaveForEmployee(employee){
-            const hireDate   = new Date(employee.hireDate);
-            const fiscalYear = parseInt(document.getElementById('fiscalYear').value)||new Date().getFullYear();
-            const fiscalEnd  = new Date(fiscalYear,11,31);
-            const yos        = (fiscalEnd-hireDate)/(365.25*24*60*60*1000);
-            let totalDays    = yos<1 ? 12 : Math.min(15+(yos>=3?Math.floor((yos-1)/2):0),25);
-
-            const existing = annualLeaves.find(a=>a.employeeId===employee.id);
-            if(existing){ existing.totalDays=totalDays; existing.yearsOfService=yos.toFixed(1); existing.fiscalYear=fiscalYear; }
-            else annualLeaves.push({ employeeId:employee.id, totalDays, usedDays:0, yearsOfService:yos.toFixed(1), fiscalYear, usageHistory:[] });
-        }
-
-        async function calculateAllAnnualLeave(){
-            const fy = document.getElementById('fiscalYear').value;
-            if(!fy){ alert('회계년도를 입력해주세요.'); return; }
-            if(!confirm(`${fy}년 기준으로 전체 직원의 연차를 재계산하시겠습니까?`)) return;
-            const active = employees.filter(e=>!e.resignDate||new Date(e.resignDate)>new Date());
-            for(const emp of active){
-                calculateAnnualLeaveForEmployee(emp);
-                const ld = annualLeaves.find(a=>a.employeeId===emp.id);
-                if(ld) await window.fbSet('annualLeaves', ld.employeeId, ld);
+        function deleteEmployee(id) {
+            if (confirm('이 직원 정보를 삭제하시겠습니까?\n(연차 및 교육 데이터도 함께 삭제됩니다)')) {
+                employees = employees.filter(e => e.id !== id);
+                annualLeaves = annualLeaves.filter(a => a.employeeId !== id);
+                educations = educations.filter(e => e.employeeId !== id);
+                
+                localStorage.setItem('employees', JSON.stringify(employees));
+                localStorage.setItem('annualLeaves', JSON.stringify(annualLeaves));
+                localStorage.setItem('educations', JSON.stringify(educations));
+                
+                loadEmployees();
+                loadAnnualLeave();
+                loadEducation();
+                updateDashboard();
+                updateBackupInfo();
             }
-            loadAnnualLeave(); updateBackupInfo();
-            alert(`${fy}년 회계년도 기준으로 전체 연차가 재계산되었습니다.`);
         }
 
-        function loadAnnualLeave(){
+        // 연차 관리
+        function calculateAnnualLeaveForEmployee(employee) {
+            const hireDate = new Date(employee.hireDate);
+            const fiscalYear = parseInt(document.getElementById('fiscalYear').value) || new Date().getFullYear();
+            const fiscalYearEnd = new Date(fiscalYear, 11, 31); // 회계년도 12월 31일
+            
+            // 회계년도 마지막 날 기준으로 근속 기간 계산
+            const yearsOfService = (fiscalYearEnd - hireDate) / (365.25 * 24 * 60 * 60 * 1000);
+            
+            let totalDays = 0;
+            
+            if (yearsOfService < 1) {
+                // 1년 미만: 12일 고정
+                totalDays = 12;
+            } else {
+                // 1년 이상: 기본 15일
+                totalDays = 15;
+                
+                // 가산 연차: 3년 이상부터 2년마다 1일씩 추가 (최대 25일)
+                if (yearsOfService >= 3) {
+                    const additionalDays = Math.floor((yearsOfService - 1) / 2);
+                    totalDays = Math.min(15 + additionalDays, 25);
+                }
+            }
+
+            const existingLeave = annualLeaves.find(a => a.employeeId === employee.id);
+            
+            if (existingLeave) {
+                existingLeave.totalDays = totalDays;
+                existingLeave.yearsOfService = yearsOfService.toFixed(1);
+                existingLeave.fiscalYear = fiscalYear;
+            } else {
+                annualLeaves.push({
+                    employeeId: employee.id,
+                    totalDays: totalDays,
+                    usedDays: 0,
+                    yearsOfService: yearsOfService.toFixed(1),
+                    fiscalYear: fiscalYear,
+                    usageHistory: []
+                });
+            }
+
+            localStorage.setItem('annualLeaves', JSON.stringify(annualLeaves));
+        }
+
+        function calculateAllAnnualLeave() {
+            const fiscalYear = document.getElementById('fiscalYear').value;
+            if (!fiscalYear) {
+                alert('회계년도를 입력해주세요.');
+                return;
+            }
+            
+            if (confirm(`${fiscalYear}년 회계년도 기준으로 \n전체 직원의 연차를 재계산하시겠습니까?`)) {
+                employees.forEach(employee => {
+                    const isActive = !employee.resignDate || new Date(employee.resignDate) > new Date();
+                    if (isActive) {
+                        calculateAnnualLeaveForEmployee(employee);
+                    }
+                });
+                loadAnnualLeave();
+                updateBackupInfo();
+                alert(`${fiscalYear}년 회계년도 기준으로 \n전체 연차가 재계산되었습니다.`);
+            }
+        }
+
+        function loadAnnualLeave() {
             const tbody = document.getElementById('annualLeaveTableBody');
-            const active = employees.filter(e=>!e.resignDate||new Date(e.resignDate)>new Date());
-            if(!active.length){ tbody.innerHTML='<tr><td colspan="7" class="no-data">재직 중인 직원이 없습니다.</td></tr>'; return; }
-            tbody.innerHTML = active.map(emp=>{
-                let leave = annualLeaves.find(a=>a.employeeId===emp.id);
-                if(!leave){ calculateAnnualLeaveForEmployee(emp); leave=annualLeaves.find(a=>a.employeeId===emp.id); }
-                const rem = leave.totalDays-leave.usedDays;
-                return `<tr>
-                    <td>${emp.name}</td>
-                    <td>${new Date(emp.hireDate).toLocaleDateString('ko-KR')}</td>
-                    <td>${leave.yearsOfService}년</td>
-                    <td>${leave.totalDays}일</td>
-                    <td>${leave.usedDays}일</td>
-                    <td><span class="badge ${rem>5?'badge-success':rem>0?'badge-warning':'badge-danger'}">${rem}일</span></td>
-                    <td><div class="action-buttons">
-                        <button class="btn btn-primary btn-small" onclick="openAnnualLeaveModal(${emp.id})">연차사용</button>
-                        <button class="btn btn-info btn-small" onclick="showAnnualLeaveHistory(${emp.id})">사용내역</button>
-                    </div></td></tr>`;
+            
+            const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+            
+            if (activeEmployees.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="no-data">재직 중인 직원이 없습니다.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = activeEmployees.map(employee => {
+                let leave = annualLeaves.find(a => a.employeeId === employee.id);
+                
+                if (!leave) {
+                    calculateAnnualLeaveForEmployee(employee);
+                    leave = annualLeaves.find(a => a.employeeId === employee.id);
+                }
+
+                const remaining = leave.totalDays - leave.usedDays;
+
+                return `
+                    <tr>
+                        <td>${employee.name}</td>
+                        <td>${new Date(employee.hireDate).toLocaleDateString('ko-KR')}</td>
+                        <td>${leave.yearsOfService}년</td>
+                        <td>${leave.totalDays}일</td>
+                        <td>${leave.usedDays}일</td>
+                        <td>
+                            <span class="badge ${remaining > 5 ? 'badge-success' : remaining > 0 ? 'badge-warning' : 'badge-danger'}">
+                                ${remaining}일
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-small" onclick="openAnnualLeaveModal(${employee.id})">연차사용</button>
+                                <button class="btn btn-info btn-small" onclick="showAnnualLeaveHistory(${employee.id})">사용내역</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
             }).join('');
         }
 
-        function openAnnualLeaveModal(empId){
-            const emp   = employees.find(e=>e.id===empId);
-            const leave = annualLeaves.find(a=>a.employeeId===empId);
-            document.getElementById('leaveEmployeeId').value    = empId;
-            document.getElementById('leaveEmployeeName').value  = emp.name;
-            document.getElementById('leaveTotalDays').textContent    = leave.totalDays;
-            document.getElementById('leaveUsedDays').textContent     = leave.usedDays;
-            document.getElementById('leaveRemainingDays').textContent= leave.totalDays-leave.usedDays;
+        function openAnnualLeaveModal(employeeId) {
+            const employee = employees.find(e => e.id === employeeId);
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+
+            document.getElementById('leaveEmployeeId').value = employeeId;
+            document.getElementById('leaveEmployeeName').value = employee.name;
+            document.getElementById('leaveTotalDays').textContent = leave.totalDays;
+            document.getElementById('leaveUsedDays').textContent = leave.usedDays;
+            document.getElementById('leaveRemainingDays').textContent = leave.totalDays - leave.usedDays;
+
             document.getElementById('annualLeaveModal').classList.add('active');
         }
 
-        function closeAnnualLeaveModal(){
+        function closeAnnualLeaveModal() {
             document.getElementById('annualLeaveModal').classList.remove('active');
             document.querySelector('#annualLeaveModal form').reset();
         }
 
-        async function saveAnnualLeaveUsage(event){
+        function saveAnnualLeaveUsage(event) {
             event.preventDefault();
-            const empId    = parseInt(document.getElementById('leaveEmployeeId').value);
-            const days     = parseFloat(document.getElementById('leaveUsageDays').value);
-            const date     = document.getElementById('leaveUsageDate').value;
-            const reason   = document.getElementById('leaveUsageReason').value;
-            const leave    = annualLeaves.find(a=>a.employeeId===empId);
-            const remaining= leave.totalDays-leave.usedDays;
-            if(days>remaining){ alert(`사용 가능한 연차가 부족합니다. (잔여: ${remaining}일)`); return; }
-            leave.usedDays += days;
-            leave.usageHistory = leave.usageHistory||[];
-            leave.usageHistory.push({ date, days, reason, recordDate:new Date().toISOString() });
-            await window.fbSet('annualLeaves', leave.employeeId, leave);
+
+            const employeeId = parseInt(document.getElementById('leaveEmployeeId').value);
+            const usageDays = parseFloat(document.getElementById('leaveUsageDays').value);
+            const usageDate = document.getElementById('leaveUsageDate').value;
+            const reason = document.getElementById('leaveUsageReason').value;
+
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+            const remaining = leave.totalDays - leave.usedDays;
+
+            if (usageDays > remaining) {
+                alert(`사용 가능한 연차가 부족합니다. (잔여: ${remaining}일)`);
+                return;
+            }
+
+            leave.usedDays += usageDays;
+            leave.usageHistory = leave.usageHistory || [];
+            leave.usageHistory.push({
+                date: usageDate,
+                days: usageDays,
+                reason: reason,
+                recordDate: new Date().toISOString()
+            });
+
+            localStorage.setItem('annualLeaves', JSON.stringify(annualLeaves));
+
             closeAnnualLeaveModal();
+            loadAnnualLeave();
+            updateBackupInfo();
             alert('연차 사용이 등록되었습니다.');
         }
 
-        function showAnnualLeaveHistory(empId){
-            const emp   = employees.find(e=>e.id===empId);
-            const leave = annualLeaves.find(a=>a.employeeId===empId);
-            let html='<p class="no-data">연차 사용내역이 없습니다.</p>';
-            if(leave.usageHistory&&leave.usageHistory.length){
-                const sorted=[...leave.usageHistory].sort((a,b)=>new Date(b.date)-new Date(a.date));
-                html=`<div class="info-section"><h3>${emp.name} - 연차 현황</h3><div class="info-grid">
-                    <div class="info-item"><label>총 연차</label><div class="value">${leave.totalDays}일</div></div>
-                    <div class="info-item"><label>사용 연차</label><div class="value">${leave.usedDays}일</div></div>
-                    <div class="info-item"><label>잔여 연차</label><div class="value" style="color:#27ae60;">${leave.totalDays-leave.usedDays}일</div></div>
-                </div></div>
-                <div class="info-section"><h3>사용 내역</h3><div class="annual-leave-history">
-                ${sorted.map((h,i)=>`
-                    <div class="history-item">
-                        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                            <div><div class="date">📅 ${new Date(h.date).toLocaleDateString('ko-KR')}</div>
-                                <div style="margin-top:5px;"><span class="days">${h.days}일 사용</span>
-                                    ${h.reason?`<span style="color:#7f8c8d;margin-left:10px;">- ${h.reason}</span>`:''}
-                                </div>
-                                <div style="margin-top:5px;font-size:.85em;color:#95a5a6;">등록일: ${new Date(h.recordDate).toLocaleDateString('ko-KR')}</div>
+        function showAnnualLeaveHistory(employeeId) {
+            const employee = employees.find(e => e.id === employeeId);
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+
+            let historyHtml = '<p class="no-data">연차 사용내역이 없습니다.</p>';
+            
+            if (leave.usageHistory && leave.usageHistory.length > 0) {
+                const sortedHistory = leave.usageHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                historyHtml = `
+                    <div class="info-section">
+                        <h3>${employee.name} - 연차 현황</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>총 연차</label>
+                                <div class="value">${leave.totalDays}일</div>
                             </div>
-                            <div style="display:flex;gap:5px;">
-                                <button class="btn" style="padding:5px 10px;font-size:.85em;background:#3498db;color:white;" onclick="editLeaveHistory(${empId},${i})">수정</button>
-                                <button class="btn" style="padding:5px 10px;font-size:.85em;background:#e74c3c;color:white;" onclick="deleteLeaveHistory(${empId},${i})">삭제</button>
+                            <div class="info-item">
+                                <label>사용 연차</label>
+                                <div class="value">${leave.usedDays}일</div>
+                            </div>
+                            <div class="info-item">
+                                <label>잔여 연차</label>
+                                <div class="value" style="color: #27ae60;">${leave.totalDays - leave.usedDays}일</div>
                             </div>
                         </div>
-                    </div>`).join('')}
-                </div></div>`;
+                    </div>
+                    <div class="info-section">
+                        <h3>사용 내역</h3>
+                        <div class="annual-leave-history">
+                            ${sortedHistory.map((h, index) => `
+                                <div class="history-item">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                        <div style="flex: 1;">
+                                            <div class="date">📅 ${new Date(h.date).toLocaleDateString('ko-KR')}</div>
+                                            <div style="margin-top: 5px;">
+                                                <span class="days">${h.days}일 사용</span>
+                                                ${h.reason ? `<span style="color: #7f8c8d; margin-left: 10px;">- ${h.reason}</span>` : ''}
+                                            </div>
+                                            <div style="margin-top: 5px; font-size: 0.85em; color: #95a5a6;">
+                                                등록일: ${new Date(h.recordDate).toLocaleDateString('ko-KR')}
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; gap: 5px;">
+                                            <button class="btn btn-sm" style="padding: 5px 10px; font-size: 0.85em; background: #3498db; color: white;" 
+                                                    onclick="editLeaveHistory('${employeeId}', ${index})">수정</button>
+                                            <button class="btn btn-sm" style="padding: 5px 10px; font-size: 0.85em; background: #e74c3c; color: white;" 
+                                                    onclick="deleteLeaveHistory('${employeeId}', ${index})">삭제</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
             }
-            document.getElementById('annualLeaveHistoryContent').innerHTML=html;
+
+            document.getElementById('annualLeaveHistoryContent').innerHTML = historyHtml;
             document.getElementById('annualLeaveHistoryModal').classList.add('active');
         }
 
-        function closeAnnualLeaveHistoryModal(){ document.getElementById('annualLeaveHistoryModal').classList.remove('active'); }
+        function closeAnnualLeaveHistoryModal() {
+            document.getElementById('annualLeaveHistoryModal').classList.remove('active');
+        }
 
-        async function deleteLeaveHistory(empId, idx){
-            if(!confirm('이 연차 사용 내역을 삭제하시겠습니까?')) return;
-            const leave = annualLeaves.find(a=>a.employeeId===empId);
-            const sorted= [...leave.usageHistory].sort((a,b)=>new Date(b.date)-new Date(a.date));
-            const target= sorted[idx];
-            const realIdx= leave.usageHistory.indexOf(target);
-            leave.usedDays -= target.days;
-            leave.usageHistory.splice(realIdx,1);
-            await window.fbSet('annualLeaves', leave.employeeId, leave);
-            showAnnualLeaveHistory(empId);
+        // 연차 사용 내역 삭제
+        function deleteLeaveHistory(employeeId, historyIndex) {
+            if (!confirm('이 연차 사용 내역을 삭제하시겠습니까?')) {
+                return;
+            }
+            
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+            if (!leave || !leave.usageHistory || !leave.usageHistory[historyIndex]) {
+                alert('삭제할 내역을 찾을 수 없습니다.');
+                return;
+            }
+            
+            const deletedHistory = leave.usageHistory[historyIndex];
+            
+            // 사용일수 복구
+            leave.usedDays -= deletedHistory.days;
+            
+            // 내역에서 제거
+            leave.usageHistory.splice(historyIndex, 1);
+            
+            // 저장
+            localStorage.setItem('annualLeaves', JSON.stringify(annualLeaves));
+            
+            // 화면 새로고침
+            loadAnnualLeave();
+            updateBackupInfo();
+            
+            // 모달 다시 열기
+            showAnnualLeaveHistory(employeeId);
+            
             alert('연차 사용 내역이 삭제되었습니다.');
         }
 
-        async function editLeaveHistory(empId, idx){
-            const leave  = annualLeaves.find(a=>a.employeeId===empId);
-            const sorted = [...leave.usageHistory].sort((a,b)=>new Date(b.date)-new Date(a.date));
-            const target = sorted[idx];
-            const realIdx= leave.usageHistory.indexOf(target);
-            const newDate = prompt('사용 날짜를 입력하세요 (YYYY-MM-DD):', target.date);
-            if(!newDate) return;
-            if(!/^\d{4}-\d{2}-\d{2}$/.test(newDate)){ alert('올바른 날짜 형식이 아닙니다.'); return; }
-            const newDays = parseFloat(prompt('사용 일수를 입력하세요:', target.days));
-            if(isNaN(newDays)||newDays<=0){ alert('올바른 일수를 입력하세요.'); return; }
-            const newReason = prompt('사용 사유를 입력하세요:', target.reason||'');
-            const curUsed = leave.usedDays - target.days;
-            if(curUsed+newDays > leave.totalDays){ alert(`잔여 연차가 부족합니다.`); return; }
-            leave.usedDays = curUsed + newDays;
-            leave.usageHistory[realIdx] = { ...target, date:newDate, days:newDays, reason:newReason, modifiedDate:new Date().toISOString() };
-            await window.fbSet('annualLeaves', leave.employeeId, leave);
-            showAnnualLeaveHistory(empId);
+        // 연차 사용 내역 수정
+        function editLeaveHistory(employeeId, historyIndex) {
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+            if (!leave || !leave.usageHistory || !leave.usageHistory[historyIndex]) {
+                alert('수정할 내역을 찾을 수 없습니다.');
+                return;
+            }
+            
+            const history = leave.usageHistory[historyIndex];
+            
+            // 새로운 값 입력 받기
+            const newDate = prompt('사용 날짜를 입력하세요 (YYYY-MM-DD):', history.date);
+            if (!newDate) return;
+            
+            // 날짜 형식 검증
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate)) {
+                alert('올바른 날짜 형식이 아닙니다. (YYYY-MM-DD)');
+                return;
+            }
+            
+            const newDays = prompt('사용 일수를 입력하세요:', history.days);
+            if (!newDays) return;
+            
+            const newDaysNum = parseFloat(newDays);
+            if (isNaN(newDaysNum) || newDaysNum <= 0) {
+                alert('올바른 일수를 입력하세요.');
+                return;
+            }
+            
+            const newReason = prompt('사용 사유를 입력하세요:', history.reason || '');
+            
+            // 잔여 연차 확인 (기존 사용일수는 빼고 계산)
+            const currentUsed = leave.usedDays - history.days;
+            const newTotal = currentUsed + newDaysNum;
+            
+            if (newTotal > leave.totalDays) {
+                alert(`잔여 연차가 부족합니다.\n총 연차: ${leave.totalDays}일\n현재 사용: ${currentUsed}일\n잔여: ${leave.totalDays - currentUsed}일`);
+                return;
+            }
+            
+            // 사용일수 조정
+            leave.usedDays = leave.usedDays - history.days + newDaysNum;
+            
+            // 내역 수정
+            history.date = newDate;
+            history.days = newDaysNum;
+            history.reason = newReason;
+            history.modifiedDate = new Date().toISOString();
+            
+            // 저장
+            localStorage.setItem('annualLeaves', JSON.stringify(annualLeaves));
+            
+            // 화면 새로고침
+            loadAnnualLeave();
+            updateBackupInfo();
+            
+            // 모달 다시 열기
+            showAnnualLeaveHistory(employeeId);
+            
             alert('연차 사용 내역이 수정되었습니다.');
         }
 
-        // 일괄연차
-        function openBulkLeaveModal(){
-            if(!employees.filter(e=>!e.resignDate||new Date(e.resignDate)>new Date()).length){ alert('재직 중인 직원이 없습니다.'); return; }
+        // 직원 일괄연차
+        function openBulkLeaveModal() {
+            const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+            
+            if (activeEmployees.length === 0) {
+                alert('재직 중인 직원이 없습니다.');
+                return;
+            }
+            
             document.getElementById('bulkLeaveModal').classList.add('active');
             updateBulkLeavePreview();
         }
-        function closeBulkLeaveModal(){
+
+        function closeBulkLeaveModal() {
             document.getElementById('bulkLeaveModal').classList.remove('active');
             document.querySelector('#bulkLeaveModal form').reset();
-            document.getElementById('bulkLeavePreview').innerHTML='';
-        }
-        function updateBulkLeavePreview(){
-            const days=parseFloat(document.getElementById('bulkLeaveDays').value)||0;
-            const active=employees.filter(e=>!e.resignDate||new Date(e.resignDate)>new Date());
-            if(days<=0){ document.getElementById('bulkLeavePreview').innerHTML=''; return; }
-            let ok=0, skip=0, skipList=[];
-            active.forEach(emp=>{ const l=annualLeaves.find(a=>a.employeeId===emp.id); if(l){ const r=l.totalDays-l.usedDays; r>=days?ok++:(skip++,skipList.push(`${emp.name}(잔여:${r}일)`)); } });
-            document.getElementById('bulkLeavePreview').innerHTML=`
-                <div class="info-section"><h3>적용 대상 미리보기</h3><div class="info-grid">
-                    <div class="info-item"><label>적용 대상</label><div class="value" style="color:#27ae60;">${ok}명</div></div>
-                    <div class="info-item"><label>제외 대상</label><div class="value" style="color:#e74c3c;">${skip}명</div></div>
-                    <div class="info-item"><label>사용 일수</label><div class="value">${days}일</div></div>
-                </div>${skip?`<div style="margin-top:15px;padding:10px;background:#f8d7da;border-radius:5px;border-left:3px solid #e74c3c;">
-                    <strong>제외되는 직원:</strong><br><span style="color:#721c24;font-size:.9em;">${skipList.join(', ')}</span></div>`:''}
-                </div>`;
-        }
-        document.addEventListener('DOMContentLoaded',()=>{
-            document.getElementById('bulkLeaveDays')?.addEventListener('input', updateBulkLeavePreview);
-        });
-        async function saveBulkLeave(event){
-            event.preventDefault();
-            const days  = parseFloat(document.getElementById('bulkLeaveDays').value);
-            const date  = document.getElementById('bulkLeaveDate').value;
-            const reason= document.getElementById('bulkLeaveReason').value;
-            if(!days||days<=0){ alert('사용 일수를 입력해주세요.'); return; }
-            if(!date){ alert('사용 날짜를 선택해주세요.'); return; }
-            const active=employees.filter(e=>!e.resignDate||new Date(e.resignDate)>new Date());
-            let ok=0, skip=0, skipNames=[];
-            for(const emp of active){
-                const leave=annualLeaves.find(a=>a.employeeId===emp.id);
-                if(leave){ const r=leave.totalDays-leave.usedDays;
-                    if(r>=days){
-                        leave.usedDays+=days; leave.usageHistory=leave.usageHistory||[];
-                        leave.usageHistory.push({ date, days, reason:reason||'일괄 연차 사용', recordDate:new Date().toISOString(), isBulk:true });
-                        await window.fbSet('annualLeaves', leave.employeeId, leave); ok++;
-                    } else { skip++; skipNames.push(emp.name); }
-                }
-            }
-            closeBulkLeaveModal();
-            alert(`✅ 일괄연차가 적용되었습니다.\n적용: ${ok}명${skip?`\n⚠️ 제외: ${skip}명 (${skipNames.join(', ')})`:''}`);
+            document.getElementById('bulkLeavePreview').innerHTML = '';
         }
 
-        // ══════════════════════════════════════════════════════════
-        // 직무교육
-        // ══════════════════════════════════════════════════════════
-        function loadEducation(){
+        function updateBulkLeavePreview() {
+            const days = parseFloat(document.getElementById('bulkLeaveDays').value) || 0;
+            const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+            
+            if (days <= 0) {
+                document.getElementById('bulkLeavePreview').innerHTML = '';
+                return;
+            }
+            
+            let applicableCount = 0;
+            let skippedCount = 0;
+            let skippedList = [];
+            
+            activeEmployees.forEach(employee => {
+                const leave = annualLeaves.find(a => a.employeeId === employee.id);
+                if (leave) {
+                    const remaining = leave.totalDays - leave.usedDays;
+                    if (remaining >= days) {
+                        applicableCount++;
+                    } else {
+                        skippedCount++;
+                        skippedList.push(`${employee.name} (잔여: ${remaining}일)`);
+                    }
+                }
+            });
+            
+            let previewHtml = `
+                <div class="info-section">
+                    <h3>적용 대상 미리보기</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>적용 대상</label>
+                            <div class="value" style="color: #27ae60;">${applicableCount}명</div>
+                        </div>
+                        <div class="info-item">
+                            <label>제외 대상</label>
+                            <div class="value" style="color: #e74c3c;">${skippedCount}명</div>
+                        </div>
+                        <div class="info-item">
+                            <label>사용 일수</label>
+                            <div class="value">${days}일</div>
+                        </div>
+                    </div>
+                    ${skippedCount > 0 ? `
+                        <div style="margin-top: 15px; padding: 10px; background: #f8d7da; border-radius: 5px; border-left: 3px solid #e74c3c;">
+                            <strong>제외되는 직원:</strong><br>
+                            <span style="color: #721c24; font-size: 0.9em;">${skippedList.join(', ')}</span>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            document.getElementById('bulkLeavePreview').innerHTML = previewHtml;
+        }
+
+        // 일수 입력 시 미리보기 업데이트
+        document.addEventListener('DOMContentLoaded', function() {
+            const bulkLeaveDaysInput = document.getElementById('bulkLeaveDays');
+            if (bulkLeaveDaysInput) {
+                bulkLeaveDaysInput.addEventListener('input', updateBulkLeavePreview);
+            }
+        });
+
+        function saveBulkLeave(event) {
+            event.preventDefault();
+            
+            const days = parseFloat(document.getElementById('bulkLeaveDays').value);
+            const date = document.getElementById('bulkLeaveDate').value;
+            const reason = document.getElementById('bulkLeaveReason').value;
+            
+            if (!days || days <= 0) {
+                alert('사용 일수를 입력해주세요.');
+                return;
+            }
+            
+            if (!date) {
+                alert('사용 날짜를 선택해주세요.');
+                return;
+            }
+            
+            const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+            let successCount = 0;
+            let skippedCount = 0;
+            let skippedNames = [];
+            
+            activeEmployees.forEach(employee => {
+                const leave = annualLeaves.find(a => a.employeeId === employee.id);
+                if (leave) {
+                    const remaining = leave.totalDays - leave.usedDays;
+                    
+                    if (remaining >= days) {
+                        leave.usedDays += days;
+                        leave.usageHistory = leave.usageHistory || [];
+                        leave.usageHistory.push({
+                            date: date,
+                            days: days,
+                            reason: reason || '일괄 연차 사용',
+                            recordDate: new Date().toISOString(),
+                            isBulk: true
+                        });
+                        successCount++;
+                    } else {
+                        skippedCount++;
+                        skippedNames.push(employee.name);
+                    }
+                }
+            });
+            
+            localStorage.setItem('annualLeaves', JSON.stringify(annualLeaves));
+            
+            closeBulkLeaveModal();
+            loadAnnualLeave();
+            updateBackupInfo();
+            
+            let message = `✅ 일괄연차가 적용되었습니다.\n\n`;
+            message += `적용 직원: ${successCount}명\n`;
+            message += `사용 일수: ${days}일\n`;
+            
+            if (skippedCount > 0) {
+                message += `\n⚠️ 제외된 직원: ${skippedCount}명\n`;
+                message += `(잔여 연차 부족: ${skippedNames.join(', ')})`;
+            }
+            
+            alert(message);
+        }
+
+        // 교육 관리
+        function loadEducation() {
             const tbody = document.getElementById('educationTableBody');
-            if(!educations.length){ tbody.innerHTML='<tr><td colspan="7" class="no-data">등록된 교육 일정이 없습니다.</td></tr>'; return; }
-            const sorted=[...educations].sort((a,b)=>new Date(a.educationDate)-new Date(b.educationDate));
-            tbody.innerHTML=sorted.map(edu=>{
-                const diff=Math.ceil((new Date(edu.educationDate)-new Date())/(1000*60*60*24));
-                let dday='', ddayClass='', status='', statusClass='';
-                if(diff<0){dday='완료';ddayClass='badge-secondary';status='완료';statusClass='badge-secondary';}
-                else if(diff===0){dday='D-Day';ddayClass='badge-danger';status='당일';statusClass='badge-danger';}
-                else if(diff<=30){dday=`D-${diff}`;ddayClass='badge-warning';status='임박';statusClass='badge-warning';}
-                else if(diff<=180){dday=`D-${diff}`;ddayClass='badge-info';status='예정';statusClass='badge-info';}
-                else{dday=`D-${diff}`;ddayClass='badge-secondary';status='예정';statusClass='badge-secondary';}
-                return `<tr>
-                    <td>${edu.employeeName}</td>
-                    <td>${edu.certificate||'-'}</td>
-                    <td>${edu.certificateDate?new Date(edu.certificateDate).toLocaleDateString('ko-KR'):'-'}</td>
-                    <td><span class="badge badge-info">${edu.type}</span></td>
-                    <td>${new Date(edu.educationDate).toLocaleDateString('ko-KR')}</td>
-                    <td><span class="badge ${ddayClass}">${dday}</span></td>
-                    <td><span class="badge ${statusClass}">${status}</span></td></tr>`;
+
+            if (educations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="no-data">등록된 교육 일정이 없습니다.</td></tr>';
+                return;
+            }
+
+            const sortedEducations = educations.sort((a, b) => new Date(a.educationDate) - new Date(b.educationDate));
+
+            tbody.innerHTML = sortedEducations.map(edu => {
+                const eduDate = new Date(edu.educationDate);
+                const today = new Date();
+                const diffTime = eduDate - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                let dDayText = '';
+                let dDayClass = '';
+                let statusText = '';
+                let statusClass = '';
+                
+                if (diffDays < 0) {
+                    dDayText = '완료';
+                    dDayClass = 'badge-secondary';
+                    statusText = '완료';
+                    statusClass = 'badge-secondary';
+                } else if (diffDays === 0) {
+                    dDayText = 'D-Day';
+                    dDayClass = 'badge-danger';
+                    statusText = '당일';
+                    statusClass = 'badge-danger';
+                } else if (diffDays <= 30) {
+                    dDayText = `D-${diffDays}`;
+                    dDayClass = 'badge-warning';
+                    statusText = '임박';
+                    statusClass = 'badge-warning';
+                } else if (diffDays <= 180) {
+                    dDayText = `D-${diffDays}`;
+                    dDayClass = 'badge-info';
+                    statusText = '예정';
+                    statusClass = 'badge-info';
+                } else {
+                    dDayText = `D-${diffDays}`;
+                    dDayClass = 'badge-secondary';
+                    statusText = '예정';
+                    statusClass = 'badge-secondary';
+                }
+
+                return `
+                    <tr>
+                        <td>${edu.employeeName}</td>
+                        <td>${edu.certificate || '-'}</td>
+                        <td>${edu.certificateDate ? new Date(edu.certificateDate).toLocaleDateString('ko-KR') : '-'}</td>
+                        <td><span class="badge badge-info">${edu.type}</span></td>
+                        <td>${new Date(edu.educationDate).toLocaleDateString('ko-KR')}</td>
+                        <td><span class="badge ${dDayClass}">${dDayText}</span></td>
+                        <td><span class="badge ${statusClass}">${statusText}</span></td>
+                    </tr>
+                `;
             }).join('');
         }
+
+        // ===================================================
+        // ===== 인증 시스템 (회원가입 / 로그인 / 관리자) =====
+        // ===================================================
+
+        // 사용자 데이터 로드
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('sys_users')) || [];
+        }
+        function saveUsers(users) {
+            localStorage.setItem('sys_users', JSON.stringify(users));
+        }
+        function getCurrentUser() {
+            const s = sessionStorage.getItem('currentUser');
+            return s ? JSON.parse(s) : null;
+        }
+
+        // 기본 관리자 계정 초기화
+        function initAdmin() {
+            const users = getUsers();
+            if (!users.find(u => u.role === 'admin')) {
+                users.push({
+                    id: 'admin',
+                    pw: 'admin1234',
+                    name: '관리자',
+                    role: 'admin',
+                    status: 'approved',
+                    createdAt: new Date().toISOString()
+                });
+                saveUsers(users);
+            }
+        }
+
+        // 탭 전환
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab-btn').forEach((b, i) => {
+                b.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register'));
+            });
+            document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+            document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+        }
+
+        // 로그인
+        function doLogin() {
+            const id = document.getElementById('loginId').value.trim();
+            const pw = document.getElementById('loginPw').value;
+            const errEl = document.getElementById('loginError');
+
+            if (!id || !pw) {
+                errEl.textContent = '아이디와 비밀번호를 입력하세요.';
+                errEl.classList.add('visible');
+                return;
+            }
+
+            const users = getUsers();
+            const user = users.find(u => u.id === id && u.pw === pw);
+
+            if (!user) {
+                errEl.textContent = '아이디 또는 비밀번호가 일치하지 않습니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+
+            if (user.status === 'pending') {
+                errEl.textContent = '관리자 승인 대기 중입니다. 잠시 후 다시 시도하세요.';
+                errEl.classList.add('visible');
+                return;
+            }
+
+            if (user.status === 'rejected') {
+                errEl.textContent = '가입이 거절되었습니다. 관리자에게 문의하세요.';
+                errEl.classList.add('visible');
+                return;
+            }
+
+            // 로그인 성공
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            document.getElementById('authOverlay').classList.remove('active');
+            onLoginSuccess(user);
+        }
+
+        // 회원가입
+        function doRegister() {
+            const name = document.getElementById('regName').value.trim();
+            const id = document.getElementById('regId').value.trim();
+            const pw = document.getElementById('regPw').value;
+            const pw2 = document.getElementById('regPw2').value;
+            const errEl = document.getElementById('registerError');
+            const sucEl = document.getElementById('registerSuccess');
+
+            errEl.classList.remove('visible');
+            sucEl.classList.remove('visible');
+
+            if (!name || !id || !pw || !pw2) {
+                errEl.textContent = '모든 항목을 입력하세요.';
+                errEl.classList.add('visible');
+                return;
+            }
+            if (id.length < 4) {
+                errEl.textContent = '아이디는 4자 이상이어야 합니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+            if (pw.length < 6) {
+                errEl.textContent = '비밀번호는 6자 이상이어야 합니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+            if (pw !== pw2) {
+                errEl.textContent = '비밀번호가 일치하지 않습니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+
+            const users = getUsers();
+            if (users.find(u => u.id === id)) {
+                errEl.textContent = '이미 사용 중인 아이디입니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+
+            users.push({
+                id: id,
+                pw: pw,
+                name: name,
+                role: 'user',
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            });
+            saveUsers(users);
+
+            sucEl.textContent = '✅ 회원가입 신청이 완료되었습니다! 관리자 승인 후 로그인할 수 있습니다.';
+            sucEl.classList.add('visible');
+            document.getElementById('regName').value = '';
+            document.getElementById('regId').value = '';
+            document.getElementById('regPw').value = '';
+            document.getElementById('regPw2').value = '';
+        }
+
+        // 로그아웃
+        function doLogout() {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                sessionStorage.removeItem('currentUser');
+                location.reload();
+            }
+        }
+
+        // 로그인 성공 후 처리
+        function onLoginSuccess(user) {
+            document.getElementById('headerUserName').textContent = user.name;
+            const badge = document.getElementById('headerUserBadge');
+            badge.textContent = user.role === 'admin' ? '관리자' : '일반';
+            badge.className = 'user-badge' + (user.role === 'admin' ? ' admin' : '');
+
+            // 관리자 탭 표시
+            if (user.role === 'admin') {
+                document.getElementById('adminTab').style.display = '';
+                document.getElementById('annualLeaveTab').textContent = '📅 연차관리';
+                loadAdminPanel();
+            }
+        }
+
+        // 연차관리 탭 클릭 처리 (관리자만)
+        function showAnnualLeaveTab() {
+            const user = getCurrentUser();
+            if (!user || user.role !== 'admin') {
+                alert('🔒 연차관리는 관리자만 사용할 수 있습니다.');
+                return;
+            }
+            showTab('annual-leave');
+        }
+
+        // 관리자 패널 로드
+        function loadAdminPanel() {
+            const users = getUsers();
+            const pending = users.filter(u => u.status === 'pending');
+            const pendingEl = document.getElementById('pendingUsersList');
+
+            if (pending.length === 0) {
+                pendingEl.innerHTML = '<p style="color:#856404; font-style:italic;">대기 중인 회원이 없습니다.</p>';
+            } else {
+                pendingEl.innerHTML = pending.map(u => `
+                    <div class="pending-user-item">
+                        <div class="user-detail">
+                            <strong>${u.name}</strong>
+                            <span>(${u.id})</span>
+                            <span style="font-size:0.8em; color:#aaa;">${new Date(u.createdAt).toLocaleDateString('ko-KR')} 신청</span>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn btn-success btn-small" onclick="approveUser('${u.id}')">승인</button>
+                            <button class="btn btn-danger btn-small" onclick="rejectUser('${u.id}')">거절</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 전체 회원 목록
+            const allEl = document.getElementById('allUsersList');
+            const all = users.filter(u => u.role !== 'admin');
+            if (all.length === 0) {
+                allEl.innerHTML = '<p style="color:#7f8c8d; font-style:italic;">등록된 회원이 없습니다.</p>';
+            } else {
+                allEl.innerHTML = `<table style="width:100%; border-collapse:collapse; font-size:0.9em;">
+                    <thead style="background:#34495e; color:white;">
+                        <tr>
+                            <th style="padding:10px 12px; text-align:left;">이름</th>
+                            <th style="padding:10px 12px; text-align:left;">아이디</th>
+                            <th style="padding:10px 12px; text-align:left;">상태</th>
+                            <th style="padding:10px 12px; text-align:left;">가입일</th>
+                            <th style="padding:10px 12px; text-align:left;">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${all.map(u => `
+                            <tr style="border-bottom:1px solid #ecf0f1;">
+                                <td style="padding:10px 12px;">${u.name}</td>
+                                <td style="padding:10px 12px;">${u.id}</td>
+                                <td style="padding:10px 12px;">
+                                    <span class="badge ${u.status === 'approved' ? 'badge-success' : u.status === 'pending' ? 'badge-warning' : 'badge-danger'}">
+                                        ${u.status === 'approved' ? '승인됨' : u.status === 'pending' ? '대기중' : '거절됨'}
+                                    </span>
+                                </td>
+                                <td style="padding:10px 12px; color:#7f8c8d;">${new Date(u.createdAt).toLocaleDateString('ko-KR')}</td>
+                                <td style="padding:10px 12px;">
+                                    ${u.status !== 'approved' ? `<button class="btn btn-success btn-small" onclick="approveUser('${u.id}')">승인</button>` : ''}
+                                    <button class="btn btn-danger btn-small" style="margin-left:4px;" onclick="deleteUser('${u.id}')">삭제</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+            }
+        }
+
+        function approveUser(userId) {
+            const users = getUsers();
+            const u = users.find(u => u.id === userId);
+            if (u) {
+                u.status = 'approved';
+                saveUsers(users);
+                loadAdminPanel();
+                alert(`✅ ${u.name}(${u.id}) 회원이 승인되었습니다.`);
+            }
+        }
+
+        function rejectUser(userId) {
+            const users = getUsers();
+            const u = users.find(u => u.id === userId);
+            if (u && confirm(`${u.name}(${u.id}) 회원 가입을 거절하시겠습니까?`)) {
+                u.status = 'rejected';
+                saveUsers(users);
+                loadAdminPanel();
+            }
+        }
+
+        function deleteUser(userId) {
+            const users = getUsers();
+            const u = users.find(u => u.id === userId);
+            if (u && confirm(`${u.name}(${u.id}) 회원을 삭제하시겠습니까?`)) {
+                const filtered = users.filter(u => u.id !== userId);
+                saveUsers(filtered);
+                loadAdminPanel();
+            }
+        }
+
+        // 관리자 계정 업데이트
+        function updateAdminAccount() {
+            const newId = document.getElementById('newAdminId').value.trim();
+            const curPw = document.getElementById('currentAdminPw').value;
+            const newPw = document.getElementById('newAdminPw').value;
+            const newPw2 = document.getElementById('newAdminPw2').value;
+
+            const currentUser = getCurrentUser();
+            const users = getUsers();
+            const admin = users.find(u => u.id === currentUser.id && u.role === 'admin');
+
+            if (!admin) {
+                alert('관리자 계정을 찾을 수 없습니다.');
+                return;
+            }
+
+            if (!curPw) {
+                alert('현재 비밀번호를 입력하세요.');
+                return;
+            }
+
+            if (admin.pw !== curPw) {
+                alert('현재 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            if (newId && newId.length < 4) {
+                alert('아이디는 4자 이상이어야 합니다.');
+                return;
+            }
+
+            if (newPw && newPw.length < 6) {
+                alert('새 비밀번호는 6자 이상이어야 합니다.');
+                return;
+            }
+
+            if (newPw && newPw !== newPw2) {
+                alert('새 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            // 아이디 중복 확인
+            if (newId && newId !== admin.id && users.find(u => u.id === newId)) {
+                alert('이미 사용 중인 아이디입니다.');
+                return;
+            }
+
+            const oldId = admin.id;
+            if (newId) admin.id = newId;
+            if (newPw) admin.pw = newPw;
+            saveUsers(users);
+
+            // 세션 업데이트
+            sessionStorage.setItem('currentUser', JSON.stringify(admin));
+            document.getElementById('headerUserName').textContent = admin.name;
+
+            document.getElementById('newAdminId').value = '';
+            document.getElementById('currentAdminPw').value = '';
+            document.getElementById('newAdminPw').value = '';
+            document.getElementById('newAdminPw2').value = '';
+
+            alert(`✅ 관리자 계정이 업데이트되었습니다.\n아이디: ${admin.id}`);
+        }
+
+        // 페이지 로드 시 인증 확인
+        document.addEventListener('DOMContentLoaded', function() {
+            initAdmin();
+
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                document.getElementById('authOverlay').classList.remove('active');
+                onLoginSuccess(currentUser);
+            }
+        });
+
     </script>
 </body>
 </html>
