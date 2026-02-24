@@ -1156,7 +1156,14 @@
             });
             onSnapshot(collection(db, 'sysUsers'), snap => {
                 window._sysUsers = snap.docs.map(d => d.data());
-                if(window._appReady && getCurrentUser()?.role === 'admin') loadAdminPanel();
+                if(window._appReady){
+                    // 관리자 패널이 현재 열려 있으면 즉시 갱신
+                    const adminTab = document.getElementById('admin');
+                    if(adminTab && adminTab.classList.contains('active')) loadAdminPanel();
+                    // 관리자로 로그인된 경우 항상 갱신 (탭 여부 무관)
+                    const cu = sessionStorage.getItem('currentUser');
+                    if(cu && JSON.parse(cu).role === 'admin') loadAdminPanel();
+                }
             });
 
             // 관리자 계정 초기 생성
@@ -1261,6 +1268,13 @@
         function getUsers(){ return window._sysUsers || []; }
         async function saveUser(user){
             await window.fbSet('sysUsers', user.id, user);
+            // Firebase 리스너 대기 없이 즉시 메모리 반영
+            const idx = window._sysUsers.findIndex(u => u.id === user.id);
+            if(idx >= 0) window._sysUsers[idx] = user;
+            else window._sysUsers.push(user);
+            // 관리자로 로그인된 경우 패널 즉시 갱신
+            const cu = sessionStorage.getItem('currentUser');
+            if(cu && JSON.parse(cu).role === 'admin') loadAdminPanel();
         }
         function getCurrentUser(){
             const s = sessionStorage.getItem('currentUser');
