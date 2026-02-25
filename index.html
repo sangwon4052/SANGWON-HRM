@@ -485,7 +485,7 @@ async function loadAll(){
 
 function startPoll(){
   if(pollTmr)clearInterval(pollTmr);
-  pollTmr=setInterval(async()=>{await loadAll();if(CU)refreshUI();},5000);
+  pollTmr=setInterval(async()=>{await loadAll();if(CU)refreshUI();},30000);
 }
 
 // ════════════════════════════════════════
@@ -839,7 +839,10 @@ async function restoreBackup(event){
 // 관리자 패널
 // ════════════════════════════════════════
 async function renderAdmin(){
-  DB.users=await fbGetAll('sysUsers');
+  // 관리자 탭 클릭 시에만 최신 로드
+  if(document.getElementById('p-admin').classList.contains('on')){
+    DB.users=await fbGetAll('sysUsers');
+  }
   const pending=DB.users.filter(u=>u.status==='pending');
   const pb=document.getElementById('pbadge');
   if(pending.length){pb.textContent=pending.length;pb.style.display='';}else pb.style.display='none';
