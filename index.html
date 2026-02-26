@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>직원관리 시스템</title>
+    <title>🏢 직원관리 시스템 (Firebase 연동)</title>
     <style>
         * {
             margin: 0;
@@ -12,26 +12,26 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            min-height: 100vh;
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             overflow: hidden;
         }
 
+        /* 헤더 */
         .header {
-            background: #2c3e50;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
             padding: 25px 30px;
-            border-bottom: 3px solid #3498db;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,63 +40,83 @@
         }
 
         .header-left h1 {
-            font-size: 2em;
+            font-size: 1.8em;
             margin-bottom: 5px;
         }
 
         .header-left p {
-            font-size: 0.95em;
-            opacity: 0.9;
+            font-size: 0.9em;
+            opacity: 0.8;
         }
 
         .header-right {
             display: flex;
             gap: 10px;
+            align-items: center;
             flex-wrap: wrap;
         }
 
-        .header-btn {
+        .user-info-bar {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-badge {
+            background: #3498db;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .user-badge.admin {
+            background: #e74c3c;
+        }
+
+        .header-btn, .logout-btn {
             padding: 10px 20px;
             border: 2px solid white;
             background: transparent;
             color: white;
-            border-radius: 5px;
-            font-size: 0.9em;
-            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
-        .header-btn:hover {
+        .header-btn:hover, .logout-btn:hover {
             background: white;
             color: #2c3e50;
         }
 
+        /* 네비게이션 탭 */
         .nav-tabs {
             display: flex;
             background: #ecf0f1;
-            border-bottom: 2px solid #bdc3c7;
+            border-bottom: 3px solid #bdc3c7;
             overflow-x: auto;
         }
 
         .nav-tab {
-            padding: 15px 25px;
+            padding: 18px 30px;
             cursor: pointer;
             border: none;
             background: none;
-            font-size: 0.95em;
+            font-size: 1em;
             font-weight: 600;
-            color: #2c3e50;
+            color: #7f8c8d;
+            border-bottom: 3px solid transparent;
             transition: all 0.3s;
             white-space: nowrap;
-            border-bottom: 3px solid transparent;
         }
 
         .nav-tab:hover {
             background: #d5dbdb;
+            color: #2c3e50;
         }
 
         .nav-tab.active {
@@ -105,6 +125,7 @@
             border-bottom-color: #3498db;
         }
 
+        /* 탭 콘텐츠 */
         .tab-content {
             display: none;
             padding: 30px;
@@ -116,96 +137,59 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        /* 대시보드 카드 */
         .dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
 
         .card {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
             border: 2px solid #ecf0f1;
-            cursor: pointer;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .card:hover {
             border-color: #3498db;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.3);
         }
 
-        .card h3 {
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .card-label {
             font-size: 0.9em;
             color: #7f8c8d;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .card .number {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .card .icon {
-            font-size: 2em;
-            float: right;
-            opacity: 0.3;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
             margin-bottom: 8px;
-            font-weight: 600;
+        }
+
+        .card-value {
+            font-size: 2em;
+            font-weight: 700;
             color: #2c3e50;
-            font-size: 0.9em;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 0.95em;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
+        /* 버튼 */
         .btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 5px;
-            font-size: 0.9em;
-            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
             transition: all 0.3s;
-            margin-right: 10px;
         }
 
         .btn-primary {
@@ -217,13 +201,13 @@
             background: #2980b9;
         }
 
-        .btn-secondary {
-            background: #95a5a6;
+        .btn-success {
+            background: #27ae60;
             color: white;
         }
 
-        .btn-secondary:hover {
-            background: #7f8c8d;
+        .btn-success:hover {
+            background: #229954;
         }
 
         .btn-danger {
@@ -235,29 +219,24 @@
             background: #c0392b;
         }
 
-        .btn-success {
-            background: #27ae60;
+        .btn-secondary {
+            background: #95a5a6;
             color: white;
         }
 
-        .btn-success:hover {
-            background: #229954;
+        .btn-secondary:hover {
+            background: #7f8c8d;
         }
 
-        .btn-info {
-            background: #16a085;
-            color: white;
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85em;
         }
 
-        .btn-info:hover {
-            background: #138d75;
-        }
-
+        /* 테이블 */
         .table-container {
             overflow-x: auto;
             margin-top: 20px;
-            border-radius: 8px;
-            border: 1px solid #ecf0f1;
         }
 
         table {
@@ -266,27 +245,29 @@
             background: white;
         }
 
-        thead {
+        th {
             background: #34495e;
             color: white;
-        }
-
-        th, td {
-            padding: 12px 15px;
+            padding: 15px;
             text-align: left;
-            border-bottom: 1px solid #ecf0f1;
-            font-size: 0.9em;
+            font-weight: 600;
         }
 
-        tbody tr:hover {
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        tr:hover {
             background: #f8f9fa;
         }
 
+        /* 배지 */
         .badge {
             display: inline-block;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 15px;
-            font-size: 0.8em;
+            font-size: 0.85em;
             font-weight: 600;
         }
 
@@ -295,14 +276,14 @@
             color: #155724;
         }
 
-        .badge-warning {
-            background: #fff3cd;
-            color: #856404;
-        }
-
         .badge-danger {
             background: #f8d7da;
             color: #721c24;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
         }
 
         .badge-info {
@@ -315,6 +296,43 @@
             color: #383d41;
         }
 
+        /* 폼 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        /* 모달 */
         .modal {
             display: none;
             position: fixed;
@@ -322,7 +340,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.6);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -336,15 +354,18 @@
         .modal-content {
             background: white;
             padding: 30px;
-            border-radius: 10px;
+            border-radius: 15px;
             max-width: 800px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
-            margin: 20px;
+            position: relative;
         }
 
         .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 2px solid #ecf0f1;
@@ -352,525 +373,383 @@
 
         .modal-header h2 {
             color: #2c3e50;
-            font-size: 1.5em;
         }
 
         .close-modal {
-            float: right;
-            font-size: 1.5em;
+            font-size: 2em;
             cursor: pointer;
             color: #7f8c8d;
-            font-weight: normal;
+            transition: color 0.3s;
         }
 
         .close-modal:hover {
+            color: #e74c3c;
+        }
+
+        /* 인증 오버레이 */
+        .auth-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-overlay.active {
+            display: flex;
+        }
+
+        .auth-box {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .auth-box h2 {
+            text-align: center;
+            margin-bottom: 30px;
             color: #2c3e50;
         }
 
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            background: #ecf0f1;
+            color: #7f8c8d;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .auth-tab-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-error {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .auth-error.visible {
+            display: block;
+        }
+
+        /* 로딩 오버레이 */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            color: white;
+        }
+
+        .spinner {
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 검색 */
         .search-box {
             margin-bottom: 20px;
         }
 
         .search-box input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 0.95em;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .header-left h1 {
-                font-size: 1.5em;
-            }
-
-            .header-right {
-                width: 100%;
-            }
-
-            .header-btn {
-                flex: 1;
-                justify-content: center;
-            }
-
-            .nav-tab {
-                padding: 12px 15px;
-                font-size: 0.85em;
-            }
-
-            .tab-content {
-                padding: 15px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .card .number {
-                font-size: 2em;
-            }
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 0.85em;
-        }
-
-        .certificate-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            border-left: 3px solid #3498db;
-        }
-
-        .certificate-item h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+            max-width: 400px;
+            padding: 12px 20px;
+            border: 2px solid #ecf0f1;
+            border-radius: 25px;
             font-size: 1em;
         }
 
-        .certificate-item .education-dates {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+        /* 자격증 카드 */
+        .certificate-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #dee2e6;
         }
 
-        .certificate-item .education-dates label {
+        .certificate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .remove-cert-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
             font-size: 0.85em;
-            color: #7f8c8d;
-        }
-
-        .certificate-item .education-dates input {
-            margin-top: 5px;
         }
 
         .add-certificate-btn {
             background: #27ae60;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            width: 100%;
             margin-top: 10px;
         }
 
-        .add-certificate-btn:hover {
-            background: #229954;
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .remove-certificate-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 0.8em;
-            float: right;
+        /* 알림 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 10001;
+            display: none;
+            animation: slideIn 0.3s;
         }
 
-        .detail-modal {
-            max-width: 900px;
+        .notification.active {
+            display: block;
         }
 
-        .info-section {
-            margin-bottom: 25px;
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        .info-section h3 {
+        .notification.success {
+            border-left: 5px solid #27ae60;
+        }
+
+        .notification.error {
+            border-left: 5px solid #e74c3c;
+        }
+
+        /* 백업 정보 */
+        .backup-info {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 20px;
+        }
+
+        .backup-info h3 {
+            margin-bottom: 10px;
             color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .backup-info p {
+            margin: 5px 0;
+            color: #34495e;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
+            margin-top: 15px;
         }
 
         .info-item {
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ecf0f1;
         }
 
         .info-item label {
+            display: block;
             font-size: 0.85em;
             color: #7f8c8d;
-            display: block;
             margin-bottom: 5px;
         }
 
         .info-item .value {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .annual-leave-history {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .history-item {
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            border-left: 3px solid #3498db;
-        }
-
-        .history-item .date {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .history-item .days {
-            color: #e74c3c;
-            font-weight: 600;
-        }
-
-        .no-data {
-            text-align: center;
-            color: #7f8c8d;
-            padding: 40px;
-            font-style: italic;
-        }
-
-        .education-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 10px;
-        }
-
-        .education-date-item {
-            background: white;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .education-date-item label {
-            font-size: 0.85em;
-            color: #7f8c8d;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .education-date-item input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 0.9em;
-        }
-
-        .backup-info {
-            background: #e8f4f8;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-        }
-
-        .backup-info h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-
-        .backup-info p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #27ae60;
-            color: white;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .file-input-label:hover {
-            background: #229954;
-        }
-
-        #fileInputName {
-            margin-left: 15px;
-            color: #7f8c8d;
-            font-style: italic;
-        }
-
-        /* ===== 인증 시스템 스타일 ===== */
-        .auth-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #1a252f 0%, #2c3e50 50%, #2980b9 100%);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-        .auth-overlay.active { display: flex; }
-
-        .auth-box {
-            background: white;
-            border-radius: 16px;
-            padding: 44px 40px 40px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 24px 64px rgba(0,0,0,0.35);
-            animation: authFadeIn 0.35s ease;
-        }
-        @keyframes authFadeIn {
-            from { opacity:0; transform: translateY(-16px); }
-            to   { opacity:1; transform: translateY(0); }
-        }
-
-        .auth-logo {
-            font-size: 3em;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .auth-box h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 6px;
-            font-size: 1.55em;
+            font-size: 1.3em;
             font-weight: 700;
+            color: #2c3e50;
         }
 
-        .auth-box .auth-subtitle {
-            text-align: center;
-            color: #95a5a6;
-            margin-bottom: 32px;
-            font-size: 0.85em;
-            letter-spacing: 0.05em;
-        }
-
-        .auth-box .form-group { margin-bottom: 18px; }
-        .auth-box .form-group label {
-            display: block; margin-bottom: 7px;
-            font-weight: 600; color: #34495e; font-size: 0.88em;
-        }
-        .auth-box .form-group input {
-            width: 100%; padding: 11px 14px;
-            border: 1.5px solid #dfe6e9; border-radius: 8px;
-            font-size: 0.95em; transition: border-color 0.2s;
-            outline: none;
-        }
-        .auth-box .form-group input:focus { border-color: #3498db; }
-
-        .auth-submit {
-            width: 100%; padding: 13px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white; border: none; border-radius: 8px;
-            font-size: 1em; font-weight: 700; cursor: pointer;
-            margin-top: 6px; transition: opacity 0.2s;
-            letter-spacing: 0.03em;
-        }
-        .auth-submit:hover   { opacity: 0.92; }
-        .auth-submit:disabled { opacity: 0.55; cursor: not-allowed; }
-
-        .auth-error {
-            background: #fdecea;
-            color: #c0392b;
-            padding: 10px 14px;
-            border-radius: 7px;
-            font-size: 0.88em;
-            margin-bottom: 16px;
-            display: none;
-            border-left: 3px solid #e74c3c;
-        }
-        .auth-error.visible { display: block; }
-
-        .auth-success {
-            background: #eafaf1;
-            color: #1e8449;
-            padding: 10px 14px;
-            border-radius: 7px;
-            font-size: 0.88em;
-            margin-bottom: 16px;
-            display: none;
-            border-left: 3px solid #27ae60;
-        }
-        .auth-success.visible { display: block; }
-
-        /* 헤더 사용자 정보 */
-        .user-info-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,255,255,0.1);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.88em;
-        }
-
-        .user-badge {
-            background: #f39c12;
-            color: white;
-            padding: 2px 8px;
+        /* 관리자 패널 */
+        .pending-users-section,
+        .admin-settings-section {
+            background: #fff9e6;
+            padding: 20px;
             border-radius: 10px;
-            font-size: 0.8em;
-            font-weight: 700;
-        }
-        .user-badge.admin      { background: #e74c3c; }
-        .user-badge.temp-admin { background: #e67e22; }
-
-        .logout-btn {
-            padding: 5px 12px;
-            border: 1px solid rgba(255,255,255,0.6);
-            background: transparent;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85em;
-            transition: all 0.2s;
-        }
-        .logout-btn:hover { background: rgba(255,255,255,0.2); }
-
-        /* 관리자 승인 패널 */
-        .pending-users-section {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .pending-users-section h3 {
-            color: #856404;
-            margin-bottom: 15px;
+            border-left: 4px solid #f39c12;
+            margin-bottom: 20px;
         }
 
         .pending-user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
             background: white;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            border: 1px solid #f0e8c8;
-        }
-
-        .pending-user-item .user-detail {
-            font-size: 0.9em;
-        }
-
-        .pending-user-item .user-detail strong { color: #2c3e50; }
-        .pending-user-item .user-detail span { color: #7f8c8d; margin-left: 8px; }
-
-        /* 연차 탭 잠금 표시 */
-        .tab-locked {
-            opacity: 0.5;
-            cursor: not-allowed !important;
-            position: relative;
-        }
-
-        .admin-settings-section {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
+            padding: 15px;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #ecf0f1;
         }
 
-        /* 새로고침 안내바 */
-        .refresh-bar {
-            background: #e8f4f8;
-            border-bottom: 1px solid #bee3f8;
-            padding: 8px 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.85em;
-            color: #2980b9;
+        .user-detail {
+            flex: 1;
         }
-        .refresh-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 5px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85em;
+
+        .user-detail strong {
+            color: #2c3e50;
+            font-size: 1.1em;
         }
-        .refresh-btn:hover { background: #2980b9; }
-        .refresh-btn:disabled { background: #aaa; cursor: not-allowed; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .spinner {
-            display: inline-block; width: 14px; height: 14px;
-            border: 2px solid #ddd; border-top-color: #3498db;
-            border-radius: 50%; animation: spin 0.6s linear infinite;
-            vertical-align: middle; margin-right: 5px;
+
+        .user-detail span {
+            color: #7f8c8d;
+            margin-left: 10px;
         }
-        #empSaveBtn:disabled, #loginBtn:disabled { opacity: 0.6; cursor: not-allowed; }
     </style>
 </head>
 <body>
-
-    <!-- ===== 인증 오버레이 ===== -->
-    <div id="authOverlay" class="auth-overlay active">
-        <div class="auth-box">
-            <div class="auth-logo">🏢</div>
-            <h2>직원관리 시스템</h2>
-            <p class="auth-subtitle">Employee Management System</p>
-
-            <div id="loginError" class="auth-error"></div>
-            <div class="form-group">
-                <label>아이디</label>
-                <input type="text" id="loginId" placeholder="아이디를 입력하세요" autocomplete="username">
-            </div>
-            <div class="form-group">
-                <label>비밀번호</label>
-                <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" autocomplete="current-password"
-                       onkeydown="if(event.key==='Enter') doLogin()">
-            </div>
-            <button class="auth-submit" id="loginBtn" onclick="doLogin()">로그인</button>
+    <!-- 로딩 오버레이 -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>데이터를 불러오는 중...</p>
         </div>
     </div>
 
+    <!-- 알림 -->
+    <div id="notification" class="notification"></div>
+
+    <!-- 인증 오버레이 (로그인/회원가입) -->
+    <div id="authOverlay" class="auth-overlay active">
+        <div class="auth-box">
+            <h2>🏢 직원관리 시스템</h2>
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" onclick="switchAuthTab('login')">로그인</button>
+                <button class="auth-tab-btn" onclick="switchAuthTab('register')">회원가입</button>
+            </div>
+
+            <!-- 로그인 폼 -->
+            <div id="loginForm" class="auth-form active">
+                <div id="loginError" class="auth-error"></div>
+                <div class="form-group">
+                    <label>아이디</label>
+                    <input type="text" id="loginId" placeholder="아이디를 입력하세요" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>비밀번호</label>
+                    <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
+                </div>
+                <button class="btn btn-primary" style="width:100%;" onclick="doLogin()">로그인</button>
+            </div>
+
+            <!-- 회원가입 폼 -->
+            <div id="registerForm" class="auth-form">
+                <div id="registerError" class="auth-error"></div>
+                <div class="form-group">
+                    <label>이름 (실명)</label>
+                    <input type="text" id="registerName" placeholder="이름을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label>아이디 (4자 이상)</label>
+                    <input type="text" id="registerId" placeholder="아이디를 입력하세요" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>비밀번호 (6자 이상)</label>
+                    <input type="password" id="registerPw" placeholder="비밀번호를 입력하세요" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label>비밀번호 확인</label>
+                    <input type="password" id="registerPw2" placeholder="비밀번호를 다시 입력하세요" autocomplete="new-password">
+                </div>
+                <button class="btn btn-success" style="width:100%;" onclick="doRegister()">가입 신청</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 컨테이너 -->
     <div class="container">
+        <!-- 헤더 -->
         <div class="header">
             <div class="header-left">
                 <h1>🏢 직원관리 시스템</h1>
-                <p>Employee Management System</p>
+                <p>Employee Management System (Firebase 연동)</p>
             </div>
             <div class="header-right">
                 <div class="user-info-bar">
@@ -878,103 +757,92 @@
                     <span id="headerUserBadge" class="user-badge">일반</span>
                     <button class="logout-btn" onclick="doLogout()">로그아웃</button>
                 </div>
-                <button class="header-btn" onclick="downloadBackup()">
-                    <span>💾</span>
-                    <span>백업 다운로드</span>
-                </button>
-                <button class="header-btn" onclick="document.getElementById('restoreFileInput').click()">
-                    <span>📂</span>
-                    <span>백업 불러오기</span>
-                </button>
-                <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="restoreBackup(event)">
+                <button class="header-btn" onclick="downloadBackup()">💾 백업</button>
+                <button class="header-btn" onclick="document.getElementById('restoreFileInput').click()">📂 복구</button>
+                <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreBackup(event)">
             </div>
         </div>
 
+        <!-- 네비게이션 탭 -->
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('dashboard')">📊 대시보드</button>
             <button class="nav-tab" onclick="showTab('employees')">👥 직원관리</button>
             <button class="nav-tab" id="annualLeaveTab" onclick="showAnnualLeaveTab()">📅 연차관리 🔒</button>
             <button class="nav-tab" onclick="showTab('education')">📚 직무교육</button>
             <button class="nav-tab" onclick="showTab('backup')">⚙️ 백업관리</button>
-            <button class="nav-tab" id="adminTab" onclick="showAdminTab()" style="display:none;">🛡️ 관리자</button>
+            <button class="nav-tab" id="adminTab" style="display:none;" onclick="showTab('admin')">🛡️ 관리자</button>
         </div>
 
-
-        <!-- 새로고침 안내바 -->
-        <div class="refresh-bar">
-            <span>📡 데이터는 로그인 시 로드됩니다. 다른 기기의 변경사항을 반영하려면 새로고침하세요.</span>
-            <button class="refresh-btn" id="refreshDataBtn" onclick="reloadAllData()">🔄 데이터 새로고침</button>
-        </div>
-
-        <!-- 대시보드 -->
+        <!-- 대시보드 탭 -->
         <div id="dashboard" class="tab-content active">
-            <h2 style="margin-bottom: 20px; color: #2c3e50;">📊 대시보드</h2>
+            <h2 style="margin-bottom: 25px; color: #2c3e50;">📊 대시보드</h2>
             <div class="dashboard">
-                <div class="card" onclick="showAllEmployees()">
-                    <span class="icon">👥</span>
-                    <h3>전체 직원</h3>
-                    <div class="number" id="totalEmployees">0</div>
+                <div class="card" onclick="showTab('employees')">
+                    <div class="card-icon">👥</div>
+                    <div class="card-label">전체 직원</div>
+                    <div class="card-value" id="dashTotalEmployees">0</div>
                 </div>
-                <div class="card" onclick="showActiveEmployees()">
-                    <span class="icon">✅</span>
-                    <h3>재직 직원</h3>
-                    <div class="number" id="activeEmployees">0</div>
+                <div class="card" onclick="showTab('employees')">
+                    <div class="card-icon">✅</div>
+                    <div class="card-label">재직 직원</div>
+                    <div class="card-value" id="dashActiveEmployees">0</div>
                 </div>
-                <div class="card" onclick="showInactiveEmployees()">
-                    <span class="icon">📤</span>
-                    <h3>퇴사 직원</h3>
-                    <div class="number" id="inactiveEmployees">0</div>
+                <div class="card" onclick="showTab('employees')">
+                    <div class="card-icon">📤</div>
+                    <div class="card-label">퇴사 직원</div>
+                    <div class="card-value" id="dashResignedEmployees">0</div>
                 </div>
-                <div class="card" onclick="showUpcomingEducation()">
-                    <span class="icon">📚</span>
-                    <h3>교육 예정 (6개월)</h3>
-                    <div class="number" id="upcomingEducation">0</div>
+                <div class="card" onclick="showTab('education')">
+                    <div class="card-icon">📚</div>
+                    <div class="card-label">교육 예정 (6개월)</div>
+                    <div class="card-value" id="dashUpcomingEducation">0</div>
                 </div>
             </div>
         </div>
 
-        <!-- 직원관리 -->
+        <!-- 직원관리 탭 -->
         <div id="employees" class="tab-content">
             <h2 style="margin-bottom: 20px; color: #2c3e50;">👥 직원관리</h2>
-            <button class="btn btn-primary" onclick="openEmployeeModal()">+ 새 직원 등록</button>
-            
-            <div class="search-box" style="margin-top: 20px;">
-                <input type="text" id="employeeSearch" placeholder="🔍 직원 검색 (성명, 이메일, 전화번호)" onkeyup="searchEmployees()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                <div class="search-box">
+                    <input type="text" id="employeeSearch" placeholder="🔍 이름, 이메일, 전화번호로 검색..." onkeyup="searchEmployees()">
+                </div>
+                <button class="btn btn-primary" onclick="openEmployeeModal()">+ 직원 등록</button>
             </div>
-
             <div class="table-container">
-                <table id="employeesTable">
+                <table id="employeeTable">
                     <thead>
                         <tr>
                             <th>성명</th>
                             <th>성별</th>
                             <th>전화번호</th>
                             <th>이메일</th>
-                            <th>자격증 수</th>
+                            <th>자격증</th>
                             <th>입사일</th>
                             <th>상태</th>
                             <th>관리</th>
                         </tr>
                     </thead>
-                    <tbody id="employeesTableBody"></tbody>
+                    <tbody id="employeeTableBody">
+                        <tr><td colspan="8" style="text-align:center; padding: 40px; color: #7f8c8d;">데이터를 불러오는 중...</td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 연차관리 -->
+        <!-- 연차관리 탭 -->
         <div id="annual-leave" class="tab-content">
             <h2 style="margin-bottom: 20px; color: #2c3e50;">📅 연차관리</h2>
             <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <label style="font-weight: 600; color: #2c3e50;">회계년도:</label>
-                    <input type="number" id="fiscalYear" value="2026" min="2020" max="2100" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px; width: 100px;">
+                    <input type="number" id="fiscalYear" min="2020" max="2100" style="padding: 8px 12px; border: 2px solid #ddd; border-radius: 5px; width: 100px;">
                 </div>
                 <button class="btn btn-primary" onclick="calculateAllAnnualLeave()">🔄 연차 재계산</button>
-                <button class="btn btn-success" onclick="openBulkLeaveModal()">📋 직원 일괄연차</button>
+                <button class="btn btn-success" onclick="openBulkLeaveModal()">📋 일괄 연차 부여</button>
                 <span style="color: #7f8c8d; font-size: 0.9em;">※ 회계년도 기준(12월 31일)으로 연차가 계산됩니다.</span>
             </div>
-            
-            <div class="table-container" style="margin-top: 20px;">
+            <div class="table-container">
                 <table id="annualLeaveTable">
                     <thead>
                         <tr>
@@ -987,16 +855,16 @@
                             <th>관리</th>
                         </tr>
                     </thead>
-                    <tbody id="annualLeaveTableBody"></tbody>
+                    <tbody id="annualLeaveTableBody">
+                        <tr><td colspan="7" style="text-align:center; padding: 40px; color: #7f8c8d;">데이터를 불러오는 중...</td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 직무교육 -->
+        <!-- 직무교육 탭 -->
         <div id="education" class="tab-content">
             <h2 style="margin-bottom: 20px; color: #2c3e50;">📚 직무교육</h2>
-            <p style="color: #7f8c8d; margin-bottom: 20px;">※ 직원정보의 자격증 교육일에 따라 자동으로 교육일정이 등록됩니다.</p>
-
             <div class="table-container">
                 <table id="educationTable">
                     <thead>
@@ -1010,41 +878,36 @@
                             <th>상태</th>
                         </tr>
                     </thead>
-                    <tbody id="educationTableBody"></tbody>
+                    <tbody id="educationTableBody">
+                        <tr><td colspan="7" style="text-align:center; padding: 40px; color: #7f8c8d;">데이터를 불러오는 중...</td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 백업관리 -->
+        <!-- 백업관리 탭 -->
         <div id="backup" class="tab-content">
             <h2 style="margin-bottom: 20px; color: #2c3e50;">⚙️ 백업관리</h2>
             
             <div class="backup-info">
                 <h3>💾 백업 다운로드</h3>
-                <p>• 현재 저장된 모든 데이터를 JSON 파일로 다운로드합니다.</p>
+                <p>• 현재 Firebase에 저장된 모든 데이터를 JSON 파일로 다운로드합니다.</p>
                 <p>• 파일명에 현재 날짜가 자동으로 포함됩니다.</p>
-                <p>• 직원정보, 연차정보, 교육일정이 모두 포함됩니다.</p>
-                <button class="btn btn-primary" onclick="downloadBackup()" style="margin-top: 10px;">
-                    💾 백업 파일 다운로드
-                </button>
+                <p>• 직원정보, 연차정보, 교육일정, 사용자 정보가 모두 포함됩니다.</p>
+                <button class="btn btn-primary" onclick="downloadBackup()" style="margin-top: 10px;">💾 백업 파일 다운로드</button>
             </div>
 
             <div class="backup-info" style="background: #f0f8e8; border-left-color: #27ae60;">
                 <h3>📂 백업 불러오기</h3>
                 <p>• 이전에 다운로드한 백업 파일을 선택하여 데이터를 복원합니다.</p>
-                <p>• <strong style="color: #e74c3c;">⚠️ 주의: 현재 데이터가 모두 삭제되고 백업 파일의 데이터로 교체됩니다.</strong></p>
+                <p>• <strong style="color: #e74c3c;">⚠️ 주의: Firebase의 현재 데이터가 모두 삭제되고 백업 파일의 데이터로 교체됩니다.</strong></p>
                 <p>• 백업 파일을 불러오기 전에 현재 데이터를 백업해두는 것을 권장합니다.</p>
-                <div class="file-input-wrapper" style="margin-top: 10px;">
-                    <input type="file" id="restoreFileInput2" accept=".json" onchange="restoreBackup(event)">
-                    <label for="restoreFileInput2" class="file-input-label">
-                        📂 백업 파일 선택
-                    </label>
-                    <span id="fileInputName"></span>
-                </div>
+                <button class="btn btn-success" onclick="document.getElementById('restoreFileInput2').click()" style="margin-top: 10px;">📂 백업 파일 선택</button>
+                <input type="file" id="restoreFileInput2" accept=".json" style="display:none;" onchange="restoreBackup(event)">
             </div>
 
-            <div class="info-section" style="margin-top: 30px;">
-                <h3>📊 현재 데이터 현황</h3>
+            <div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">📊 현재 데이터 현황</h3>
                 <div class="info-grid">
                     <div class="info-item">
                         <label>전체 직원</label>
@@ -1065,87 +928,56 @@
                 </div>
             </div>
         </div>
+
+        <!-- 관리자 패널 탭 -->
+        <div id="admin" class="tab-content">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">🛡️ 관리자 패널</h2>
+
+            <div class="pending-users-section">
+                <h3 style="margin-bottom: 15px; color: #2c3e50;">⏳ 승인 대기 중인 회원</h3>
+                <div id="pendingUsersList">
+                    <p style="color: #856404; font-style: italic;">대기 중인 회원이 없습니다.</p>
+                </div>
+            </div>
+
+            <div class="admin-settings-section">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">👥 전체 회원 목록</h3>
+                <div id="allUsersList"></div>
+            </div>
+
+            <div class="admin-settings-section">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">🔑 관리자 계정 설정</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>새 관리자 아이디</label>
+                        <input type="text" id="newAdminId" placeholder="변경할 아이디">
+                    </div>
+                    <div class="form-group">
+                        <label>현재 비밀번호 확인</label>
+                        <input type="password" id="currentAdminPw" placeholder="현재 비밀번호">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>새 비밀번호</label>
+                        <input type="password" id="newAdminPw" placeholder="새 비밀번호 (6자 이상)">
+                    </div>
+                    <div class="form-group">
+                        <label>새 비밀번호 확인</label>
+                        <input type="password" id="newAdminPw2" placeholder="새 비밀번호 재입력">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="updateAdminAccount()">관리자 계정 업데이트</button>
+            </div>
+        </div>
     </div>
 
-    <!-- 관리자 패널 -->
-    <div id="admin" class="tab-content">
-        <h2 style="margin-bottom: 20px; color: #2c3e50;">🛡️ 관리자 패널</h2>
-
-        <!-- 새 계정 생성 -->
-        <div class="admin-settings-section" style="background:#e8f4f8; border-color:#bee3f8;">
-            <h3 style="color:#1a5276; margin-bottom:18px;">➕ 새 계정 생성</h3>
-            <p style="color:#5d7a8a; font-size:0.9em; margin-bottom:16px;">※ 회원가입 없이 관리자가 직접 계정을 생성합니다.</p>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>이름 *</label>
-                    <input type="text" id="newUserName" placeholder="이름을 입력하세요">
-                </div>
-                <div class="form-group">
-                    <label>아이디 * (4자 이상)</label>
-                    <input type="text" id="newUserId" placeholder="영문+숫자, 4자 이상">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>비밀번호 * (6자 이상)</label>
-                    <input type="password" id="newUserPw" placeholder="6자 이상">
-                </div>
-                <div class="form-group">
-                    <label>권한 *</label>
-                    <select id="newUserRole">
-                        <option value="temp_admin">🔶 임시관리자 (연차관리 제외)</option>
-                        <option value="admin">🔴 관리자 (전체 권한)</option>
-                    </select>
-                </div>
-            </div>
-            <div style="background:#f8f9fa; padding:12px 16px; border-radius:6px; margin-bottom:14px; font-size:0.88em; color:#555;">
-                <strong>권한 안내</strong><br>
-                🔶 <strong>임시관리자</strong> : 대시보드·직원관리·직무교육·백업관리 가능 / 연차관리 <span style="color:#e74c3c;">잠금</span><br>
-                🔴 <strong>관리자</strong> : 연차관리 포함 모든 기능 + 계정 관리 가능
-            </div>
-            <div id="createUserMsg" class="auth-error" style="margin-bottom:0;"></div>
-            <div id="createUserSuccess" class="auth-success" style="margin-bottom:0; margin-top:10px;"></div>
-            <button class="btn btn-primary" onclick="createUser()" style="margin-top:14px;" id="createUserBtn">계정 생성</button>
-        </div>
-
-        <!-- 계정 목록 -->
-        <div class="admin-settings-section">
-            <h3 style="color:#2c3e50; margin-bottom:15px;">👥 계정 목록</h3>
-            <div id="allUsersList"><p style="color:#7f8c8d; font-style:italic;">로딩 중...</p></div>
-        </div>
-
-        <!-- 내 계정 설정 -->
-        <div class="admin-settings-section">
-            <h3 style="color:#2c3e50; margin-bottom:15px;">🔑 내 계정 설정</h3>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>새 아이디 (비워두면 유지)</label>
-                    <input type="text" id="newAdminId" placeholder="변경할 아이디">
-                </div>
-                <div class="form-group">
-                    <label>현재 비밀번호 *</label>
-                    <input type="password" id="currentAdminPw" placeholder="현재 비밀번호">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>새 비밀번호 (비워두면 유지)</label>
-                    <input type="password" id="newAdminPw" placeholder="새 비밀번호 (6자 이상)">
-                </div>
-                <div class="form-group">
-                    <label>새 비밀번호 확인</label>
-                    <input type="password" id="newAdminPw2" placeholder="새 비밀번호 재입력">
-                </div>
-            </div>
-            <button class="btn btn-primary" onclick="updateAdminAccount()">내 계정 업데이트</button>
-        </div>
-    </div><!-- /admin tab-content -->
-
+    <!-- 직원 등록/수정 모달 -->
     <div id="employeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close-modal" onclick="closeEmployeeModal()">&times;</span>
                 <h2 id="employeeModalTitle">직원 등록</h2>
+                <span class="close-modal" onclick="closeEmployeeModal()">&times;</span>
             </div>
             <form onsubmit="saveEmployee(event)">
                 <input type="hidden" id="employeeId">
@@ -1197,8 +1029,8 @@
                 <div id="certificatesContainer"></div>
                 <button type="button" class="add-certificate-btn" onclick="addCertificateField()">+ 자격증 추가</button>
 
-                <div style="margin-top: 30px;">
-                    <button type="submit" class="btn btn-primary" id="empSaveBtn">저장</button>
+                <div style="margin-top: 30px; display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">저장</button>
                     <button type="button" class="btn btn-secondary" onclick="closeEmployeeModal()">취소</button>
                 </div>
             </form>
@@ -1207,44 +1039,42 @@
 
     <!-- 직원 상세정보 모달 -->
     <div id="employeeDetailModal" class="modal">
-        <div class="modal-content detail-modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <span class="close-modal" onclick="closeEmployeeDetailModal()">&times;</span>
                 <h2>직원 상세정보</h2>
+                <span class="close-modal" onclick="closeEmployeeDetailModal()">&times;</span>
             </div>
             <div id="employeeDetailContent"></div>
         </div>
     </div>
 
-    <!-- 연차 사용 모달 -->
+    <!-- 연차 사용 등록 모달 -->
     <div id="annualLeaveModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close-modal" onclick="closeAnnualLeaveModal()">&times;</span>
                 <h2>연차 사용 등록</h2>
+                <span class="close-modal" onclick="closeAnnualLeaveModal()">&times;</span>
             </div>
             <form onsubmit="saveAnnualLeaveUsage(event)">
                 <input type="hidden" id="leaveEmployeeId">
-                
                 <div class="form-group">
                     <label>직원명</label>
                     <input type="text" id="leaveEmployeeName" readonly style="background: #f8f9fa;">
                 </div>
                 
-                <div class="info-section">
-                    <h3>연차 현황</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <label>총 연차</label>
-                            <div class="value"><span id="leaveTotalDays">0</span>일</div>
+                <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <div>
+                            <small style="color: #7f8c8d;">총 연차</small>
+                            <div style="font-size: 1.2em; font-weight: 600; color: #2c3e50;" id="leaveTotalDays">0</div>
                         </div>
-                        <div class="info-item">
-                            <label>사용 연차</label>
-                            <div class="value"><span id="leaveUsedDays">0</span>일</div>
+                        <div>
+                            <small style="color: #7f8c8d;">사용 연차</small>
+                            <div style="font-size: 1.2em; font-weight: 600; color: #e74c3c;" id="leaveUsedDays">0</div>
                         </div>
-                        <div class="info-item">
-                            <label>잔여 연차</label>
-                            <div class="value" style="color: #27ae60;"><span id="leaveRemainingDays">0</span>일</div>
+                        <div>
+                            <small style="color: #7f8c8d;">잔여 연차</small>
+                            <div style="font-size: 1.2em; font-weight: 600; color: #27ae60;" id="leaveRemainingDays">0</div>
                         </div>
                     </div>
                 </div>
@@ -1259,14 +1089,14 @@
                         <input type="date" id="leaveUsageDate" required>
                     </div>
                 </div>
-                
                 <div class="form-group">
                     <label>사유</label>
                     <textarea id="leaveUsageReason" rows="3"></textarea>
                 </div>
-                
-                <button type="submit" class="btn btn-primary">등록</button>
-                <button type="button" class="btn btn-secondary" onclick="closeAnnualLeaveModal()">취소</button>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">등록</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAnnualLeaveModal()">취소</button>
+                </div>
             </form>
         </div>
     </div>
@@ -1275,907 +1105,1614 @@
     <div id="annualLeaveHistoryModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close-modal" onclick="closeAnnualLeaveHistoryModal()">&times;</span>
                 <h2>연차 사용내역</h2>
+                <span class="close-modal" onclick="closeAnnualLeaveHistoryModal()">&times;</span>
             </div>
             <div id="annualLeaveHistoryContent"></div>
         </div>
     </div>
 
-    <!-- 직원 일괄연차 모달 -->
+    <!-- 일괄 연차 부여 모달 -->
     <div id="bulkLeaveModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
+                <h2>직원 일괄 연차 부여</h2>
                 <span class="close-modal" onclick="closeBulkLeaveModal()">&times;</span>
-                <h2>직원 일괄연차 사용</h2>
             </div>
             <form onsubmit="saveBulkLeave(event)">
-                <div class="backup-info" style="background: #fff3cd; border-left-color: #ffc107;">
-                    <h3>⚠️ 주의사항</h3>
-                    <p>• 재직 중인 모든 직원에게 동일한 연차가 차감됩니다.</p>
-                    <p>• 잔여 연차가 부족한 직원은 자동으로 제외됩니다.</p>
-                    <p>• 일괄 연차는 개별 사용내역에 기록됩니다.</p>
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                    <strong>⚠️ 주의사항</strong>
+                    <ul style="margin: 10px 0 0 20px; color: #856404;">
+                        <li>재직 중인 모든 직원에게 일괄 적용됩니다.</li>
+                        <li>잔여 연차가 부족한 직원은 자동으로 제외됩니다.</li>
+                        <li>미리보기에서 적용 대상을 확인하세요.</li>
+                    </ul>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label>사용 일수 *</label>
-                        <input type="number" id="bulkLeaveDays" min="0.5" step="0.5" required>
+                        <input type="number" id="bulkLeaveDays" min="0.5" step="0.5" required oninput="updateBulkLeavePreview()">
                     </div>
                     <div class="form-group">
                         <label>사용 날짜 *</label>
                         <input type="date" id="bulkLeaveDate" required>
                     </div>
                 </div>
-                
                 <div class="form-group">
-                    <label>사유</label>
-                    <textarea id="bulkLeaveReason" rows="3" placeholder="예: 회사 휴무일, 국경일 대체휴무등"></textarea>
+                    <label>사유 *</label>
+                    <input type="text" id="bulkLeaveReason" placeholder="예: 회사 휴무일" required>
                 </div>
                 
-                <div id="bulkLeavePreview" style="margin-top: 20px;"></div>
+                <div id="bulkLeavePreview" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <h4 style="margin-bottom: 10px; color: #2c3e50;">미리보기</h4>
+                    <div id="bulkLeavePreviewContent">
+                        <p style="color: #7f8c8d;">사용 일수를 입력하면 적용 대상이 표시됩니다.</p>
+                    </div>
+                </div>
                 
-                <button type="submit" class="btn btn-success">일괄 적용</button>
-                <button type="button" class="btn btn-secondary" onclick="closeBulkLeaveModal()">취소</button>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-success" style="flex: 1;">일괄 적용</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeBulkLeaveModal()">취소</button>
+                </div>
             </form>
         </div>
     </div>
 
     <script>
-    'use strict';
+        // ============================
+        // Firebase 설정
+        // ============================
+        const FB_PROJ = 'sangwon-hrm';
+        const FB_KEY = 'AIzaSyBebDpB0eFP2yDZ4NK6K8IoWS8aTseHkzc';
+        const FB_BASE = `https://firestore.googleapis.com/v1/projects/${FB_PROJ}/databases/(default)/documents`;
 
-    // ════════════════════════════════════════════════════════
-    // Firebase REST API 설정
-    // ════════════════════════════════════════════════════════
-    const FB_PROJ = 'sangwon-hrm';
-    const FB_KEY  = 'AIzaSyBebDpB0eFP2yDZ4NK6K8IoWS8aTseHkzc';
-    const FB_BASE = `https://firestore.googleapis.com/v1/projects/${FB_PROJ}/databases/(default)/documents`;
+        // ============================
+        // 전역 변수
+        // ============================
+        let employees = [];
+        let annualLeaves = [];
+        let educations = [];
+        let currentUser = null;
+        let certIdCounter = 1;
 
-    // ── Firestore 타입 변환 ──────────────────────────────────
-    function toFV(v) {
-        if (v === null || v === undefined) return { nullValue: null };
-        if (typeof v === 'boolean')  return { booleanValue: v };
-        if (typeof v === 'number')   return Number.isInteger(v) ? { integerValue: String(v) } : { doubleValue: v };
-        if (typeof v === 'string')   return { stringValue: v };
-        if (Array.isArray(v))        return { arrayValue: { values: v.map(toFV) } };
-        if (typeof v === 'object')   return { mapValue: { fields: toFs(v) } };
-        return { stringValue: String(v) };
-    }
-    function toFs(obj) {
-        const f = {};
-        for (const [k, v] of Object.entries(obj)) f[k] = toFV(v);
-        return f;
-    }
-    function fromFV(fv) {
-        if (!fv) return null;
-        if ('nullValue'    in fv) return null;
-        if ('booleanValue' in fv) return fv.booleanValue;
-        if ('integerValue' in fv) return Number(fv.integerValue);
-        if ('doubleValue'  in fv) return fv.doubleValue;
-        if ('stringValue'  in fv) return fv.stringValue;
-        if ('arrayValue'   in fv) return (fv.arrayValue.values || []).map(fromFV);
-        if ('mapValue'     in fv) return fromFs(fv.mapValue.fields || {});
-        return null;
-    }
-    function fromFs(fields) {
-        const o = {};
-        for (const [k, v] of Object.entries(fields)) o[k] = fromFV(v);
-        return o;
-    }
-
-    // ── Firebase CRUD ────────────────────────────────────────
-    async function fbGetAll(col) {
-        const r = await fetch(`${FB_BASE}/${col}?key=${FB_KEY}&pageSize=500`);
-        if (!r.ok) throw new Error(`HTTP ${r.status} (${col})`);
-        const j = await r.json();
-        if (!j.documents) return [];
-        return j.documents.map(d => fromFs(d.fields || {}));
-    }
-    async function fbSet(col, id, data) {
-        const eid = encodeURIComponent(String(id));
-        const r = await fetch(`${FB_BASE}/${col}/${eid}?key=${FB_KEY}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fields: toFs(JSON.parse(JSON.stringify(data))) })
-        });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    }
-    async function fbDel(col, id) {
-        const eid = encodeURIComponent(String(id));
-        const r = await fetch(`${FB_BASE}/${col}/${eid}?key=${FB_KEY}`, { method: 'DELETE' });
-        if (!r.ok && r.status !== 404) throw new Error(`HTTP ${r.status}`);
-    }
-    async function fbReplaceAll(col, arr, idKey) {
-        const old = await fbGetAll(col);
-        for (const d of old) { const id = d[idKey] || d.id; if (id) await fbDel(col, id); }
-        for (const item of arr) { await fbSet(col, String(item[idKey] || item.id || Date.now()), item); }
-    }
-
-    // ════════════════════════════════════════════════════════
-    // 앱 상태 (메모리 캐시 — 폴링 없음)
-    // ════════════════════════════════════════════════════════
-    let employees = [], annualLeaves = [], educations = [];
-    let certificateCount = 0;
-
-    // ════════════════════════════════════════════════════════
-    // 초기화
-    // ════════════════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', async function () {
-        document.getElementById('fiscalYear').value = new Date().getFullYear();
-        document.getElementById('bulkLeaveDays').addEventListener('input', updateBulkLeavePreview);
-
-        // Firebase에서 전체 데이터 1회 로드
-        try { await loadAllFromFirebase(); }
-        catch (e) { showFatalError('Firebase 연결 실패: ' + e.message); return; }
-
-        await ensureAdminExists();
-
-        // 로그인 상태 복원
-        const saved = sessionStorage.getItem('currentUser');
-        if (saved) {
-            try {
-                const cu = JSON.parse(saved);
-                const users = await fbGetAll('sysUsers');
-                const fresh = users.find(u => u.id === cu.id);
-                if (fresh) {
-                    sessionStorage.setItem('currentUser', JSON.stringify(fresh));
-                    document.getElementById('authOverlay').classList.remove('active');
-                    onLoginSuccess(fresh);
-                } else { sessionStorage.removeItem('currentUser'); }
-            } catch (e) { sessionStorage.removeItem('currentUser'); }
-        }
-
-        updateDashboard(); loadEmployees(); loadAnnualLeave(); loadEducation(); updateBackupInfo();
-    });
-
-    async function loadAllFromFirebase() {
-        const [e, l, ed] = await Promise.all([
-            fbGetAll('employees'), fbGetAll('annualLeaves'), fbGetAll('educations')
-        ]);
-        employees = e; annualLeaves = l; educations = ed;
-    }
-
-    async function ensureAdminExists() {
-        try {
-            const users = await fbGetAll('sysUsers');
-            if (!users.find(u => u.role === 'admin')) {
-                await fbSet('sysUsers', 'admin', { id:'admin', pw:'admin1234', name:'관리자',
-                    role:'admin', status:'approved', createdAt: new Date().toISOString() });
+        // ============================
+        // Firestore 데이터 변환 함수
+        // ============================
+        function toFV(val) {
+            if (val === null || val === undefined) return { nullValue: null };
+            if (typeof val === 'string') return { stringValue: val };
+            if (typeof val === 'number') {
+                return Number.isInteger(val) ? { integerValue: String(val) } : { doubleValue: val };
             }
-        } catch (e) { console.warn('관리자 초기화 실패:', e); }
-    }
-
-    async function reloadAllData() {
-        const btn = document.getElementById('refreshDataBtn');
-        btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>로딩 중...';
-        try {
-            await loadAllFromFirebase();
-            updateDashboard(); loadEmployees(); loadAnnualLeave(); loadEducation(); updateBackupInfo();
-            btn.innerHTML = '✅ 완료!';
-            setTimeout(() => { btn.disabled = false; btn.innerHTML = '🔄 데이터 새로고침'; }, 2000);
-        } catch (e) { btn.innerHTML = '❌ 실패 - 재시도'; btn.disabled = false; }
-    }
-
-    function showFatalError(msg) {
-        document.getElementById('authOverlay').classList.remove('active');
-        document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;font-family:sans-serif;">
-            <div style="font-size:48px">❌</div><h2 style="color:#e74c3c">연결 오류</h2>
-            <p style="color:#7f8c8d">${msg}</p>
-            <button onclick="location.reload()" style="padding:10px 24px;background:#3498db;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px">다시 시도</button>
-        </div>`;
-    }
-
-    // ════════════════════════════════════════════════════════
-    // 탭 전환
-    // ════════════════════════════════════════════════════════
-    function showTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(tabName).classList.add('active');
-        document.querySelectorAll('.nav-tab').forEach(btn => {
-            const oc = btn.getAttribute('onclick') || '';
-            if (oc.includes("'" + tabName + "'") || (tabName === 'admin' && oc.includes('showAdminTab'))) btn.classList.add('active');
-        });
-        if (tabName === 'backup') updateBackupInfo();
-    }
-    async function showAdminTab() { showTab('admin'); await loadAdminPanel(); }
-    function showAnnualLeaveTab() {
-        const user = getCurrentUser();
-        if (!user || user.role !== 'admin') {
-            alert('🔒 연차관리는 관리자만 사용할 수 있습니다.\n임시관리자는 접근할 수 없습니다.');
-            return;
+            if (typeof val === 'boolean') return { booleanValue: val };
+            if (Array.isArray(val)) {
+                return { arrayValue: { values: val.map(v => toFV(v)) } };
+            }
+            if (typeof val === 'object') {
+                return { mapValue: { fields: toFs(val) } };
+            }
+            return { stringValue: String(val) };
         }
-        showTab('annual-leave');
-    }
 
-    // ════════════════════════════════════════════════════════
-    // 대시보드
-    // ════════════════════════════════════════════════════════
-    function updateDashboard() {
-        const now = new Date(), sixM = new Date();
-        sixM.setMonth(sixM.getMonth() + 6);
-        document.getElementById('totalEmployees').textContent    = employees.length;
-        document.getElementById('activeEmployees').textContent   = employees.filter(e => !e.resignDate || new Date(e.resignDate) > now).length;
-        document.getElementById('inactiveEmployees').textContent = employees.filter(e => e.resignDate && new Date(e.resignDate) <= now).length;
-        document.getElementById('upcomingEducation').textContent = educations.filter(e => { const d=new Date(e.educationDate); return d>=now&&d<=sixM; }).length;
-    }
-    function showAllEmployees()      { showTab('employees'); renderEmployeeTable(employees); }
-    function showActiveEmployees()   { showTab('employees'); renderEmployeeTable(employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date())); }
-    function showInactiveEmployees() { showTab('employees'); renderEmployeeTable(employees.filter(e => e.resignDate && new Date(e.resignDate) <= new Date())); }
-    function showUpcomingEducation() {
-        showTab('education');
-        const now=new Date(), sixM=new Date(); sixM.setMonth(sixM.getMonth()+6);
-        renderEducationTable(educations.filter(e => { const d=new Date(e.educationDate); return d>=now&&d<=sixM; }));
-    }
-
-    // ════════════════════════════════════════════════════════
-    // 직원관리
-    // ════════════════════════════════════════════════════════
-    function renderEmployeeTable(list) {
-        const tbody = document.getElementById('employeesTableBody');
-        if (!list.length) { tbody.innerHTML = '<tr><td colspan="8" class="no-data">표시할 직원 정보가 없습니다.</td></tr>'; return; }
-        tbody.innerHTML = list.map(emp => {
-            const isActive = !emp.resignDate || new Date(emp.resignDate) > new Date();
-            const certCount = emp.certificates ? emp.certificates.length : 0;
-            return `<tr>
-                <td>${emp.name}</td><td>${emp.gender}</td><td>${emp.phone||'-'}</td><td>${emp.email||'-'}</td>
-                <td><span class="badge badge-info">${certCount}개</span></td>
-                <td>${emp.hireDate ? new Date(emp.hireDate).toLocaleDateString('ko-KR') : '-'}</td>
-                <td><span class="badge ${isActive?'badge-success':'badge-danger'}">${isActive?'재직':'퇴사'}</span></td>
-                <td><div class="action-buttons">
-                    <button class="btn btn-info btn-small"    onclick="showEmployeeDetail(${emp.id})">상세</button>
-                    <button class="btn btn-primary btn-small" onclick="openEmployeeModal(${emp.id})">수정</button>
-                    <button class="btn btn-danger btn-small"  onclick="deleteEmployee(${emp.id})">삭제</button>
-                </div></td></tr>`;
-        }).join('');
-    }
-    function loadEmployees() { renderEmployeeTable(employees); }
-    function searchEmployees() {
-        const q = document.getElementById('employeeSearch').value.toLowerCase();
-        renderEmployeeTable(employees.filter(e =>
-            (e.name||'').toLowerCase().includes(q)||(e.email||'').toLowerCase().includes(q)||(e.phone||'').includes(q)));
-    }
-
-    // ── 자격증 필드 ──────────────────────────────────────────
-    function addCertificateField(certData = null) {
-        certificateCount++;
-        const id = certificateCount;
-        const div = document.createElement('div');
-        div.className = 'certificate-item'; div.id = `cert-${id}`;
-        const ed = certData && certData.educationDates ? certData.educationDates : {};
-        div.innerHTML = `
-            <button type="button" class="remove-cert-btn" onclick="removeCertificateField(${id})">×</button>
-            <h4>📜 자격증 ${id}</h4>
-            <div class="form-row">
-                <div class="form-group"><label>자격증명 *</label><input type="text" class="cert-name" value="${certData?certData.name:''}" placeholder="자격증 이름"></div>
-                <div class="form-group"><label>취득일 *</label><input type="date" class="cert-date" value="${certData?certData.date:''}"></div>
-            </div>
-            <h4 style="margin-top:12px;font-size:0.85em;color:#7f8c8d;">교육 일정</h4>
-            <div class="cert-education-grid">
-                <div class="form-group"><label>초급교육</label><input type="date" class="cert-edu-basic"        value="${ed.basic||''}"></div>
-                <div class="form-group"><label>중급교육</label><input type="date" class="cert-edu-intermediate" value="${ed.intermediate||''}"></div>
-                <div class="form-group"><label>고급교육</label><input type="date" class="cert-edu-advanced"     value="${ed.advanced||''}"></div>
-                <div class="form-group"><label>특급교육</label><input type="date" class="cert-edu-expert"       value="${ed.expert||''}"></div>
-                <div class="form-group"><label>평가사교육</label><input type="date" class="cert-edu-evaluator"  value="${ed.evaluator||''}"></div>
-            </div>`;
-        document.getElementById('certificatesContainer').appendChild(div);
-    }
-    function removeCertificateField(id) { document.getElementById(`cert-${id}`)?.remove(); }
-
-    // ── 직원 모달 ────────────────────────────────────────────
-    function openEmployeeModal(employeeId = null) {
-        const container = document.getElementById('certificatesContainer');
-        container.innerHTML = ''; certificateCount = 0;
-        if (employeeId) {
-            const emp = employees.find(e => e.id === employeeId);
-            document.getElementById('employeeModalTitle').textContent = '직원 정보 수정';
-            document.getElementById('employeeId').value         = emp.id;
-            document.getElementById('employeeName').value       = emp.name;
-            document.getElementById('employeeGender').value     = emp.gender;
-            document.getElementById('employeeAddress').value    = emp.address || '';
-            document.getElementById('employeePhone').value      = emp.phone || '';
-            document.getElementById('employeeEmail').value      = emp.email || '';
-            document.getElementById('employeeHireDate').value   = emp.hireDate || '';
-            document.getElementById('employeeResignDate').value = emp.resignDate || '';
-            if (emp.certificates && emp.certificates.length > 0) emp.certificates.forEach(c => addCertificateField(c));
-            else addCertificateField();
-        } else {
-            document.getElementById('employeeModalTitle').textContent = '직원 등록';
-            document.getElementById('employeeId').value = '';
-            document.querySelector('#employeeModal form').reset();
-            addCertificateField();
-        }
-        document.getElementById('employeeModal').classList.add('active');
-    }
-    function closeEmployeeModal() { document.getElementById('employeeModal').classList.remove('active'); }
-
-    async function saveEmployee(event) {
-        event.preventDefault();
-        const idVal = document.getElementById('employeeId').value;
-        const btn   = document.getElementById('empSaveBtn');
-        btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>저장 중...';
-
-        const certificates = [];
-        document.querySelectorAll('.certificate-item').forEach(certDiv => {
-            const name = certDiv.querySelector('.cert-name').value;
-            const date = certDiv.querySelector('.cert-date').value;
-            if (name && date) certificates.push({
-                id: certDiv.id.replace('cert-', ''), name, date,
-                educationDates: {
-                    basic:        certDiv.querySelector('.cert-edu-basic').value,
-                    intermediate: certDiv.querySelector('.cert-edu-intermediate').value,
-                    advanced:     certDiv.querySelector('.cert-edu-advanced').value,
-                    expert:       certDiv.querySelector('.cert-edu-expert').value,
-                    evaluator:    certDiv.querySelector('.cert-edu-evaluator').value,
+        function toFs(obj) {
+            const fields = {};
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    fields[key] = toFV(obj[key]);
                 }
+            }
+            return fields;
+        }
+
+        function fromFV(fv) {
+            if (!fv) return null;
+            if (fv.stringValue !== undefined) return fv.stringValue;
+            if (fv.integerValue !== undefined) return parseInt(fv.integerValue, 10);
+            if (fv.doubleValue !== undefined) return fv.doubleValue;
+            if (fv.booleanValue !== undefined) return fv.booleanValue;
+            if (fv.nullValue !== undefined) return null;
+            if (fv.arrayValue) {
+                return (fv.arrayValue.values || []).map(v => fromFV(v));
+            }
+            if (fv.mapValue) {
+                return fromFs(fv.mapValue.fields || {});
+            }
+            return null;
+        }
+
+        function fromFs(fields) {
+            const obj = {};
+            for (const key in fields) {
+                if (fields.hasOwnProperty(key)) {
+                    obj[key] = fromFV(fields[key]);
+                }
+            }
+            return obj;
+        }
+
+        // ============================
+        // Firebase REST API 함수
+        // ============================
+        async function fbGetAll(col) {
+            const r = await fetch(`${FB_BASE}/${col}?key=${FB_KEY}&pageSize=500`);
+            if (!r.ok) throw new Error(`HTTP ${r.status} (${col})`);
+            const j = await r.json();
+            if (!j.documents) return [];
+            return j.documents.map(d => {
+                const data = fromFs(d.fields || {});
+                // Firestore 문서 ID를 id로 사용
+                const docId = d.name.split('/').pop();
+                if (!data.id) data.id = docId;
+                return data;
             });
-        });
+        }
 
-        const empId = idVal ? parseInt(idVal) : Date.now();
-        const emp = {
-            id: empId, name: document.getElementById('employeeName').value,
-            gender: document.getElementById('employeeGender').value,
-            address: document.getElementById('employeeAddress').value,
-            phone: document.getElementById('employeePhone').value,
-            email: document.getElementById('employeeEmail').value,
-            hireDate: document.getElementById('employeeHireDate').value,
-            resignDate: document.getElementById('employeeResignDate').value,
-            certificates,
-        };
+        async function fbSet(col, id, data) {
+            const eid = encodeURIComponent(String(id));
+            const r = await fetch(`${FB_BASE}/${col}/${eid}?key=${FB_KEY}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fields: toFs(JSON.parse(JSON.stringify(data))) })
+            });
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        }
 
-        try {
-            await fbSet('employees', empId, emp);
-            if (idVal) {
-                const idx = employees.findIndex(e => e.id === empId);
-                if (idx >= 0) employees[idx] = emp;
-                // 기존 교육일정 삭제 후 재생성
-                const oldEduIds = educations.filter(ed => ed.employeeId === empId).map(ed => ed.id);
-                educations = educations.filter(ed => ed.employeeId !== empId);
-                for (const eid of oldEduIds) await fbDel('educations', eid);
-            } else {
-                employees.push(emp);
-                calculateAnnualLeaveForEmployee(emp);
+        async function fbDel(col, id) {
+            const eid = encodeURIComponent(String(id));
+            const r = await fetch(`${FB_BASE}/${col}/${eid}?key=${FB_KEY}`, { method: 'DELETE' });
+            if (!r.ok && r.status !== 404) throw new Error(`HTTP ${r.status}`);
+        }
+
+        async function fbReplaceAll(col, arr, idKey) {
+            const old = await fbGetAll(col);
+            for (const d of old) {
+                const id = d[idKey] || d.id;
+                if (id) await fbDel(col, id);
             }
-            await generateEducationSchedule(emp);
-            closeEmployeeModal();
-            loadEmployees(); loadAnnualLeave(); loadEducation(); updateDashboard(); updateBackupInfo();
-            alert('직원 정보가 저장되었습니다.');
-        } catch (e) { alert('저장 실패: ' + e.message); }
-        btn.disabled = false; btn.innerHTML = '저장';
-    }
-
-    async function generateEducationSchedule(emp) {
-        if (!emp.certificates) return;
-        const eduTypes = [
-            {key:'basic',name:'초급교육'},{key:'intermediate',name:'중급교육'},
-            {key:'advanced',name:'고급교육'},{key:'expert',name:'특급교육'},
-            {key:'evaluator',name:'평가사교육'}
-        ];
-        for (const cert of emp.certificates) {
-            for (const type of eduTypes) {
-                const dateVal = cert.educationDates && cert.educationDates[type.key];
-                if (dateVal) {
-                    const edu = {
-                        id: `edu_${emp.id}_${cert.id}_${type.key}`,
-                        employeeId: emp.id, employeeName: emp.name,
-                        certificate: cert.name, certificateDate: cert.date,
-                        type: type.name, educationDate: dateVal,
-                    };
-                    educations.push(edu);
-                    await fbSet('educations', edu.id, edu);
-                }
+            for (const item of arr) {
+                const id = String(item[idKey] || item.id || Date.now() + Math.random());
+                await fbSet(col, id, item);
             }
         }
-    }
 
-    function showEmployeeDetail(employeeId) {
-        const emp = employees.find(e => e.id === employeeId);
-        const isActive = !emp.resignDate || new Date(emp.resignDate) > new Date();
-        const eduTypes = [
-            {key:'basic',name:'초급교육'},{key:'intermediate',name:'중급교육'},
-            {key:'advanced',name:'고급교육'},{key:'expert',name:'특급교육'},
-            {key:'evaluator',name:'평가사교육'}
-        ];
-        let certificatesHtml = '<p class="no-data">등록된 자격증이 없습니다.</p>';
-        if (emp.certificates && emp.certificates.length > 0) {
-            certificatesHtml = emp.certificates.map(cert => {
-                let eduHtml = '';
-                eduTypes.forEach(type => {
-                    if (cert.educationDates && cert.educationDates[type.key])
-                        eduHtml += `<div class="info-item"><label>${type.name}</label><div class="value">${new Date(cert.educationDates[type.key]).toLocaleDateString('ko-KR')}</div></div>`;
-                });
-                return `<div class="certificate-item">
-                    <h4>📜 ${cert.name}</h4>
-                    <p style="color:#7f8c8d;margin-bottom:10px;">취득일: ${new Date(cert.date).toLocaleDateString('ko-KR')}</p>
-                    ${eduHtml ? `<div class="education-grid">${eduHtml}</div>` : '<p style="color:#7f8c8d;font-size:0.9em;">등록된 교육일정이 없습니다.</p>'}
+        // ============================
+        // 데이터 로드 함수
+        // ============================
+        async function loadAllFromFirebase() {
+            showLoading(true);
+            try {
+                [employees, annualLeaves, educations] = await Promise.all([
+                    fbGetAll('employees'),
+                    fbGetAll('annualLeaves'),
+                    fbGetAll('educations')
+                ]);
+                updateDashboard();
+                loadEmployees();
+                loadAnnualLeave();
+                loadEducation();
+                updateBackupInfo();
+                showLoading(false);
+            } catch (error) {
+                showLoading(false);
+                throw error;
+            }
+        }
+
+        // ============================
+        // 유틸리티 함수
+        // ============================
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('active', show);
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} active`;
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 3000);
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showAnnualLeaveTab() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showNotification('🔒 연차관리는 관리자만 사용할 수 있습니다.', 'error');
+                return;
+            }
+            showTab('annual-leave');
+        }
+
+        // ============================
+        // 인증 시스템
+        // ============================
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.querySelectorAll('.auth-tab-btn').forEach(b => b.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.getElementById('loginForm').classList.add('active');
+                event.target.classList.add('active');
+            } else {
+                document.getElementById('registerForm').classList.add('active');
+                event.target.classList.add('active');
+            }
+            
+            document.getElementById('loginError').classList.remove('visible');
+            document.getElementById('registerError').classList.remove('visible');
+        }
+
+        async function doLogin() {
+            const id = document.getElementById('loginId').value.trim();
+            const pw = document.getElementById('loginPw').value;
+            const errEl = document.getElementById('loginError');
+            
+            if (!id || !pw) {
+                errEl.textContent = '아이디와 비밀번호를 입력하세요.';
+                errEl.classList.add('visible');
+                return;
+            }
+            
+            showLoading(true);
+            try {
+                const users = await fbGetAll('sysUsers');
+                const user = users.find(u => u.id === id && u.pw === pw);
+                
+                if (!user) {
+                    errEl.textContent = '아이디 또는 비밀번호가 일치하지 않습니다.';
+                    errEl.classList.add('visible');
+                    showLoading(false);
+                    return;
+                }
+                
+                if (user.status === 'pending') {
+                    errEl.textContent = '⏳ 관리자 승인 대기 중입니다.';
+                    errEl.classList.add('visible');
+                    showLoading(false);
+                    return;
+                }
+                
+                if (user.status === 'rejected') {
+                    errEl.textContent = '❌ 가입이 거절되었습니다.';
+                    errEl.classList.add('visible');
+                    showLoading(false);
+                    return;
+                }
+                
+                currentUser = user;
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                
+                await loadAllFromFirebase();
+                
+                document.getElementById('authOverlay').classList.remove('active');
+                document.getElementById('headerUserName').textContent = user.name;
+                
+                const badge = document.getElementById('headerUserBadge');
+                if (user.role === 'admin') {
+                    badge.textContent = '관리자';
+                    badge.classList.add('admin');
+                    document.getElementById('adminTab').style.display = 'block';
+                    document.getElementById('annualLeaveTab').innerHTML = '📅 연차관리';
+                } else {
+                    badge.textContent = '일반';
+                    badge.classList.remove('admin');
+                }
+                
+                showNotification(`✅ ${user.name}님 환영합니다!`, 'success');
+                showLoading(false);
+            } catch (error) {
+                errEl.textContent = '서버 연결 실패. 잠시 후 다시 시도하세요.';
+                errEl.classList.add('visible');
+                showLoading(false);
+            }
+        }
+
+        async function doRegister() {
+            const name = document.getElementById('registerName').value.trim();
+            const id = document.getElementById('registerId').value.trim();
+            const pw = document.getElementById('registerPw').value;
+            const pw2 = document.getElementById('registerPw2').value;
+            const errEl = document.getElementById('registerError');
+            
+            if (!name || !id || !pw || !pw2) {
+                errEl.textContent = '모든 항목을 입력하세요.';
+                errEl.classList.add('visible');
+                return;
+            }
+            
+            if (id.length < 4) {
+                errEl.textContent = '아이디는 4자 이상이어야 합니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+            
+            if (pw.length < 6) {
+                errEl.textContent = '비밀번호는 6자 이상이어야 합니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+            
+            if (pw !== pw2) {
+                errEl.textContent = '비밀번호가 일치하지 않습니다.';
+                errEl.classList.add('visible');
+                return;
+            }
+            
+            showLoading(true);
+            try {
+                const users = await fbGetAll('sysUsers');
+                
+                if (users.find(u => u.id === id)) {
+                    errEl.textContent = '이미 존재하는 아이디입니다.';
+                    errEl.classList.add('visible');
+                    showLoading(false);
+                    return;
+                }
+                
+                const newUser = {
+                    id: id,
+                    pw: pw,
+                    name: name,
+                    role: 'user',
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                };
+                
+                await fbSet('sysUsers', id, newUser);
+                
+                showNotification('✅ 가입 신청이 완료되었습니다. 관리자 승인을 기다려주세요.', 'success');
+                
+                document.getElementById('registerName').value = '';
+                document.getElementById('registerId').value = '';
+                document.getElementById('registerPw').value = '';
+                document.getElementById('registerPw2').value = '';
+                
+                switchAuthTab('login');
+                showLoading(false);
+            } catch (error) {
+                errEl.textContent = '서버 연결 실패. 잠시 후 다시 시도하세요.';
+                errEl.classList.add('visible');
+                showLoading(false);
+            }
+        }
+
+        function doLogout() {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                currentUser = null;
+                sessionStorage.removeItem('currentUser');
+                document.getElementById('authOverlay').classList.add('active');
+                document.getElementById('adminTab').style.display = 'none';
+                document.getElementById('annualLeaveTab').innerHTML = '📅 연차관리 🔒';
+                showNotification('로그아웃되었습니다.', 'success');
+            }
+        }
+
+        // ============================
+        // 초기화
+        // ============================
+        async function initAdmin() {
+            try {
+                const users = await fbGetAll('sysUsers');
+                if (!users.find(u => u.role === 'admin')) {
+                    const admin = {
+                        id: 'admin',
+                        pw: 'admin1234',
+                        name: '관리자',
+                        role: 'admin',
+                        status: 'approved',
+                        createdAt: new Date().toISOString()
+                    };
+                    await fbSet('sysUsers', 'admin', admin);
+                }
+            } catch (error) {
+                console.error('관리자 초기화 실패:', error);
+            }
+        }
+
+        function showFatalError(msg) {
+            document.getElementById('authOverlay').classList.remove('active');
+            document.body.innerHTML = `
+                <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;font-family:sans-serif;background:#f8f9fa;">
+                    <div style="font-size:48px">❌</div>
+                    <h2 style="color:#e74c3c">Firebase 연결 오류</h2>
+                    <p style="color:#7f8c8d;text-align:center;max-width:500px;">${msg}</p>
+                    <button onclick="location.reload()" style="padding:12px 30px;background:#3498db;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;">다시 시도</button>
                 </div>`;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // 회계년도 초기화
+            const fiscalYearInput = document.getElementById('fiscalYear');
+            if (fiscalYearInput) {
+                fiscalYearInput.value = new Date().getFullYear();
+            }
+            
+            // 로그인 엔터키 지원
+            document.getElementById('loginPw').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') doLogin();
+            });
+            
+            // 세션 체크
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                document.getElementById('authOverlay').classList.remove('active');
+                document.getElementById('headerUserName').textContent = currentUser.name;
+                
+                const badge = document.getElementById('headerUserBadge');
+                if (currentUser.role === 'admin') {
+                    badge.textContent = '관리자';
+                    badge.classList.add('admin');
+                    document.getElementById('adminTab').style.display = 'block';
+                    document.getElementById('annualLeaveTab').innerHTML = '📅 연차관리';
+                } else {
+                    badge.textContent = '일반';
+                }
+                
+                try {
+                    await initAdmin();
+                    await loadAllFromFirebase();
+                } catch (e) {
+                    showFatalError('Firebase 연결 실패: ' + e.message + '<br><br>Firebase 설정을 확인하세요.');
+                    return;
+                }
+            } else {
+                // 관리자 계정 초기화만
+                try {
+                    await initAdmin();
+                } catch (e) {
+                    showFatalError('Firebase 연결 실패: ' + e.message + '<br><br>Firebase 프로젝트 설정을 확인하세요.');
+                }
+            }
+        });
+
+        // ============================
+        // 대시보드
+        // ============================
+        function updateDashboard() {
+            const total = employees.length;
+            const active = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date()).length;
+            const resigned = total - active;
+            
+            const sixMonthsLater = new Date();
+            sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
+            const upcoming = educations.filter(edu => {
+                const eduDate = new Date(edu.educationDate);
+                return eduDate >= new Date() && eduDate <= sixMonthsLater;
+            }).length;
+            
+            document.getElementById('dashTotalEmployees').textContent = total;
+            document.getElementById('dashActiveEmployees').textContent = active;
+            document.getElementById('dashResignedEmployees').textContent = resigned;
+            document.getElementById('dashUpcomingEducation').textContent = upcoming;
+        }
+
+        // ============================
+        // 직원관리
+        // ============================
+        function loadEmployees() {
+            renderEmployeeTable(employees);
+        }
+
+        function renderEmployeeTable(employeeList) {
+            const tbody = document.getElementById('employeeTableBody');
+            
+            if (employeeList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 40px; color: #7f8c8d;">등록된 직원이 없습니다.</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = employeeList.map(emp => {
+                const isActive = !emp.resignDate || new Date(emp.resignDate) > new Date();
+                const certCount = emp.certificates ? emp.certificates.length : 0;
+                
+                return `
+                    <tr>
+                        <td><strong>${emp.name}</strong></td>
+                        <td>${emp.gender || '-'}</td>
+                        <td>${emp.phone || '-'}</td>
+                        <td>${emp.email || '-'}</td>
+                        <td>${certCount}개</td>
+                        <td>${emp.hireDate || '-'}</td>
+                        <td>
+                            <span class="badge ${isActive ? 'badge-success' : 'badge-secondary'}">
+                                ${isActive ? '재직' : '퇴사'}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-small" onclick="showEmployeeDetail('${emp.id}')">상세</button>
+                            <button class="btn btn-success btn-small" onclick="openEmployeeModal('${emp.id}')">수정</button>
+                            <button class="btn btn-danger btn-small" onclick="deleteEmployee('${emp.id}')">삭제</button>
+                        </td>
+                    </tr>
+                `;
             }).join('');
         }
-        document.getElementById('employeeDetailContent').innerHTML = `<div style="padding:25px;">
-            <div class="info-section"><h3>기본 정보</h3><div class="info-grid">
-                <div class="info-item"><label>성명</label><div class="value">${emp.name}</div></div>
-                <div class="info-item"><label>성별</label><div class="value">${emp.gender}</div></div>
-                <div class="info-item"><label>전화번호</label><div class="value">${emp.phone||'-'}</div></div>
-                <div class="info-item"><label>이메일</label><div class="value">${emp.email||'-'}</div></div>
-                <div class="info-item"><label>입사일</label><div class="value">${emp.hireDate?new Date(emp.hireDate).toLocaleDateString('ko-KR'):'-'}</div></div>
-                <div class="info-item"><label>상태</label><div class="value"><span class="badge ${isActive?'badge-success':'badge-danger'}">${isActive?'재직':'퇴사'}</span></div></div>
-            </div>${emp.address?`<div class="info-item" style="margin-top:15px;"><label>주소</label><div class="value">${emp.address}</div></div>`:''}</div>
-            <div class="info-section"><h3>자격증 정보</h3>${certificatesHtml}</div>
-        </div>`;
-        document.getElementById('employeeDetailModal').classList.add('active');
-    }
-    function closeEmployeeDetailModal() { document.getElementById('employeeDetailModal').classList.remove('active'); }
 
-    async function deleteEmployee(id) {
-        if (!confirm('이 직원 정보를 삭제하시겠습니까?\n(연차 및 교육 데이터도 함께 삭제됩니다)')) return;
-        try {
-            await fbDel('employees', id);
-            for (const lv of annualLeaves.filter(a => a.employeeId === id)) await fbDel('annualLeaves', lv.id || `lv_${id}`);
-            for (const ed of educations.filter(e => e.employeeId === id)) await fbDel('educations', ed.id);
-            employees    = employees.filter(e => e.id !== id);
-            annualLeaves = annualLeaves.filter(a => a.employeeId !== id);
-            educations   = educations.filter(e => e.employeeId !== id);
-            loadEmployees(); loadAnnualLeave(); loadEducation(); updateDashboard(); updateBackupInfo();
-            alert('직원 정보가 삭제되었습니다.');
-        } catch (e) { alert('삭제 실패: ' + e.message); }
-    }
-
-    // ════════════════════════════════════════════════════════
-    // 연차관리
-    // ════════════════════════════════════════════════════════
-    function calculateAnnualLeaveForEmployee(emp) {
-        const fy     = parseInt(document.getElementById('fiscalYear').value) || new Date().getFullYear();
-        const years  = (new Date(fy, 11, 31) - new Date(emp.hireDate)) / (365.25*24*3600*1000);
-        const total  = years < 1 ? 12 : Math.min(15 + (years >= 3 ? Math.floor((years-1)/2) : 0), 25);
-        const lid    = `lv_${emp.id}`;
-        const existing = annualLeaves.find(a => a.employeeId === emp.id);
-        if (existing) {
-            existing.totalDays = total; existing.yearsOfService = years.toFixed(1); existing.fiscalYear = fy;
-        } else {
-            const lv = { id:lid, employeeId:emp.id, totalDays:total, usedDays:0,
-                yearsOfService:years.toFixed(1), fiscalYear:fy, usageHistory:[] };
-            annualLeaves.push(lv);
-            fbSet('annualLeaves', lid, lv).catch(console.warn);
+        function searchEmployees() {
+            const query = document.getElementById('employeeSearch').value.toLowerCase();
+            const filtered = employees.filter(emp => 
+                emp.name.toLowerCase().includes(query) ||
+                (emp.email && emp.email.toLowerCase().includes(query)) ||
+                (emp.phone && emp.phone.includes(query))
+            );
+            renderEmployeeTable(filtered);
         }
-    }
 
-    function calculateAllAnnualLeave() {
-        const fy = document.getElementById('fiscalYear').value;
-        if (!fy) { alert('회계년도를 입력해주세요.'); return; }
-        if (!confirm(`${fy}년 회계년도 기준으로\n전체 직원의 연차를 재계산하시겠습니까?`)) return;
-        employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date()).forEach(emp => calculateAnnualLeaveForEmployee(emp));
-        annualLeaves.forEach(lv => fbSet('annualLeaves', lv.id || `lv_${lv.employeeId}`, lv).catch(console.warn));
-        loadAnnualLeave(); updateBackupInfo();
-        alert(`${fy}년 회계년도 기준으로\n전체 연차가 재계산되었습니다.`);
-    }
-
-    function loadAnnualLeave() {
-        const tbody  = document.getElementById('annualLeaveTableBody');
-        const active = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
-        if (!active.length) { tbody.innerHTML = '<tr><td colspan="7" class="no-data">재직 중인 직원이 없습니다.</td></tr>'; return; }
-        tbody.innerHTML = active.map(emp => {
-            let lv = annualLeaves.find(a => a.employeeId === emp.id);
-            if (!lv) { calculateAnnualLeaveForEmployee(emp); lv = annualLeaves.find(a => a.employeeId === emp.id); }
-            const rem = lv.totalDays - lv.usedDays;
-            return `<tr>
-                <td>${emp.name}</td>
-                <td>${emp.hireDate?new Date(emp.hireDate).toLocaleDateString('ko-KR'):'-'}</td>
-                <td>${lv.yearsOfService}년</td><td>${lv.totalDays}일</td><td>${lv.usedDays}일</td>
-                <td><span class="badge ${rem>5?'badge-success':rem>0?'badge-warning':'badge-danger'}">${rem}일</span></td>
-                <td><div class="action-buttons">
-                    <button class="btn btn-primary btn-small" onclick="openAnnualLeaveModal(${emp.id})">연차사용</button>
-                    <button class="btn btn-info btn-small"    onclick="showAnnualLeaveHistory(${emp.id})">사용내역</button>
-                </div></td></tr>`;
-        }).join('');
-    }
-
-    function openAnnualLeaveModal(empId) {
-        const emp = employees.find(e => e.id === empId);
-        const lv  = annualLeaves.find(a => a.employeeId === empId);
-        document.getElementById('leaveEmployeeId').value          = empId;
-        document.getElementById('leaveEmployeeName').value        = emp.name;
-        document.getElementById('leaveTotalDays').textContent     = lv.totalDays;
-        document.getElementById('leaveUsedDays').textContent      = lv.usedDays;
-        document.getElementById('leaveRemainingDays').textContent = lv.totalDays - lv.usedDays;
-        document.getElementById('annualLeaveModal').classList.add('active');
-    }
-    function closeAnnualLeaveModal() {
-        document.getElementById('annualLeaveModal').classList.remove('active');
-        document.querySelector('#annualLeaveModal form').reset();
-    }
-
-    async function saveAnnualLeaveUsage(event) {
-        event.preventDefault();
-        const empId   = parseInt(document.getElementById('leaveEmployeeId').value);
-        const useDays = parseFloat(document.getElementById('leaveUsageDays').value);
-        const useDate = document.getElementById('leaveUsageDate').value;
-        const reason  = document.getElementById('leaveUsageReason').value;
-        const lv      = annualLeaves.find(a => a.employeeId === empId);
-        const rem     = lv.totalDays - lv.usedDays;
-        if (useDays > rem) { alert(`사용 가능한 연차가 부족합니다. (잔여: ${rem}일)`); return; }
-        lv.usedDays += useDays;
-        lv.usageHistory = lv.usageHistory || [];
-        lv.usageHistory.push({ date:useDate, days:useDays, reason, recordDate:new Date().toISOString() });
-        try {
-            await fbSet('annualLeaves', lv.id || `lv_${empId}`, lv);
-            closeAnnualLeaveModal(); loadAnnualLeave(); updateBackupInfo();
-            alert('연차 사용이 등록되었습니다.');
-        } catch (e) { alert('저장 실패: ' + e.message); }
-    }
-
-    function showAnnualLeaveHistory(empId) {
-        const emp = employees.find(e => e.id === empId);
-        const lv  = annualLeaves.find(a => a.employeeId === empId);
-        let histHtml = '<p class="no-data">연차 사용내역이 없습니다.</p>';
-        if (lv.usageHistory && lv.usageHistory.length > 0) {
-            const sorted = [...lv.usageHistory].sort((a,b) => new Date(b.date)-new Date(a.date));
-            histHtml = `
-                <div class="info-section"><h3>${emp.name} - 연차 현황</h3><div class="info-grid">
-                    <div class="info-item"><label>총 연차</label><div class="value">${lv.totalDays}일</div></div>
-                    <div class="info-item"><label>사용 연차</label><div class="value">${lv.usedDays}일</div></div>
-                    <div class="info-item"><label>잔여 연차</label><div class="value" style="color:#27ae60">${lv.totalDays-lv.usedDays}일</div></div>
-                </div></div>
-                <table style="width:100%;border-collapse:collapse;font-size:0.9em;margin-top:15px;">
-                    <thead><tr style="background:#34495e;color:white;">
-                        <th style="padding:10px 12px;">날짜</th><th style="padding:10px 12px;">일수</th>
-                        <th style="padding:10px 12px;">사유</th><th style="padding:10px 12px;">관리</th>
-                    </tr></thead><tbody>
-                    ${sorted.map(h => {
-                        const realIdx = lv.usageHistory.indexOf(h);
-                        return `<tr style="border-bottom:1px solid #ecf0f1;">
-                            <td style="padding:10px 12px;">${h.date}</td>
-                            <td style="padding:10px 12px;">${h.days}일${h.isBulk?'<span class="badge badge-info" style="margin-left:4px;">일괄</span>':''}</td>
-                            <td style="padding:10px 12px;">${h.reason||'-'}</td>
-                            <td style="padding:10px 12px;"><div class="action-buttons">
-                                <button class="btn btn-warning btn-small" onclick="editLeaveHistory(${empId},${realIdx})">수정</button>
-                                <button class="btn btn-danger btn-small"  onclick="deleteLeaveHistory(${empId},${realIdx})">삭제</button>
-                            </div></td></tr>`;
-                    }).join('')}
-                    </tbody></table>`;
+        function openEmployeeModal(employeeId = null) {
+            const modal = document.getElementById('employeeModal');
+            const title = document.getElementById('employeeModalTitle');
+            const container = document.getElementById('certificatesContainer');
+            
+            // 초기화
+            document.getElementById('employeeId').value = '';
+            document.getElementById('employeeName').value = '';
+            document.getElementById('employeeGender').value = '';
+            document.getElementById('employeeAddress').value = '';
+            document.getElementById('employeePhone').value = '';
+            document.getElementById('employeeEmail').value = '';
+            document.getElementById('employeeHireDate').value = '';
+            document.getElementById('employeeResignDate').value = '';
+            container.innerHTML = '';
+            certIdCounter = 1;
+            
+            if (employeeId) {
+                const emp = employees.find(e => e.id === employeeId);
+                if (emp) {
+                    title.textContent = '직원 정보 수정';
+                    document.getElementById('employeeId').value = emp.id;
+                    document.getElementById('employeeName').value = emp.name || '';
+                    document.getElementById('employeeGender').value = emp.gender || '';
+                    document.getElementById('employeeAddress').value = emp.address || '';
+                    document.getElementById('employeePhone').value = emp.phone || '';
+                    document.getElementById('employeeEmail').value = emp.email || '';
+                    document.getElementById('employeeHireDate').value = emp.hireDate || '';
+                    document.getElementById('employeeResignDate').value = emp.resignDate || '';
+                    
+                    if (emp.certificates && emp.certificates.length > 0) {
+                        emp.certificates.forEach(cert => addCertificateField(cert));
+                    }
+                }
+            } else {
+                title.textContent = '직원 등록';
+            }
+            
+            modal.classList.add('active');
         }
-        document.getElementById('annualLeaveHistoryContent').innerHTML = `<div style="padding:25px;">${histHtml}</div>`;
-        document.getElementById('annualLeaveHistoryModal').classList.add('active');
-    }
-    function closeAnnualLeaveHistoryModal() { document.getElementById('annualLeaveHistoryModal').classList.remove('active'); }
 
-    async function deleteLeaveHistory(empId, histIdx) {
-        if (!confirm('이 연차 사용 내역을 삭제하시겠습니까?')) return;
-        const lv = annualLeaves.find(a => a.employeeId === empId);
-        if (!lv || !lv.usageHistory || !lv.usageHistory[histIdx]) { alert('삭제할 내역을 찾을 수 없습니다.'); return; }
-        const deleted = lv.usageHistory[histIdx];
-        lv.usedDays -= deleted.days;
-        lv.usageHistory.splice(histIdx, 1);
-        try {
-            await fbSet('annualLeaves', lv.id || `lv_${empId}`, lv);
-            loadAnnualLeave(); updateBackupInfo(); showAnnualLeaveHistory(empId);
-            alert('연차 사용 내역이 삭제되었습니다.');
-        } catch (e) { alert('삭제 실패: ' + e.message); }
-    }
-
-    async function editLeaveHistory(empId, histIdx) {
-        const lv = annualLeaves.find(a => a.employeeId === empId);
-        if (!lv || !lv.usageHistory || !lv.usageHistory[histIdx]) { alert('수정할 내역을 찾을 수 없습니다.'); return; }
-        const h = lv.usageHistory[histIdx];
-        const newDate = prompt('사용 날짜를 입력하세요 (YYYY-MM-DD):', h.date);
-        if (!newDate) return;
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate)) { alert('올바른 날짜 형식이 아닙니다. (YYYY-MM-DD)'); return; }
-        const newDaysStr = prompt('사용 일수를 입력하세요:', h.days);
-        if (!newDaysStr) return;
-        const newDays = parseFloat(newDaysStr);
-        if (isNaN(newDays) || newDays <= 0) { alert('올바른 일수를 입력하세요.'); return; }
-        const newReason = prompt('사용 사유를 입력하세요:', h.reason || '');
-        const curUsed = lv.usedDays - h.days;
-        if (curUsed + newDays > lv.totalDays) {
-            alert(`잔여 연차가 부족합니다.\n총 연차: ${lv.totalDays}일\n현재 사용: ${curUsed}일\n잔여: ${lv.totalDays-curUsed}일`);
-            return;
+        function closeEmployeeModal() {
+            document.getElementById('employeeModal').classList.remove('active');
         }
-        lv.usedDays = curUsed + newDays;
-        h.date = newDate; h.days = newDays; h.reason = newReason; h.modifiedDate = new Date().toISOString();
-        try {
-            await fbSet('annualLeaves', lv.id || `lv_${empId}`, lv);
-            loadAnnualLeave(); updateBackupInfo(); showAnnualLeaveHistory(empId);
-            alert('연차 사용 내역이 수정되었습니다.');
-        } catch (e) { alert('수정 실패: ' + e.message); }
-    }
 
-    function openBulkLeaveModal() {
-        if (!employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date()).length) {
-            alert('재직 중인 직원이 없습니다.'); return;
+        function addCertificateField(certData = null) {
+            const container = document.getElementById('certificatesContainer');
+            const certId = certIdCounter++;
+            
+            const certDiv = document.createElement('div');
+            certDiv.className = 'certificate-card';
+            certDiv.id = `cert-${certId}`;
+            
+            certDiv.innerHTML = `
+                <div class="certificate-header">
+                    <strong>자격증 ${certId}</strong>
+                    <button type="button" class="remove-cert-btn" onclick="removeCertificateField(${certId})">삭제</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>자격증명</label>
+                        <input type="text" class="cert-name" value="${certData?.name || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>취득일</label>
+                        <input type="date" class="cert-date" value="${certData?.date || ''}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>교육 일정</label>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label style="font-size: 0.85em;">초급교육</label>
+                            <input type="date" class="cert-edu-basic" value="${certData?.education?.basic || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.85em;">중급교육</label>
+                            <input type="date" class="cert-edu-intermediate" value="${certData?.education?.intermediate || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.85em;">고급교육</label>
+                            <input type="date" class="cert-edu-advanced" value="${certData?.education?.advanced || ''}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label style="font-size: 0.85em;">특급교육</label>
+                            <input type="date" class="cert-edu-expert" value="${certData?.education?.expert || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.85em;">평가사교육</label>
+                            <input type="date" class="cert-edu-evaluator" value="${certData?.education?.evaluator || ''}">
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(certDiv);
         }
-        document.getElementById('bulkLeaveModal').classList.add('active');
-        updateBulkLeavePreview();
-    }
-    function closeBulkLeaveModal() {
-        document.getElementById('bulkLeaveModal').classList.remove('active');
-        document.querySelector('#bulkLeaveModal form').reset();
-        document.getElementById('bulkLeavePreview').innerHTML = '';
-    }
-    function updateBulkLeavePreview() {
-        const days   = parseFloat(document.getElementById('bulkLeaveDays').value) || 0;
-        const active = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
-        if (days <= 0) { document.getElementById('bulkLeavePreview').innerHTML = ''; return; }
-        let ok=0, skip=0, skipList=[];
-        active.forEach(emp => {
-            const lv = annualLeaves.find(a => a.employeeId === emp.id);
-            if (lv) { const rem=lv.totalDays-lv.usedDays; if(rem>=days) ok++; else { skip++; skipList.push(`${emp.name} (잔여: ${rem}일)`); } }
-        });
-        document.getElementById('bulkLeavePreview').innerHTML = `
-            <div class="info-section"><h3>적용 대상 미리보기</h3><div class="info-grid">
-                <div class="info-item"><label>적용 대상</label><div class="value" style="color:#27ae60">${ok}명</div></div>
-                <div class="info-item"><label>제외 대상</label><div class="value" style="color:#e74c3c">${skip}명</div></div>
-                <div class="info-item"><label>사용 일수</label><div class="value">${days}일</div></div>
-            </div>${skip>0?`<div style="margin-top:15px;padding:10px;background:#f8d7da;border-radius:5px;border-left:3px solid #e74c3c;">
-                <strong>제외되는 직원:</strong><br><span style="color:#721c24;font-size:0.9em;">${skipList.join(', ')}</span></div>`:''}</div>`;
-    }
-    async function saveBulkLeave(event) {
-        event.preventDefault();
-        const days   = parseFloat(document.getElementById('bulkLeaveDays').value);
-        const date   = document.getElementById('bulkLeaveDate').value;
-        const reason = document.getElementById('bulkLeaveReason').value;
-        if (!days||days<=0) { alert('사용 일수를 입력해주세요.'); return; }
-        if (!date)          { alert('사용 날짜를 선택해주세요.'); return; }
-        const active = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
-        let ok=0, skip=0, skipNames=[];
-        try {
-            for (const emp of active) {
-                const lv = annualLeaves.find(a => a.employeeId === emp.id);
-                if (lv) {
-                    const rem = lv.totalDays - lv.usedDays;
-                    if (rem >= days) {
-                        lv.usedDays += days;
-                        lv.usageHistory = lv.usageHistory || [];
-                        lv.usageHistory.push({ date, days, reason: reason||'일괄 연차 사용', recordDate:new Date().toISOString(), isBulk:true });
-                        await fbSet('annualLeaves', lv.id || `lv_${emp.id}`, lv);
-                        ok++;
-                    } else { skip++; skipNames.push(emp.name); }
+
+        function removeCertificateField(certId) {
+            const certDiv = document.getElementById(`cert-${certId}`);
+            if (certDiv) certDiv.remove();
+        }
+
+        async function saveEmployee(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('employeeId').value;
+            const certificates = [];
+            
+            document.querySelectorAll('.certificate-card').forEach(card => {
+                const name = card.querySelector('.cert-name').value;
+                const date = card.querySelector('.cert-date').value;
+                
+                if (name && date) {
+                    certificates.push({
+                        name: name,
+                        date: date,
+                        education: {
+                            basic: card.querySelector('.cert-edu-basic').value,
+                            intermediate: card.querySelector('.cert-edu-intermediate').value,
+                            advanced: card.querySelector('.cert-edu-advanced').value,
+                            expert: card.querySelector('.cert-edu-expert').value,
+                            evaluator: card.querySelector('.cert-edu-evaluator').value
+                        }
+                    });
+                }
+            });
+            
+            const employee = {
+                id: id || String(Date.now()),
+                name: document.getElementById('employeeName').value,
+                gender: document.getElementById('employeeGender').value,
+                address: document.getElementById('employeeAddress').value,
+                phone: document.getElementById('employeePhone').value,
+                email: document.getElementById('employeeEmail').value,
+                hireDate: document.getElementById('employeeHireDate').value,
+                resignDate: document.getElementById('employeeResignDate').value,
+                certificates: certificates,
+                updatedAt: new Date().toISOString()
+            };
+            
+            showLoading(true);
+            try {
+                if (id) {
+                    // 수정
+                    const index = employees.findIndex(e => e.id === id);
+                    employees[index] = employee;
+                    
+                    // 기존 교육 일정 삭제
+                    educations = educations.filter(edu => edu.employeeId !== employee.id);
+                    await fbReplaceAll('educations', educations, 'id');
+                } else {
+                    // 신규 등록
+                    employees.push(employee);
+                    
+                    // 연차 계산
+                    await calculateAnnualLeaveForEmployee(employee);
+                }
+                
+                // Firebase 저장
+                await fbSet('employees', employee.id, employee);
+                
+                // 교육 일정 생성
+                await generateEducationSchedule(employee);
+                
+                await loadAllFromFirebase();
+                
+                closeEmployeeModal();
+                showNotification('✅ 직원 정보가 저장되었습니다.', 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 저장 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        async function deleteEmployee(id) {
+            if (!confirm('이 직원 정보를 삭제하시겠습니까?\n(연차 및 교육 데이터도 함께 삭제됩니다)')) {
+                return;
+            }
+            
+            showLoading(true);
+            try {
+                await fbDel('employees', id);
+                
+                // 연관 데이터 삭제
+                const leavesToDelete = annualLeaves.filter(a => a.employeeId === id);
+                for (const leave of leavesToDelete) {
+                    await fbDel('annualLeaves', leave.id);
+                }
+                
+                const educationsToDelete = educations.filter(e => e.employeeId === id);
+                for (const edu of educationsToDelete) {
+                    await fbDel('educations', edu.id);
+                }
+                
+                await loadAllFromFirebase();
+                
+                showNotification('✅ 직원 정보가 삭제되었습니다.', 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 삭제 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        function showEmployeeDetail(employeeId) {
+            const emp = employees.find(e => e.id === employeeId);
+            if (!emp) return;
+            
+            const isActive = !emp.resignDate || new Date(emp.resignDate) > new Date();
+            
+            let certHtml = '';
+            if (emp.certificates && emp.certificates.length > 0) {
+                certHtml = emp.certificates.map((cert, idx) => `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                        <h4 style="margin-bottom: 10px; color: #2c3e50;">${idx + 1}. ${cert.name}</h4>
+                        <p><strong>취득일:</strong> ${cert.date}</p>
+                        ${cert.education ? `
+                            <div style="margin-top: 10px;">
+                                <strong>교육 일정:</strong>
+                                <ul style="margin: 5px 0 0 20px;">
+                                    ${cert.education.basic ? `<li>초급: ${cert.education.basic}</li>` : ''}
+                                    ${cert.education.intermediate ? `<li>중급: ${cert.education.intermediate}</li>` : ''}
+                                    ${cert.education.advanced ? `<li>고급: ${cert.education.advanced}</li>` : ''}
+                                    ${cert.education.expert ? `<li>특급: ${cert.education.expert}</li>` : ''}
+                                    ${cert.education.evaluator ? `<li>평가사: ${cert.education.evaluator}</li>` : ''}
+                                </ul>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            } else {
+                certHtml = '<p style="color: #7f8c8d;">등록된 자격증이 없습니다.</p>';
+            }
+            
+            document.getElementById('employeeDetailContent').innerHTML = `
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">기본 정보</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                        <div><strong>성명:</strong> ${emp.name}</div>
+                        <div><strong>성별:</strong> ${emp.gender || '-'}</div>
+                        <div><strong>전화번호:</strong> ${emp.phone || '-'}</div>
+                        <div><strong>이메일:</strong> ${emp.email || '-'}</div>
+                        <div><strong>입사일:</strong> ${emp.hireDate || '-'}</div>
+                        <div><strong>퇴사일:</strong> ${emp.resignDate || '-'}</div>
+                        <div><strong>상태:</strong> <span class="badge ${isActive ? 'badge-success' : 'badge-secondary'}">${isActive ? '재직' : '퇴사'}</span></div>
+                    </div>
+                    ${emp.address ? `<div style="margin-top: 10px;"><strong>주소:</strong> ${emp.address}</div>` : ''}
+                </div>
+                
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">자격증 정보</h3>
+                    ${certHtml}
+                </div>
+            `;
+            
+            document.getElementById('employeeDetailModal').classList.add('active');
+        }
+
+        function closeEmployeeDetailModal() {
+            document.getElementById('employeeDetailModal').classList.remove('active');
+        }
+
+        // ============================
+        // 연차관리
+        // ============================
+        function loadAnnualLeave() {
+            const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+            const tbody = document.getElementById('annualLeaveTableBody');
+            
+            if (activeEmployees.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 40px; color: #7f8c8d;">재직 중인 직원이 없습니다.</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = activeEmployees.map(emp => {
+                let leave = annualLeaves.find(a => a.employeeId === emp.id);
+                if (!leave) {
+                    leave = {
+                        totalDays: 0,
+                        usedDays: 0,
+                        yearsOfService: 0
+                    };
+                }
+                
+                const remaining = leave.totalDays - leave.usedDays;
+                
+                return `
+                    <tr>
+                        <td><strong>${emp.name}</strong></td>
+                        <td>${emp.hireDate || '-'}</td>
+                        <td>${leave.yearsOfService || 0}년</td>
+                        <td>${leave.totalDays || 0}일</td>
+                        <td style="color: #e74c3c; font-weight: 600;">${leave.usedDays || 0}일</td>
+                        <td style="color: #27ae60; font-weight: 600;">${remaining}일</td>
+                        <td>
+                            <button class="btn btn-primary btn-small" onclick="openAnnualLeaveModal('${emp.id}')">사용등록</button>
+                            <button class="btn btn-success btn-small" onclick="showAnnualLeaveHistory('${emp.id}')">사용내역</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function calculateAnnualLeaveForEmployee(employee) {
+            const fiscalYear = parseInt(document.getElementById('fiscalYear').value);
+            const fiscalYearEnd = new Date(fiscalYear, 11, 31);
+            const hireDate = new Date(employee.hireDate);
+            
+            const diffTime = fiscalYearEnd - hireDate;
+            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+            const yearsOfService = Math.floor(diffDays / 365.25);
+            
+            let totalDays = 0;
+            if (yearsOfService < 1) {
+                totalDays = 12;
+            } else {
+                totalDays = 15;
+                if (yearsOfService >= 3) {
+                    const additionalYears = Math.floor((yearsOfService - 1) / 2);
+                    totalDays += additionalYears;
+                    if (totalDays > 25) totalDays = 25;
                 }
             }
-            closeBulkLeaveModal(); loadAnnualLeave(); updateBackupInfo();
-            let msg = `✅ 일괄연차가 적용되었습니다.\n\n적용 직원: ${ok}명\n사용 일수: ${days}일`;
-            if (skip > 0) msg += `\n\n⚠️ 제외된 직원: ${skip}명\n(잔여 연차 부족: ${skipNames.join(', ')})`;
-            alert(msg);
-        } catch (e) { alert('저장 실패: ' + e.message); }
-    }
-
-    // ════════════════════════════════════════════════════════
-    // 직무교육
-    // ════════════════════════════════════════════════════════
-    function renderEducationTable(list) {
-        const tbody = document.getElementById('educationTableBody');
-        if (!list.length) { tbody.innerHTML = '<tr><td colspan="7" class="no-data">등록된 교육 일정이 없습니다.</td></tr>'; return; }
-        const today = new Date();
-        tbody.innerHTML = list.sort((a,b) => new Date(a.educationDate)-new Date(b.educationDate)).map(edu => {
-            const diff = Math.ceil((new Date(edu.educationDate)-today)/86400000);
-            let dDay,dCls,sTxt,sCls;
-            if      (diff<0)   {dDay='완료';    dCls='badge-secondary';sTxt='완료';  sCls='badge-secondary';}
-            else if (diff===0) {dDay='D-Day';   dCls='badge-danger';   sTxt='당일';  sCls='badge-danger';}
-            else if (diff<=30) {dDay=`D-${diff}`;dCls='badge-warning'; sTxt='임박';  sCls='badge-warning';}
-            else if (diff<=180){dDay=`D-${diff}`;dCls='badge-info';    sTxt='예정';  sCls='badge-info';}
-            else               {dDay=`D-${diff}`;dCls='badge-secondary';sTxt='예정'; sCls='badge-secondary';}
-            return `<tr>
-                <td>${edu.employeeName}</td>
-                <td>${edu.certificate||'-'}</td>
-                <td>${edu.certificateDate?new Date(edu.certificateDate).toLocaleDateString('ko-KR'):'-'}</td>
-                <td><span class="badge badge-info">${edu.type}</span></td>
-                <td>${new Date(edu.educationDate).toLocaleDateString('ko-KR')}</td>
-                <td><span class="badge ${dCls}">${dDay}</span></td>
-                <td><span class="badge ${sCls}">${sTxt}</span></td>
-            </tr>`;
-        }).join('');
-    }
-    function loadEducation() { renderEducationTable(educations); }
-
-    // ════════════════════════════════════════════════════════
-    // 백업
-    // ════════════════════════════════════════════════════════
-    function updateBackupInfo() {
-        document.getElementById('backupEmployeeCount').textContent  = employees.length    + '명';
-        document.getElementById('backupLeaveCount').textContent     = annualLeaves.length + '건';
-        document.getElementById('backupEducationCount').textContent = educations.length   + '건';
-        const el = document.getElementById('lastUpdate');
-        el.textContent = (employees.length||annualLeaves.length||educations.length) ? new Date().toLocaleString('ko-KR') : '데이터 없음';
-    }
-    function downloadBackup() {
-        const d     = new Date();
-        const fname = `backup_${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.json`;
-        const a     = document.createElement('a');
-        a.href      = URL.createObjectURL(new Blob([JSON.stringify({ employees, annualLeaves, educations, exportedAt: d.toISOString() }, null, 2)], { type:'application/json' }));
-        a.download  = fname; a.click();
-    }
-    async function restoreBackup(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        if (!confirm('현재 모든 데이터가 삭제되고 백업 데이터로 교체됩니다.\n계속하시겠습니까?')) { event.target.value=''; return; }
-        try {
-            const bd = JSON.parse(await file.text());
-            if (bd.employees)    { await fbReplaceAll('employees',    bd.employees,    'id'); employees    = bd.employees; }
-            if (bd.annualLeaves) { await fbReplaceAll('annualLeaves', bd.annualLeaves, 'id'); annualLeaves = bd.annualLeaves; }
-            if (bd.educations)   { await fbReplaceAll('educations',   bd.educations,   'id'); educations   = bd.educations; }
-            loadEmployees(); loadAnnualLeave(); loadEducation(); updateDashboard(); updateBackupInfo();
-            alert('✅ 백업 복원이 완료되었습니다.');
-        } catch (e) { alert('백업 파일 오류: ' + e.message); }
-        event.target.value = '';
-    }
-
-    // ════════════════════════════════════════════════════════
-    // 인증
-    // ════════════════════════════════════════════════════════
-    function getCurrentUser() { const s=sessionStorage.getItem('currentUser'); return s?JSON.parse(s):null; }
-
-    async function doLogin() {
-        const id    = document.getElementById('loginId').value.trim();
-        const pw    = document.getElementById('loginPw').value;
-        const errEl = document.getElementById('loginError');
-        const btn   = document.getElementById('loginBtn');
-        errEl.classList.remove('visible');
-        if (!id||!pw) { errEl.textContent='아이디와 비밀번호를 입력하세요.'; errEl.classList.add('visible'); return; }
-
-        btn.disabled=true; btn.innerHTML='<span class="spinner"></span>확인 중...';
-        let users;
-        try { users = await fbGetAll('sysUsers'); }
-        catch (e) {
-            errEl.textContent='서버 연결 실패. 잠시 후 다시 시도하세요.'; errEl.classList.add('visible');
-            btn.disabled=false; btn.innerHTML='로그인'; return;
-        }
-        const user = users.find(u => u.id===id && u.pw===pw);
-        if (!user) { errEl.textContent='아이디 또는 비밀번호가 일치하지 않습니다.'; errEl.classList.add('visible'); btn.disabled=false; btn.innerHTML='로그인'; return; }
-
-        btn.innerHTML='<span class="spinner"></span>데이터 로딩 중...';
-        try { await loadAllFromFirebase(); } catch (e) { console.warn('일부 데이터 로드 실패:', e); }
-        btn.disabled=false; btn.innerHTML='로그인';
-        sessionStorage.setItem('currentUser', JSON.stringify(user));
-        document.getElementById('authOverlay').classList.remove('active');
-        onLoginSuccess(user);
-    }
-
-    function doLogout() {
-        if (confirm('로그아웃 하시겠습니까?')) { sessionStorage.removeItem('currentUser'); location.reload(); }
-    }
-
-    function onLoginSuccess(user) {
-        document.getElementById('headerUserName').textContent = user.name;
-        const badge = document.getElementById('headerUserBadge');
-        if (user.role === 'admin') {
-            badge.textContent = '관리자';
-            badge.className   = 'user-badge admin';
-        } else if (user.role === 'temp_admin') {
-            badge.textContent = '임시관리자';
-            badge.className   = 'user-badge temp-admin';
-        } else {
-            badge.textContent = '일반';
-            badge.className   = 'user-badge';
-        }
-        // 관리자 & 임시관리자 → 관리자 탭 표시
-        if (user.role === 'admin' || user.role === 'temp_admin') {
-            document.getElementById('adminTab').style.display = '';
-        }
-        // 연차관리 탭: admin만 잠금 해제, temp_admin은 잠금 유지
-        const leaveTab = document.getElementById('annualLeaveTab');
-        if (user.role === 'admin') {
-            leaveTab.textContent = '📅 연차관리';
-            leaveTab.classList.remove('tab-locked');
-        } else {
-            leaveTab.textContent = '📅 연차관리 🔒';
-            leaveTab.classList.add('tab-locked');
-        }
-    }
-
-    // ════════════════════════════════════════════════════════
-    // 관리자 패널 (탭 클릭 시에만 Firebase 로드)
-    // ════════════════════════════════════════════════════════
-    async function loadAdminPanel() {
-        let users;
-        try { users = await fbGetAll('sysUsers'); }
-        catch (e) { alert('사용자 목록 로드 실패: ' + e.message); return; }
-
-        // 관리자 본인 제외한 전체 계정 목록
-        const cu  = getCurrentUser();
-        const all = users.filter(u => u.id !== cu.id);
-
-        function roleBadge(role) {
-            if (role === 'admin')      return '<span class="badge" style="background:#f8d7da;color:#721c24;">🔴 관리자</span>';
-            if (role === 'temp_admin') return '<span class="badge" style="background:#fde8d5;color:#7d4e12;">🔶 임시관리자</span>';
-            return '<span class="badge badge-secondary">일반</span>';
+            
+            const existingLeave = annualLeaves.find(a => a.employeeId === employee.id);
+            
+            if (existingLeave) {
+                existingLeave.fiscalYear = fiscalYear;
+                existingLeave.totalDays = totalDays;
+                existingLeave.yearsOfService = yearsOfService;
+                existingLeave.updatedAt = new Date().toISOString();
+                
+                await fbSet('annualLeaves', existingLeave.id, existingLeave);
+            } else {
+                const newLeave = {
+                    id: `leave_${employee.id}_${fiscalYear}`,
+                    employeeId: employee.id,
+                    fiscalYear: fiscalYear,
+                    totalDays: totalDays,
+                    usedDays: 0,
+                    yearsOfService: yearsOfService,
+                    usageHistory: [],
+                    createdAt: new Date().toISOString()
+                };
+                
+                annualLeaves.push(newLeave);
+                await fbSet('annualLeaves', newLeave.id, newLeave);
+            }
         }
 
-        document.getElementById('allUsersList').innerHTML = !all.length
-            ? '<p style="color:#7f8c8d;font-style:italic;">등록된 계정이 없습니다.</p>'
-            : `<table style="width:100%;border-collapse:collapse;font-size:0.9em;">
-                <thead style="background:#34495e;color:white;"><tr>
-                    <th style="padding:10px 12px;">이름</th>
-                    <th style="padding:10px 12px;">아이디</th>
-                    <th style="padding:10px 12px;">권한</th>
-                    <th style="padding:10px 12px;">생성일</th>
-                    <th style="padding:10px 12px;">관리</th>
-                </tr></thead><tbody>
-                ${all.map(u => `<tr style="border-bottom:1px solid #ecf0f1;">
-                    <td style="padding:10px 12px;">${u.name}</td>
-                    <td style="padding:10px 12px;">${u.id}</td>
-                    <td style="padding:10px 12px;">${roleBadge(u.role)}</td>
-                    <td style="padding:10px 12px;color:#7f8c8d;">${new Date(u.createdAt).toLocaleDateString('ko-KR')}</td>
-                    <td style="padding:10px 12px;">
-                        ${u.role === 'temp_admin'
-                            ? `<button class="btn btn-success btn-small" onclick="changeUserRole('${u.id}','admin')">관리자로 승격</button>`
-                            : u.role === 'admin'
-                                ? `<button class="btn btn-secondary btn-small" onclick="changeUserRole('${u.id}','temp_admin')">임시관리자로 변경</button>`
-                                : ''}
-                        <button class="btn btn-danger btn-small" style="margin-left:4px;" onclick="deleteUser('${u.id}')">삭제</button>
-                    </td></tr>`).join('')}
-                </tbody></table>`;
-    }
+        async function calculateAllAnnualLeave() {
+            if (!confirm('모든 직원의 연차를 재계산하시겠습니까?')) return;
+            
+            showLoading(true);
+            try {
+                const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+                
+                for (const emp of activeEmployees) {
+                    await calculateAnnualLeaveForEmployee(emp);
+                }
+                
+                await loadAllFromFirebase();
+                showNotification('✅ 연차가 재계산되었습니다.', 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 재계산 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
 
-    async function createUser() {
-        const name   = document.getElementById('newUserName').value.trim();
-        const id     = document.getElementById('newUserId').value.trim();
-        const pw     = document.getElementById('newUserPw').value;
-        const role   = document.getElementById('newUserRole').value;
-        const msgEl  = document.getElementById('createUserMsg');
-        const sucEl  = document.getElementById('createUserSuccess');
-        const btn    = document.getElementById('createUserBtn');
-        msgEl.classList.remove('visible'); sucEl.classList.remove('visible');
-        if (!name)        { msgEl.textContent='이름을 입력하세요.';              msgEl.classList.add('visible'); return; }
-        if (id.length<4)  { msgEl.textContent='아이디는 4자 이상이어야 합니다.'; msgEl.classList.add('visible'); return; }
-        if (pw.length<6)  { msgEl.textContent='비밀번호는 6자 이상이어야 합니다.'; msgEl.classList.add('visible'); return; }
-        btn.disabled=true; btn.innerHTML='<span class="spinner"></span>생성 중...';
-        try {
-            const users = await fbGetAll('sysUsers');
-            if (users.find(u => u.id===id)) { msgEl.textContent='이미 사용 중인 아이디입니다.'; msgEl.classList.add('visible'); btn.disabled=false; btn.innerHTML='계정 생성'; return; }
-            const nu = { id, pw, name, role, status:'approved', createdAt: new Date().toISOString() };
-            await fbSet('sysUsers', id, nu);
-            sucEl.textContent = `✅ [${role==='admin'?'관리자':'임시관리자'}] ${name}(${id}) 계정이 생성되었습니다.`;
-            sucEl.classList.add('visible');
-            ['newUserName','newUserId','newUserPw'].forEach(x => document.getElementById(x).value='');
-            await loadAdminPanel();
-        } catch (e) { msgEl.textContent='서버 오류: ' + e.message; msgEl.classList.add('visible'); }
-        btn.disabled=false; btn.innerHTML='계정 생성';
-    }
+        function openAnnualLeaveModal(employeeId) {
+            const emp = employees.find(e => e.id === employeeId);
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+            
+            if (!emp || !leave) {
+                showNotification('❌ 직원 또는 연차 정보를 찾을 수 없습니다.', 'error');
+                return;
+            }
+            
+            document.getElementById('leaveEmployeeId').value = employeeId;
+            document.getElementById('leaveEmployeeName').value = emp.name;
+            document.getElementById('leaveTotalDays').textContent = leave.totalDays + '일';
+            document.getElementById('leaveUsedDays').textContent = leave.usedDays + '일';
+            document.getElementById('leaveRemainingDays').textContent = (leave.totalDays - leave.usedDays) + '일';
+            
+            document.getElementById('leaveUsageDays').value = '';
+            document.getElementById('leaveUsageDate').value = '';
+            document.getElementById('leaveUsageReason').value = '';
+            
+            document.getElementById('annualLeaveModal').classList.add('active');
+        }
 
-    async function changeUserRole(userId, newRole) {
-        const roleLabel = newRole === 'admin' ? '관리자' : '임시관리자';
-        if (!confirm(`이 계정의 권한을 [${roleLabel}]으로 변경하시겠습니까?`)) return;
-        try {
-            const users = await fbGetAll('sysUsers');
-            const u = users.find(u => u.id === userId); if (!u) return;
-            u.role = newRole;
-            await fbSet('sysUsers', userId, u);
-            await loadAdminPanel();
-            alert(`✅ ${u.name}(${u.id}) 권한이 [${roleLabel}]으로 변경되었습니다.`);
-        } catch (e) { alert('처리 실패: ' + e.message); }
-    }
-    async function deleteUser(userId) {
-        try {
-            const users = await fbGetAll('sysUsers');
-            const u = users.find(u => u.id===userId);
-            if (!u||!confirm(`${u.name}(${u.id}) 회원을 삭제하시겠습니까?`)) return;
-            await fbDel('sysUsers', userId); await loadAdminPanel();
-        } catch (e) { alert('삭제 실패: ' + e.message); }
-    }
-    async function updateAdminAccount() {
-        const newId=document.getElementById('newAdminId').value.trim();
-        const curPw=document.getElementById('currentAdminPw').value;
-        const newPw=document.getElementById('newAdminPw').value;
-        const newPw2=document.getElementById('newAdminPw2').value;
-        const cu=getCurrentUser();
-        if (!curPw)              { alert('현재 비밀번호를 입력하세요.'); return; }
-        if (cu.pw!==curPw)       { alert('현재 비밀번호가 일치하지 않습니다.'); return; }
-        if (newId&&newId.length<4){ alert('아이디는 4자 이상이어야 합니다.'); return; }
-        if (newPw&&newPw.length<6){ alert('새 비밀번호는 6자 이상이어야 합니다.'); return; }
-        if (newPw&&newPw!==newPw2){ alert('새 비밀번호가 일치하지 않습니다.'); return; }
-        try {
-            const users = await fbGetAll('sysUsers');
-            const me = users.find(u => u.id===cu.id);
-            if (!me) { alert('계정을 찾을 수 없습니다.'); return; }
-            if (newId&&newId!==me.id&&users.find(u=>u.id===newId)) { alert('이미 사용 중인 아이디입니다.'); return; }
-            const oldId=me.id;
-            if (newId) me.id=newId; if (newPw) me.pw=newPw;
-            await fbSet('sysUsers', me.id, me);
-            if (newId&&newId!==oldId) await fbDel('sysUsers', oldId);
-            sessionStorage.setItem('currentUser', JSON.stringify(me));
-            document.getElementById('headerUserName').textContent = me.name;
-            ['newAdminId','currentAdminPw','newAdminPw','newAdminPw2'].forEach(x => document.getElementById(x).value='');
-            alert(`✅ 계정이 업데이트되었습니다.\n아이디: ${me.id}`);
-        } catch (e) { alert('업데이트 실패: ' + e.message); }
-    }
+        function closeAnnualLeaveModal() {
+            document.getElementById('annualLeaveModal').classList.remove('active');
+        }
+
+        async function saveAnnualLeaveUsage(event) {
+            event.preventDefault();
+            
+            const employeeId = document.getElementById('leaveEmployeeId').value;
+            const usageDays = parseFloat(document.getElementById('leaveUsageDays').value);
+            const usageDate = document.getElementById('leaveUsageDate').value;
+            const reason = document.getElementById('leaveUsageReason').value;
+            
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+            if (!leave) {
+                showNotification('❌ 연차 정보를 찾을 수 없습니다.', 'error');
+                return;
+            }
+            
+            const remaining = leave.totalDays - leave.usedDays;
+            if (usageDays > remaining) {
+                showNotification(`❌ 잔여 연차(${remaining}일)가 부족합니다.`, 'error');
+                return;
+            }
+            
+            showLoading(true);
+            try {
+                leave.usedDays += usageDays;
+                
+                if (!leave.usageHistory) leave.usageHistory = [];
+                leave.usageHistory.push({
+                    date: usageDate,
+                    days: usageDays,
+                    reason: reason,
+                    recordDate: new Date().toISOString()
+                });
+                
+                leave.updatedAt = new Date().toISOString();
+                
+                await fbSet('annualLeaves', leave.id, leave);
+                await loadAllFromFirebase();
+                
+                closeAnnualLeaveModal();
+                showNotification('✅ 연차 사용이 등록되었습니다.', 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 등록 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        function showAnnualLeaveHistory(employeeId) {
+            const emp = employees.find(e => e.id === employeeId);
+            const leave = annualLeaves.find(a => a.employeeId === employeeId);
+            
+            if (!emp || !leave) {
+                showNotification('❌ 정보를 찾을 수 없습니다.', 'error');
+                return;
+            }
+            
+            const history = leave.usageHistory || [];
+            
+            let historyHtml = '';
+            if (history.length === 0) {
+                historyHtml = '<p style="text-align:center; padding: 40px; color: #7f8c8d;">사용 내역이 없습니다.</p>';
+            } else {
+                historyHtml = `
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #34495e; color: white;">
+                                <th style="padding: 12px;">사용일</th>
+                                <th style="padding: 12px;">일수</th>
+                                <th style="padding: 12px;">사유</th>
+                                <th style="padding: 12px;">등록일</th>
+                                <th style="padding: 12px;">관리</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${history.map((h, idx) => `
+                                <tr style="border-bottom: 1px solid #ecf0f1;">
+                                    <td style="padding: 12px;">${h.date}</td>
+                                    <td style="padding: 12px; font-weight: 600;">${h.days}일</td>
+                                    <td style="padding: 12px;">${h.reason || '-'}</td>
+                                    <td style="padding: 12px; font-size: 0.85em; color: #7f8c8d;">${new Date(h.recordDate).toLocaleString('ko-KR')}</td>
+                                    <td style="padding: 12px;">
+                                        <button class="btn btn-danger btn-small" onclick="deleteLeaveHistory('${employeeId}', ${idx})">삭제</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+            
+            document.getElementById('annualLeaveHistoryContent').innerHTML = `
+                <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">${emp.name}님의 연차 현황</h3>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div>
+                            <small style="color: #7f8c8d;">총 연차</small>
+                            <div style="font-size: 1.3em; font-weight: 600;">${leave.totalDays}일</div>
+                        </div>
+                        <div>
+                            <small style="color: #7f8c8d;">사용 연차</small>
+                            <div style="font-size: 1.3em; font-weight: 600; color: #e74c3c;">${leave.usedDays}일</div>
+                        </div>
+                        <div>
+                            <small style="color: #7f8c8d;">잔여 연차</small>
+                            <div style="font-size: 1.3em; font-weight: 600; color: #27ae60;">${leave.totalDays - leave.usedDays}일</div>
+                        </div>
+                    </div>
+                </div>
+                ${historyHtml}
+            `;
+            
+            document.getElementById('annualLeaveHistoryModal').classList.add('active');
+        }
+
+        function closeAnnualLeaveHistoryModal() {
+            document.getElementById('annualLeaveHistoryModal').classList.remove('active');
+        }
+
+        async function deleteLeaveHistory(employeeId, historyIndex) {
+            if (!confirm('이 연차 사용 내역을 삭제하시겠습니까?')) return;
+            
+            showLoading(true);
+            try {
+                const leave = annualLeaves.find(a => a.employeeId === employeeId);
+                if (!leave) throw new Error('연차 정보를 찾을 수 없습니다.');
+                
+                const deletedHistory = leave.usageHistory[historyIndex];
+                leave.usedDays -= deletedHistory.days;
+                leave.usageHistory.splice(historyIndex, 1);
+                leave.updatedAt = new Date().toISOString();
+                
+                await fbSet('annualLeaves', leave.id, leave);
+                await loadAllFromFirebase();
+                
+                showAnnualLeaveHistory(employeeId);
+                showNotification('✅ 내역이 삭제되고 연차가 복구되었습니다.', 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 삭제 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        function openBulkLeaveModal() {
+            document.getElementById('bulkLeaveDays').value = '';
+            document.getElementById('bulkLeaveDate').value = '';
+            document.getElementById('bulkLeaveReason').value = '';
+            document.getElementById('bulkLeavePreviewContent').innerHTML = '<p style="color: #7f8c8d;">사용 일수를 입력하면 적용 대상이 표시됩니다.</p>';
+            
+            document.getElementById('bulkLeaveModal').classList.add('active');
+        }
+
+        function closeBulkLeaveModal() {
+            document.getElementById('bulkLeaveModal').classList.remove('active');
+        }
+
+        function updateBulkLeavePreview() {
+            const days = parseFloat(document.getElementById('bulkLeaveDays').value);
+            if (!days || days <= 0) {
+                document.getElementById('bulkLeavePreviewContent').innerHTML = '<p style="color: #7f8c8d;">사용 일수를 입력하면 적용 대상이 표시됩니다.</p>';
+                return;
+            }
+            
+            const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+            const applicable = [];
+            const excluded = [];
+            
+            activeEmployees.forEach(emp => {
+                const leave = annualLeaves.find(a => a.employeeId === emp.id);
+                if (leave) {
+                    const remaining = leave.totalDays - leave.usedDays;
+                    if (remaining >= days) {
+                        applicable.push(emp.name);
+                    } else {
+                        excluded.push(`${emp.name} (잔여: ${remaining}일)`);
+                    }
+                }
+            });
+            
+            document.getElementById('bulkLeavePreviewContent').innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #27ae60;">✅ 적용 대상 (${applicable.length}명)</strong>
+                    <div style="margin-top: 5px; color: #2c3e50;">${applicable.join(', ') || '없음'}</div>
+                </div>
+                ${excluded.length > 0 ? `
+                    <div>
+                        <strong style="color: #e74c3c;">❌ 제외 대상 (${excluded.length}명)</strong>
+                        <div style="margin-top: 5px; color: #7f8c8d; font-size: 0.9em;">${excluded.join(', ')}</div>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        async function saveBulkLeave(event) {
+            event.preventDefault();
+            
+            const days = parseFloat(document.getElementById('bulkLeaveDays').value);
+            const date = document.getElementById('bulkLeaveDate').value;
+            const reason = document.getElementById('bulkLeaveReason').value;
+            
+            if (!confirm(`${days}일의 연차를 재직 중인 모든 직원에게 일괄 적용하시겠습니까?`)) return;
+            
+            showLoading(true);
+            try {
+                const activeEmployees = employees.filter(e => !e.resignDate || new Date(e.resignDate) > new Date());
+                let successCount = 0;
+                let skipCount = 0;
+                
+                for (const emp of activeEmployees) {
+                    const leave = annualLeaves.find(a => a.employeeId === emp.id);
+                    if (leave) {
+                        const remaining = leave.totalDays - leave.usedDays;
+                        if (remaining >= days) {
+                            leave.usedDays += days;
+                            if (!leave.usageHistory) leave.usageHistory = [];
+                            leave.usageHistory.push({
+                                date: date,
+                                days: days,
+                                reason: reason,
+                                isBulk: true,
+                                recordDate: new Date().toISOString()
+                            });
+                            leave.updatedAt = new Date().toISOString();
+                            
+                            await fbSet('annualLeaves', leave.id, leave);
+                            successCount++;
+                        } else {
+                            skipCount++;
+                        }
+                    }
+                }
+                
+                await loadAllFromFirebase();
+                closeBulkLeaveModal();
+                showNotification(`✅ 일괄 연차 적용 완료\n적용: ${successCount}명 / 제외: ${skipCount}명`, 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 일괄 적용 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        // ============================
+        // 직무교육
+        // ============================
+        async function generateEducationSchedule(employee) {
+            if (!employee.certificates || employee.certificates.length === 0) return;
+            
+            const newEducations = [];
+            
+            for (const cert of employee.certificates) {
+                const eduTypes = [
+                    { key: 'basic', label: '초급교육' },
+                    { key: 'intermediate', label: '중급교육' },
+                    { key: 'advanced', label: '고급교육' },
+                    { key: 'expert', label: '특급교육' },
+                    { key: 'evaluator', label: '평가사교육' }
+                ];
+                
+                for (const type of eduTypes) {
+                    if (cert.education && cert.education[type.key]) {
+                        const edu = {
+                            id: `edu_${employee.id}_${cert.name}_${type.key}_${Date.now()}`,
+                            employeeId: employee.id,
+                            employeeName: employee.name,
+                            certificate: cert.name,
+                            certificateDate: cert.date,
+                            type: type.label,
+                            educationDate: cert.education[type.key],
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        newEducations.push(edu);
+                        educations.push(edu);
+                    }
+                }
+            }
+            
+            // Firebase 저장
+            for (const edu of newEducations) {
+                await fbSet('educations', edu.id, edu);
+            }
+        }
+
+        function loadEducation() {
+            const tbody = document.getElementById('educationTableBody');
+            
+            if (educations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 40px; color: #7f8c8d;">교육 일정이 없습니다.</td></tr>';
+                return;
+            }
+            
+            // D-Day 순으로 정렬
+            const sorted = [...educations].sort((a, b) => {
+                const dateA = new Date(a.educationDate);
+                const dateB = new Date(b.educationDate);
+                const now = new Date();
+                const diffA = Math.abs(dateA - now);
+                const diffB = Math.abs(dateB - now);
+                return diffA - diffB;
+            });
+            
+            tbody.innerHTML = sorted.map(edu => {
+                const eduDate = new Date(edu.educationDate);
+                const today = new Date();
+                const diffTime = eduDate - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                let statusBadge = '';
+                let dDayText = '';
+                
+                if (diffDays < 0) {
+                    statusBadge = '<span class="badge badge-secondary">완료</span>';
+                    dDayText = `D+${Math.abs(diffDays)}`;
+                } else if (diffDays === 0) {
+                    statusBadge = '<span class="badge badge-danger">D-Day</span>';
+                    dDayText = 'D-Day';
+                } else if (diffDays <= 30) {
+                    statusBadge = '<span class="badge badge-warning">임박</span>';
+                    dDayText = `D-${diffDays}`;
+                } else {
+                    statusBadge = '<span class="badge badge-info">예정</span>';
+                    dDayText = `D-${diffDays}`;
+                }
+                
+                return `
+                    <tr>
+                        <td><strong>${edu.employeeName}</strong></td>
+                        <td>${edu.certificate}</td>
+                        <td>${edu.certificateDate}</td>
+                        <td>${edu.type}</td>
+                        <td>${edu.educationDate}</td>
+                        <td style="font-weight: 600; color: ${diffDays <= 30 && diffDays >= 0 ? '#e74c3c' : '#7f8c8d'};">${dDayText}</td>
+                        <td>${statusBadge}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ============================
+        // 백업관리
+        // ============================
+        async function downloadBackup() {
+            showLoading(true);
+            try {
+                // 최신 데이터 로드
+                await loadAllFromFirebase();
+                
+                const today = new Date();
+                const dateString = today.getFullYear() + 
+                    String(today.getMonth() + 1).padStart(2, '0') + 
+                    String(today.getDate()).padStart(2, '0') + '_' +
+                    String(today.getHours()).padStart(2, '0') + 
+                    String(today.getMinutes()).padStart(2, '0');
+                
+                const users = await fbGetAll('sysUsers');
+                
+                const backupData = {
+                    version: '1.0',
+                    backupDate: today.toISOString(),
+                    firebaseProject: FB_PROJ,
+                    employees: employees,
+                    annualLeaves: annualLeaves,
+                    educations: educations,
+                    sysUsers: users
+                };
+                
+                const dataStr = JSON.stringify(backupData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `직원관리시스템_Firebase백업_${dateString}.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showNotification(`✅ 백업 파일이 다운로드되었습니다.\n파일명: 직원관리시스템_Firebase백업_${dateString}.json`, 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 백업 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        async function restoreBackup(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!confirm('⚠️ 백업을 복원하면 Firebase의 현재 데이터가 모두 삭제됩니다.\n계속하시겠습니까?')) {
+                event.target.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                showLoading(true);
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    if (!backupData.employees || !Array.isArray(backupData.employees)) {
+                        throw new Error('올바른 백업 파일이 아닙니다.');
+                    }
+                    
+                    // 모든 컬렉션 교체
+                    await fbReplaceAll('employees', backupData.employees, 'id');
+                    await fbReplaceAll('annualLeaves', backupData.annualLeaves || [], 'id');
+                    await fbReplaceAll('educations', backupData.educations || [], 'id');
+                    
+                    if (backupData.sysUsers) {
+                        await fbReplaceAll('sysUsers', backupData.sysUsers, 'id');
+                    }
+                    
+                    await loadAllFromFirebase();
+                    
+                    showNotification(`✅ 백업이 성공적으로 복원되었습니다!\n직원: ${backupData.employees.length}명`, 'success');
+                    showLoading(false);
+                } catch (error) {
+                    showNotification('❌ 백업 복원 실패: ' + error.message, 'error');
+                    showLoading(false);
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function updateBackupInfo() {
+            document.getElementById('backupEmployeeCount').textContent = employees.length + '명';
+            document.getElementById('backupLeaveCount').textContent = annualLeaves.length + '건';
+            document.getElementById('backupEducationCount').textContent = educations.length + '건';
+            
+            const lastUpdateElem = document.getElementById('lastUpdate');
+            if (employees.length > 0 || annualLeaves.length > 0 || educations.length > 0) {
+                lastUpdateElem.textContent = new Date().toLocaleString('ko-KR');
+            } else {
+                lastUpdateElem.textContent = '데이터 없음';
+            }
+        }
+
+        // ============================
+        // 관리자 패널
+        // ============================
+        async function loadAdminPanel() {
+            showLoading(true);
+            try {
+                const users = await fbGetAll('sysUsers');
+                const pending = users.filter(u => u.status === 'pending');
+                const pendingEl = document.getElementById('pendingUsersList');
+                
+                if (pending.length === 0) {
+                    pendingEl.innerHTML = '<p style="color:#856404; font-style:italic;">대기 중인 회원이 없습니다.</p>';
+                } else {
+                    pendingEl.innerHTML = pending.map(u => `
+                        <div class="pending-user-item">
+                            <div class="user-detail">
+                                <strong>${u.name}</strong> <span>(${u.id})</span>
+                                <span style="font-size:0.8em; color:#aaa;">${new Date(u.createdAt).toLocaleDateString('ko-KR')} 신청</span>
+                            </div>
+                            <div style="display:flex; gap:8px;">
+                                <button class="btn btn-success btn-small" onclick="approveUser('${u.id}')">승인</button>
+                                <button class="btn btn-danger btn-small" onclick="rejectUser('${u.id}')">거절</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                
+                const allEl = document.getElementById('allUsersList');
+                const all = users.filter(u => u.role !== 'admin');
+                
+                if (all.length === 0) {
+                    allEl.innerHTML = '<p style="color:#7f8c8d; font-style:italic;">등록된 회원이 없습니다.</p>';
+                } else {
+                    allEl.innerHTML = `
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #34495e; color: white;">
+                                    <th style="padding: 12px;">이름</th>
+                                    <th style="padding: 12px;">아이디</th>
+                                    <th style="padding: 12px;">가입일</th>
+                                    <th style="padding: 12px;">상태</th>
+                                    <th style="padding: 12px;">관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${all.map(u => `
+                                    <tr style="border-bottom: 1px solid #ecf0f1;">
+                                        <td style="padding: 12px;"><strong>${u.name}</strong></td>
+                                        <td style="padding: 12px;">${u.id}</td>
+                                        <td style="padding: 12px; font-size: 0.85em; color: #7f8c8d;">${new Date(u.createdAt).toLocaleDateString('ko-KR')}</td>
+                                        <td style="padding: 12px;">
+                                            ${u.status === 'approved' ? '<span class="badge badge-success">승인됨</span>' : 
+                                              u.status === 'pending' ? '<span class="badge badge-warning">대기중</span>' : 
+                                              '<span class="badge badge-danger">거절됨</span>'}
+                                        </td>
+                                        <td style="padding: 12px;">
+                                            ${u.status === 'pending' ? `<button class="btn btn-success btn-small" onclick="approveUser('${u.id}')">승인</button>` : ''}
+                                            <button class="btn btn-danger btn-small" onclick="deleteUser('${u.id}')">삭제</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                }
+                
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 데이터 로드 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        async function approveUser(userId) {
+            if (!confirm('이 사용자를 승인하시겠습니까?')) return;
+            
+            showLoading(true);
+            try {
+                const users = await fbGetAll('sysUsers');
+                const user = users.find(u => u.id === userId);
+                
+                if (user) {
+                    user.status = 'approved';
+                    user.approvedAt = new Date().toISOString();
+                    await fbSet('sysUsers', userId, user);
+                    
+                    await loadAdminPanel();
+                    showNotification(`✅ ${user.name}님이 승인되었습니다.`, 'success');
+                }
+                
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 승인 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        async function rejectUser(userId) {
+            if (!confirm('이 사용자의 가입을 거절하시겠습니까?')) return;
+            
+            showLoading(true);
+            try {
+                const users = await fbGetAll('sysUsers');
+                const user = users.find(u => u.id === userId);
+                
+                if (user) {
+                    user.status = 'rejected';
+                    user.rejectedAt = new Date().toISOString();
+                    await fbSet('sysUsers', userId, user);
+                    
+                    await loadAdminPanel();
+                    showNotification(`❌ ${user.name}님의 가입이 거절되었습니다.`, 'success');
+                }
+                
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 거절 처리 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('이 사용자를 삭제하시겠습니까?')) return;
+            
+            showLoading(true);
+            try {
+                await fbDel('sysUsers', userId);
+                await loadAdminPanel();
+                showNotification('✅ 사용자가 삭제되었습니다.', 'success');
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 삭제 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        async function updateAdminAccount() {
+            const newId = document.getElementById('newAdminId').value.trim();
+            const currentPw = document.getElementById('currentAdminPw').value;
+            const newPw = document.getElementById('newAdminPw').value;
+            const newPw2 = document.getElementById('newAdminPw2').value;
+            
+            if (!currentPw) {
+                showNotification('❌ 현재 비밀번호를 입력하세요.', 'error');
+                return;
+            }
+            
+            showLoading(true);
+            try {
+                const users = await fbGetAll('sysUsers');
+                const admin = users.find(u => u.role === 'admin');
+                
+                if (!admin || admin.pw !== currentPw) {
+                    showNotification('❌ 현재 비밀번호가 일치하지 않습니다.', 'error');
+                    showLoading(false);
+                    return;
+                }
+                
+                let updated = false;
+                
+                if (newId && newId !== admin.id) {
+                    if (newId.length < 4) {
+                        showNotification('❌ 아이디는 4자 이상이어야 합니다.', 'error');
+                        showLoading(false);
+                        return;
+                    }
+                    
+                    if (users.find(u => u.id === newId)) {
+                        showNotification('❌ 이미 존재하는 아이디입니다.', 'error');
+                        showLoading(false);
+                        return;
+                    }
+                    
+                    await fbDel('sysUsers', admin.id);
+                    admin.id = newId;
+                    updated = true;
+                }
+                
+                if (newPw) {
+                    if (newPw.length < 6) {
+                        showNotification('❌ 비밀번호는 6자 이상이어야 합니다.', 'error');
+                        showLoading(false);
+                        return;
+                    }
+                    
+                    if (newPw !== newPw2) {
+                        showNotification('❌ 새 비밀번호가 일치하지 않습니다.', 'error');
+                        showLoading(false);
+                        return;
+                    }
+                    
+                    admin.pw = newPw;
+                    updated = true;
+                }
+                
+                if (updated) {
+                    admin.updatedAt = new Date().toISOString();
+                    await fbSet('sysUsers', admin.id, admin);
+                    
+                    document.getElementById('newAdminId').value = '';
+                    document.getElementById('currentAdminPw').value = '';
+                    document.getElementById('newAdminPw').value = '';
+                    document.getElementById('newAdminPw2').value = '';
+                    
+                    showNotification('✅ 관리자 계정이 업데이트되었습니다.\n다시 로그인해 주세요.', 'success');
+                    
+                    setTimeout(() => {
+                        doLogout();
+                    }, 2000);
+                } else {
+                    showNotification('❌ 변경할 정보를 입력하세요.', 'error');
+                }
+                
+                showLoading(false);
+            } catch (error) {
+                showNotification('❌ 업데이트 실패: ' + error.message, 'error');
+                showLoading(false);
+            }
+        }
+
+        // 관리자 탭 활성화 시 데이터 로드
+        const originalShowTab = showTab;
+        showTab = function(tabName) {
+            originalShowTab(tabName);
+            if (tabName === 'admin' && currentUser && currentUser.role === 'admin') {
+                loadAdminPanel();
+            }
+        };
     </script>
 </body>
 </html>
