@@ -151,6 +151,8 @@
     #toast.success{background:#27ae60;}
     #toast.error{background:#e74c3c;}
     #toast.info{background:#3498db;}
+    .reason-tag{padding:5px 12px;border:1.5px solid #3498db;background:#fff;color:#3498db;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
+    .reason-tag:hover{background:#3498db;color:#fff;}
 
     /* 반응형 */
     @media(max-width:600px){
@@ -451,10 +453,30 @@
     <div class="modal-body">
       <input type="hidden" id="leaveEmpId">
       <div class="form-group"><label>사용 일수</label>
-        <select id="leaveDays"><option value="0.5">0.5일 (반차)</option><option value="1" selected>1일</option><option value="1.5">1.5일</option><option value="2">2일</option><option value="3">3일</option><option value="4">4일</option><option value="5">5일</option></select>
+        <select id="leaveDays">
+          <option value="0">0일 (무급/기타)</option>
+          <option value="0.5">0.5일 (반차)</option>
+          <option value="1" selected>1일</option>
+          <option value="1.5">1.5일</option>
+          <option value="2">2일</option>
+          <option value="3">3일</option>
+          <option value="4">4일</option>
+          <option value="5">5일</option>
+        </select>
       </div>
       <div class="form-group"><label>사용 날짜</label><input id="leaveDate" type="date"></div>
-      <div class="form-group"><label>사유</label><input id="leaveReason" placeholder="예: 개인 사정, 병가 등"></div>
+      <div class="form-group">
+        <label>사유</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+          <button type="button" class="reason-tag" onclick="setLeaveReason('교육')">교육</button>
+          <button type="button" class="reason-tag" onclick="setLeaveReason('국방의무')">국방의무</button>
+          <button type="button" class="reason-tag" onclick="setLeaveReason('결혼식')">결혼식</button>
+          <button type="button" class="reason-tag" onclick="setLeaveReason('병가')">병가</button>
+          <button type="button" class="reason-tag" onclick="setLeaveReason('경조사')">경조사</button>
+          <button type="button" class="reason-tag" onclick="setLeaveReason('개인사정')">개인사정</button>
+        </div>
+        <input id="leaveReason" placeholder="직접 입력하거나 위 태그를 선택하세요">
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-secondary" onclick="document.getElementById('leaveUseModal').classList.add('hidden')">취소</button>
@@ -1025,11 +1047,12 @@ async function saveLeaveUse(){
   const docId=document.getElementById('leaveEmpId').value;
   const days=parseFloat(document.getElementById('leaveDays').value);
   const date=document.getElementById('leaveDate').value;
-  const reason=document.getElementById('leaveReason').value;
+  const reason=document.getElementById('leaveReason').value.trim();
   if(!date){showToast('날짜를 선택하세요','error');return;}
+  if(!reason){showToast('사유를 입력하세요','error');return;}
   const l=annualLeaves.find(x=>x._docId===docId);
   if(!l){showToast('데이터 오류','error');return;}
-  if(l.remaining<days){showToast('잔여 연차가 부족합니다','error');return;}
+  if(days>0 && l.remaining<days){showToast('잔여 연차가 부족합니다','error');return;}
   l.used=(l.used||0)+days;
   l.remaining=(l.remaining||0)-days;
   l.history=[...(l.history||[]),{days,date,reason,createdAt:new Date().toISOString()}];
@@ -1038,9 +1061,13 @@ async function saveLeaveUse(){
     await fbSet('annualLeaves',docId,l);
     document.getElementById('leaveUseModal').classList.add('hidden');
     renderLeaves();
-    showToast('연차 사용이 등록되었습니다','success');
+    showToast(days===0?`사유 기록이 등록되었습니다`:`연차 ${days}일 사용이 등록되었습니다`,'success');
   }catch(e){ showToast('저장 실패: '+e.message,'error'); }
   finally{ showLoading(false); }
+}
+
+function setLeaveReason(text){
+  document.getElementById('leaveReason').value=text;
 }
 
 function openLeaveHist(docId){
